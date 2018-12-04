@@ -47,6 +47,8 @@ ALLOWED_HOSTS = csv_to_list(getenv('DJANGO_ALLOWED_HOSTS', None))
 INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
+    'netdash_api',
+    'netdash_device_snmp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
