@@ -42,13 +42,17 @@ DEBUG = str_to_bool(getenv('DJANGO_DEBUG', 'off'))
 
 ALLOWED_HOSTS = csv_to_list(getenv('DJANGO_ALLOWED_HOSTS', None))
 
+# NETDASH_API_DEVICE_PROVIDER = 'netdash_device_snmp'
+NETDASH_API_DEVICE_PROVIDER = 'netdash_device_pynetbox'
+
 # Application definition
 
 INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'netdash_api',
-    'netdash_device_snmp',
+    # 'netdash_device_snmp',
+    'netdash_device_pynetbox',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

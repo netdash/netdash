@@ -6,7 +6,7 @@ from rest_framework import viewsets
 
 class DeviceViewSet(viewsets.ModelViewSet):
     """
-    A viewset for viewing and editing user instances.
+    An interface to work with SNMP devices.
     """
     serializer_class = SnmpDeviceSerializer
     queryset = SnmpDevice.objects.all()

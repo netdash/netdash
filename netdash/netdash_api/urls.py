@@ -1,12 +1,20 @@
-from django.urls import path, include
-from rest_framework.urlpatterns import format_suffix_patterns
+from django.conf import settings
 
 from importlib import import_module
 from rest_framework import routers
 
-device_views = import_module('netdash_device_snmp.views')
-
 router = routers.DefaultRouter()
-router.register('devices', device_views.DeviceViewSet)
+
+try:
+    device_views = import_module('%s.views' % settings.NETDASH_API_DEVICE_PROVIDER)
+
+    try:
+        router.register('devices', device_views.DeviceViewSet)
+    except AssertionError:
+        router.register('devices', device_views.DeviceViewSet, basename='device')
+    except NameError:
+        pass
+except AttributeError:
+    pass
 
 urlpatterns = router.urls
