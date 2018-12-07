@@ -17,7 +17,7 @@ def get_full(pk, request):
 
 class DeviceViewSet(viewsets.ViewSet):
     '''
-    An interface to work with NetBox devices
+    An interface to work with dummy devices
     '''
 
     def list(self, request):
