@@ -10,5 +10,6 @@ setup(
         'dj-database-url==0.5.0',
         'djangorestframework',
         'django-rest-swagger',
+        'requests',
     ],
 )

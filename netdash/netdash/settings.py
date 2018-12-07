@@ -44,6 +44,9 @@ ALLOWED_HOSTS = csv_to_list(getenv('DJANGO_ALLOWED_HOSTS', None))
 
 # NETDASH_API_DEVICE_PROVIDER = 'netdash_device_snmp'
 NETDASH_API_DEVICE_PROVIDER = 'netdash_device_dummy'
+# NETDASH_API_DEVICE_PROVIDER = 'netdash_device_netbox_api'
+
+NETBOX_API_URL = 'http://0.0.0.0:8000/api'
 
 # Application definition
 
@@ -53,6 +56,7 @@ INSTALLED_APPS = [
     'netdash_api',
     'netdash_device_snmp',
     'netdash_device_dummy',
+    'netdash_device_netbox_api',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
