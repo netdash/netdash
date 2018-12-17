@@ -35,18 +35,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = getenv('DJANGO_SECRET_KEY', None)
+SECRET_KEY = getenv('NETDASH_SECRET_KEY', None)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str_to_bool(getenv('DJANGO_DEBUG', 'off'))
+DEBUG = str_to_bool(getenv('NETDASH_DEBUG', 'off'))
 
-ALLOWED_HOSTS = csv_to_list(getenv('DJANGO_ALLOWED_HOSTS', None))
+ALLOWED_HOSTS = csv_to_list(getenv('NETDASH_ALLOWED_HOSTS', None))
 
 # NETDASH_API_DEVICE_PROVIDER = 'netdash_device_snmp'
 NETDASH_API_DEVICE_PROVIDER = 'netdash_device_dummy'
 # NETDASH_API_DEVICE_PROVIDER = 'netdash_device_netbox_api'
 
-NETBOX_API_URL = 'http://0.0.0.0:8000/api'
+# Required if using the netdash_device_netbox_api provider
+NETBOX_API_URL = getenv('NETDASH_NETBOX_API_URL', None)
 
 # Application definition
 
@@ -54,9 +55,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'netdash_api',
-    'netdash_device_snmp',
+    # 'netdash_device_snmp',
     'netdash_device_dummy',
-    'netdash_device_netbox_api',
+    # 'netdash_device_netbox_api',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -132,7 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = getenv('DJANGO_TIME_ZONE', 'America/Detroit')
+TIME_ZONE = getenv('NETDASH_TIME_ZONE', 'America/Detroit')
 
 USE_I18N = True
 
