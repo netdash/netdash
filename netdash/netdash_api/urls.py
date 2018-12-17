@@ -8,7 +8,7 @@ router = routers.DefaultRouter()
 
 try:
     device_views = import_module(
-        '%s.views' % settings.NETDASH_API_DEVICE_PROVIDER)
+        '%s.views' % settings.NETDASH_DEVICE_MODULE)
 
     try:
         router.register('devices', device_views.DeviceViewSet)
@@ -18,11 +18,11 @@ try:
     except NameError:
         pass
 except AttributeError:
-    raise ImproperlyConfigured('NETDASH_API_DEVICE_PROVIDER must be set')
+    raise ImproperlyConfigured('NETDASH_DEVICE_MODULE must be set')
 except ModuleNotFoundError:
     raise ImproperlyConfigured(
         'Could not import views from %s (Is that package installed?) '
-        '(Specificed in NETDASH_API_DEVICE_PROVIDER.)' %
-        settings.NETDASH_API_DEVICE_PROVIDER)
+        '(Specificed in NETDASH_DEVICE_MODULE.)' %
+        settings.NETDASH_DEVICE_MODULE)
 
 urlpatterns = router.urls

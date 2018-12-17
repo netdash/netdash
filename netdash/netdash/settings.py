@@ -42,11 +42,10 @@ DEBUG = str_to_bool(getenv('NETDASH_DEBUG', 'off'))
 
 ALLOWED_HOSTS = csv_to_list(getenv('NETDASH_ALLOWED_HOSTS', None))
 
-# NETDASH_API_DEVICE_PROVIDER = 'netdash_device_snmp'
-NETDASH_API_DEVICE_PROVIDER = 'netdash_device_dummy'
-# NETDASH_API_DEVICE_PROVIDER = 'netdash_device_netbox_api'
+NETDASH_DEVICE_MODULE = getenv('NETDASH_DEVICE_MODULE',
+                               'netdash_device_dummy')
 
-# Required if using the netdash_device_netbox_api provider
+# Required if using the netdash_device_netbox_api module for devices
 NETBOX_API_URL = getenv('NETDASH_NETBOX_API_URL', None)
 
 # Application definition
@@ -55,9 +54,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'netdash_api',
-    # 'netdash_device_snmp',
+    'netdash_device_snmp',
     'netdash_device_dummy',
-    # 'netdash_device_netbox_api',
+    'netdash_device_netbox_api',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
