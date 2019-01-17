@@ -6,7 +6,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'Django==2.1.3',
+        'Django==2.1.5',
         'dj-database-url==0.5.0',
         'djangorestframework',
         'django-rest-swagger',
