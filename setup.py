@@ -1,8 +1,12 @@
 from setuptools import setup, find_packages
 
+ABOUT = {}
+with open('src/netdash/about.py') as fp:
+        exec(fp.read(), ABOUT)
+
 setup(
-    name='netdash',
-    version='0.0.0',
+    name=ABOUT['__package_name__'],
+    version=ABOUT['__version__'],
     package_dir={'': 'src'},
     packages=find_packages('src'),
     include_package_data=True,
