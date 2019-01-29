@@ -7,7 +7,7 @@
 3. Create a virtualenv: `virtualenv venv`
 4. Activate the environment: `source ./venv/bin/activate`
 5. Install the package in editable mode: `pip install -e .`
-6. Change to the project directory: `cd netdash`
+6. Change to the project directory: `cd src/netdash`
 7. Export settings to environment: `export DJANGO_SECRET_KEY=12345 DJANGO_DEBUG=on`
 8. Run the migrations: `python manage.py migrate`
 9. Create an admin user: `python manage.py createsuperuser`
