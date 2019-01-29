@@ -11,8 +11,10 @@ DATA = [
 
 
 def get_full(pk, request):
-    return {'hostname': DATA[pk],
-            'url': reverse('device-detail', args=[pk + 1], request=request)}
+    return {
+        'hostname': DATA[pk],
+        'url': reverse('device-detail', args=[pk + 1], request=request),
+    }
 
 
 class DeviceViewSet(viewsets.ViewSet):
