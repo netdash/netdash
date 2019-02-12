@@ -1,4 +1,4 @@
-![NetDash](docs/netdash-logo.png)
+![NetDash](docs/netdash-logo-small.png)
 
 The NetDash project's goal is to create an interface to allow delegation of specific network management tasks to IT teams outside of a central network team. 
 
