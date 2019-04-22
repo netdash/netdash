@@ -1,0 +1,60 @@
+---
+version: '3'
+
+services:
+
+  app:
+    build: .
+    depends_on:
+      - database
+      - netbox
+    environment:
+      - NETDASH_DEBUG=True
+      - NETDASH_SECRET_KEY=12345
+      - NETDASH_DEVICE_MODULE=netdash_device_netbox_api
+      - DATABASE_URL=postgres://netdash@database/netdash
+      - NETDASH_NETBOX_API_URL=${NETBOX_API_URL-http://netbox:8000/api}
+      - NETDASH_NETBOX_API_TOKEN=${NETBOX_API_TOKEN-0123456789abcdef0123456789abcdef01234567}
+    ports:
+      - 8888:8000
+    volumes:
+      - .:/usr/src/app:ro
+
+  database:
+    image: postgres:10.4-alpine
+    environment:
+      - POSTGRES_USER=netdash
+      - POSTGRES_DB=netdash
+    volumes:
+      - netdash-postgres-data:/var/lib/postgresql/data
+
+  netbox:
+    image: netboxcommunity/netbox:${NETBOX_VERSION-latest}
+    depends_on:
+      - netbox-database
+    command: "python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=12345
+      - DB_NAME=netbox
+      - DB_USER=netbox
+      - DB_HOST=netbox-database
+      - SUPERUSER_NAME=admin
+      - SUPERUSER_EMAIL=admin@example.com
+      - SUPERUSER_PASSWORD=admin
+      - SUPERUSER_API_TOKEN=0123456789abcdef0123456789abcdef01234567
+    ports:
+      - 8000:8000
+
+  netbox-database:
+    image: postgres:10.4-alpine
+    environment:
+      - POSTGRES_USER=netbox
+      - POSTGRES_DB=netbox
+    volumes:
+      - netbox-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  netdash-postgres-data:
+  netbox-postgres-data:
+  migrator-home-dir:
