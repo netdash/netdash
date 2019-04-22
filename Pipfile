@@ -4,10 +4,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+django-extensions = "*"
 
 [packages]
 netdash = {path = ".",editable = true}
-django-extensions = "*"
 
 [requires]
 python_version = "3.7"
