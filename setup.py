@@ -12,10 +12,10 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'Django==2.1.6',
-        'dj-database-url==0.5.0',
-        'djangorestframework==3.9.0',
-        'django-rest-swagger==2.2.0',
-        'requests==2.21.0',
+        'Django ~> 2.1.6',
+        'dj-database-url ~> 0.5.0',
+        'djangorestframework ~> 3.9.0',
+        'django-rest-swagger ~> 2.2.0',
+        'requests ~> 2.0.0',
     ],
 )
