@@ -1,4 +1,8 @@
-# NetDash Proof of Concept
+![NetDash](docs/netdash-logo-small.png)
+
+The NetDash project's goal is to create an interface to allow delegation of specific network management tasks to IT teams outside of a central network team. 
+
+[![NetDash Architecture](https://docs.google.com/drawings/d/e/2PACX-1vQEr6ikrwHVAFtjBPgm5zIL8UZib4GsF8H3KgNbUxm5o9MhwRb_vgnz_gG_bUHd03ORH6RiCo2OFFCj/pub?h=800)](https://docs.google.com/drawings/d/1A859k49JQTn8-IcRoAqisa9Si5KzwJtGTJynPENe2cU/edit)
 
 ## Development
 
@@ -7,7 +11,7 @@
 3. Create a virtualenv: `virtualenv venv`
 4. Activate the environment: `source ./venv/bin/activate`
 5. Install the package in editable mode: `pip install -e .`
-6. Change to the project directory: `cd netdash`
+6. Change to the project directory: `cd src/netdash`
 7. Export settings to environment: `export NETDASH_SECRET_KEY=12345 NETDASH_DEBUG=on`
 8. If using NetBox export settings to environment: `export NETDASH_DEVICE_MODULE=netdash_device_netbox_api NETBOX_API_URL=http://<netbox>/api`
 9. Run the migrations: `python manage.py migrate`
