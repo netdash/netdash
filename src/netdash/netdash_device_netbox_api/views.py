@@ -31,7 +31,7 @@ class DeviceViewSet(viewsets.ViewSet):
             } for x in devices])
 
     def retrieve(self, request, pk):
-        r = requests.get(URL + '/dcim/devices/' + pk)
+        r = requests.get(URL + '/dcim/devices/' + pk + '/')
         device = r.json()
 
         return Response({
