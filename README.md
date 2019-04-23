@@ -6,7 +6,7 @@ The NetDash project's goal is to create an interface to allow delegation of spec
 
 ## Development with Docker Compose
 
-1. Install Docker Compose
+1. Install [Docker Compose](https://docs.docker.com/compose/).
 2. Clone this repository.
 3. Change to the new directory: `cd netdash`
 4. `docker-compose up`
