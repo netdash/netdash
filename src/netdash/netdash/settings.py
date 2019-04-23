@@ -42,6 +42,12 @@ DEBUG = str_to_bool(getenv('NETDASH_DEBUG', 'off'))
 
 ALLOWED_HOSTS = csv_to_list(getenv('NETDASH_ALLOWED_HOSTS', None))
 
+CORS_ORIGIN_ALLOW_ALL = str_to_bool(
+    getenv('NETDASH_CORS_ORIGIN_ALLOW_ALL', 'off')
+    )
+
+CORS_ORIGIN_WHITELIST = getenv('NETDASH_CORS_ORIGIN_WHITELIST', [])
+
 NETDASH_DEVICE_MODULE = getenv('NETDASH_DEVICE_MODULE',
                                'netdash_device_dummy')
 
@@ -63,9 +69,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
