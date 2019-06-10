@@ -54,19 +54,11 @@ CORS_ORIGIN_WHITELIST = getenv('NETDASH_CORS_ORIGIN_WHITELIST', [])
 
 NETDASH_MODULES = csv_to_list(os.getenv('NETDASH_MODULES'))
 
-
-def flatten(l): return [item for sublist in l for item in sublist]
-
-_all_settings_from_env = flatten([ utils.get_module_settings(m) for m in NETDASH_MODULES ])
-_locals = locals()
-for s in _all_settings_from_env:
-    # Parse as json to handle arrays, dicts, booleans, etc?
-    val = os.getenv(s)
-    _locals[s] = val
-
+_module_settings_to_retrieve_from_env = utils.flatten([ utils.get_module_settings(m) for m in NETDASH_MODULES ])
+_module_settings_from_env = { s: os.getenv(s) for s in _module_settings_to_retrieve_from_env }
+locals().update(_module_settings_from_env)
 
 NETDASH_MODULE_SLUGS = {m: utils.get_module_slug(m) for m in NETDASH_MODULES}
-
 
 # Application definition
 

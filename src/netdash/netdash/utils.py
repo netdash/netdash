@@ -1,6 +1,9 @@
 import importlib
 
 
+def flatten(l): return [item for sublist in l for item in sublist]
+
+
 def get_module_slug(module_name):
     module = importlib.import_module(module_name)
     if hasattr(module, 'SLUG'):
