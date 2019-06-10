@@ -13,7 +13,6 @@ for module_name in settings.NETDASH_MODULE_SLUGS:
     view_module = import_module(f'{module_name}.views')
     viewsets = [x[1] for x in inspect.getmembers(view_module, lambda m: inspect.isclass(m) and issubclass(m, viewsets.ViewSet))]
     for v in viewsets:
-        print('registering viewset', v)
         router.register(slug, v, basename=getattr(v, 'basename', False) or slug)
 
 urlpatterns = router.urls
