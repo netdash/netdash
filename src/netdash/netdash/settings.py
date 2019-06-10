@@ -12,13 +12,14 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from os import getenv
+import importlib
 
 import dj_database_url
 
 
 def csv_to_list(csv, delim=','):
     try:
-        return [x.strip() for x in csv.split(delim)]
+        return [x.strip() for x in csv.split(delim) if x.strip()]
     except Exception:
         return []
 
@@ -48,21 +49,49 @@ CORS_ORIGIN_ALLOW_ALL = str_to_bool(
 
 CORS_ORIGIN_WHITELIST = getenv('NETDASH_CORS_ORIGIN_WHITELIST', [])
 
-NETDASH_DEVICE_MODULE = getenv('NETDASH_DEVICE_MODULE',
-                               'netdash_device_dummy')
 
-# Required if using the netdash_device_netbox_api module for devices
-NETBOX_API_URL = getenv('NETDASH_NETBOX_API_URL', None)
+NETDASH_MODULES = csv_to_list(os.getenv('NETDASH_MODULES'))
+
+
+def get_module_settings(module_name):
+    print('getting module settings for', module_name)
+    module = importlib.import_module(module_name)
+    return module.SETTINGS_FROM_ENV
+
+
+def flatten(l): return [item for sublist in l for item in sublist]
+
+_all_settings_from_env = flatten([ get_module_settings(m) for m in NETDASH_MODULES ])
+_locals = locals()
+print('Settings from env', _all_settings_from_env)
+for s in _all_settings_from_env:
+    print(s)
+    # Parse as json to handle arrays, dicts, booleans, etc?
+    val = os.getenv(s)
+    print(val)
+    _locals[s] = val
+
+
+def get_module_slug(module_name):
+    print('getting module slug for', module_name)
+    module = importlib.import_module(module_name)
+    module_slug = getattr(module, 'SLUG', None)
+    if module_slug:
+        return module_slug
+    module_slug = module_name.replace('netdash_', '')
+    module_slug = module_slug.split('_')[0]
+    print('slug:', module_slug)
+    return module_slug
+
+NETDASH_MODULE_SLUGS = {m: get_module_slug(m) for m in NETDASH_MODULES}
+
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = NETDASH_MODULES + [
+    'netdash_api',
     'rest_framework',
     'rest_framework_swagger',
-    'netdash_api',
-    'netdash_device_snmp',
-    'netdash_device_dummy',
-    'netdash_device_netbox_api',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

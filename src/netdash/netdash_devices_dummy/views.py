@@ -17,7 +17,7 @@ def get_full(pk, request):
     }
 
 
-class DeviceViewSet(viewsets.ViewSet):
+class ApiViewSet(viewsets.ViewSet):
     '''
     An interface to work with dummy devices
     '''

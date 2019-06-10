@@ -4,7 +4,7 @@ from netdash_device_snmp.serializers import SnmpDeviceSerializer
 from rest_framework import viewsets
 
 
-class DeviceViewSet(viewsets.ModelViewSet):
+class ApiViewSet(viewsets.ModelViewSet):
     """
     An interface to work with SNMP devices.
     """
