@@ -16,6 +16,8 @@ import importlib
 
 import dj_database_url
 
+import netdash.utils as utils
+
 
 def csv_to_list(csv, delim=','):
     try:
@@ -53,37 +55,17 @@ CORS_ORIGIN_WHITELIST = getenv('NETDASH_CORS_ORIGIN_WHITELIST', [])
 NETDASH_MODULES = csv_to_list(os.getenv('NETDASH_MODULES'))
 
 
-def get_module_settings(module_name):
-    print('getting module settings for', module_name)
-    module = importlib.import_module(module_name)
-    return module.SETTINGS_FROM_ENV
-
-
 def flatten(l): return [item for sublist in l for item in sublist]
 
-_all_settings_from_env = flatten([ get_module_settings(m) for m in NETDASH_MODULES ])
+_all_settings_from_env = flatten([ utils.get_module_settings(m) for m in NETDASH_MODULES ])
 _locals = locals()
-print('Settings from env', _all_settings_from_env)
 for s in _all_settings_from_env:
-    print(s)
     # Parse as json to handle arrays, dicts, booleans, etc?
     val = os.getenv(s)
-    print(val)
     _locals[s] = val
 
 
-def get_module_slug(module_name):
-    print('getting module slug for', module_name)
-    module = importlib.import_module(module_name)
-    module_slug = getattr(module, 'SLUG', None)
-    if module_slug:
-        return module_slug
-    module_slug = module_name.replace('netdash_', '')
-    module_slug = module_slug.split('_')[0]
-    print('slug:', module_slug)
-    return module_slug
-
-NETDASH_MODULE_SLUGS = {m: get_module_slug(m) for m in NETDASH_MODULES}
+NETDASH_MODULE_SLUGS = {m: utils.get_module_slug(m) for m in NETDASH_MODULES}
 
 
 # Application definition
