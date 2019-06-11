@@ -64,6 +64,7 @@ NETDASH_MODULE_SLUGS = {m: utils.get_module_slug(m) for m in NETDASH_MODULES}
 
 INSTALLED_APPS = NETDASH_MODULES + [
     'netdash_api',
+    'netdash_ui',
     'rest_framework',
     'rest_framework_swagger',
     'django.contrib.admin',
