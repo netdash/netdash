@@ -19,5 +19,4 @@ class DeviceList(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['devices'] = get_devices(self.URL)
-        print('devices:', context['devices'])
         return context

@@ -23,5 +23,3 @@ urlpatterns = [
     path('api/', include('netdash_api.urls')),
     path('admin/', admin.site.urls),
 ]
-for url in urlpatterns:
-    print(url.__dict__)
