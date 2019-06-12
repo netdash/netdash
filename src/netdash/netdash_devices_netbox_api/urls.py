@@ -4,5 +4,5 @@ from .views import DeviceList
 
 app_name = 'devices'
 urlpatterns = [
-    url(r'^$', DeviceList.as_view(), name='device_list')
+    url(r'^$', DeviceList.as_view(), name='index')
 ]

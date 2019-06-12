@@ -5,9 +5,9 @@ def flatten(l): return [item for sublist in l for item in sublist]
 
 
 def get_module_slug(module_name):
-    module = importlib.import_module(module_name)
-    if hasattr(module, 'SLUG'):
-        return module.SLUG
+    module = importlib.import_module(f'{module_name}.urls')
+    if hasattr(module, 'app_name'):
+        return module.app_name
     return module_name.replace('netdash_', '').split('_')[0]
 
 

@@ -8,12 +8,10 @@ from django.views import View
 
 from .views import IndexView
 
-app_name = 'netdash_ui'
-
 
 def get_url(module_name):
     slug = settings.NETDASH_MODULE_SLUGS[module_name]
-    return url(r'^' + slug + '/', include(f'{module_name}.urls'))
+    return url(r'^' + slug + '/', include(f'{module_name}.urls', namespace=slug))
 
 module_urlpatterns = [ get_url(module_name) for module_name in settings.NETDASH_MODULE_SLUGS]
 
