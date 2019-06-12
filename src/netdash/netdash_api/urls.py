@@ -8,7 +8,6 @@ from django.conf.urls import include, url
 from rest_framework.schemas import get_schema_view
 from rest_framework_swagger.views import get_swagger_view
 
-# app_name = 'netdash_api'
 swagger_view = get_swagger_view(title='NetDash API')
 schema_view = get_schema_view(title='NetDash API')
 
