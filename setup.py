@@ -2,7 +2,7 @@ from os.path import dirname, join
 from setuptools import setup, find_packages
 
 
-with open(join(dirname(__file__), 'src', 'corsa_utils', 'VERSION')) \
+with open(join(dirname(__file__), 'src', 'netdash', 'VERSION')) \
         as version_file:
     _version = version_file.read().strip()
 
