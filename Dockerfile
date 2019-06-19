@@ -14,8 +14,6 @@ RUN pipenv install --system
 
 RUN pip install psycopg2-binary
 
-RUN pip install .
-
 WORKDIR /usr/src/app/src/netdash
 
 ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
