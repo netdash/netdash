@@ -1,12 +1,15 @@
+from os.path import dirname, join
 from setuptools import setup, find_packages
 
-ABOUT = {}
-with open('src/netdash/about.py') as fp:
-        exec(fp.read(), ABOUT)
+
+with open(join(dirname(__file__), 'src', 'corsa_utils', 'VERSION')) \
+        as version_file:
+    _version = version_file.read().strip()
+
 
 setup(
-    name=ABOUT['__package_name__'],
-    version=ABOUT['__version__'],
+    name='netdash',
+    version=_version,
     package_dir={'': 'src'},
     packages=find_packages('src'),
     include_package_data=True,
