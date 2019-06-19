@@ -13,7 +13,7 @@ services:
       - NETDASH_SECRET_KEY=12345
       - NETDASH_DEVICE_MODULE=netdash_device_netbox_api
       - DATABASE_URL=postgres://netdash@database/netdash
-      - NETDASH_MODULES=${NETDASH_MODULES-netdash_devices_netbox_api,}
+      - NETDASH_MODULES=${NETDASH_MODULES}
       - NETBOX_API_URL=${NETBOX_API_URL-http://netbox:8000/api}
       - NETBOX_API_TOKEN=${NETBOX_API_TOKEN-0123456789abcdef0123456789abcdef01234567}
     ports:
