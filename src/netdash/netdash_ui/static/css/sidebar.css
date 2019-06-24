@@ -145,7 +145,8 @@
 .sidebar .sidebar-brand {
     font-family: monospace;
     color: #AED136;
-    text-shadow: 2px 2px 0px #000000;    height: 4.375rem;
+    text-shadow: 2px 2px 0px #000000;
+    height: 4.375rem;
     text-decoration: none;
     font-size: 2rem;
     font-weight: 800;
