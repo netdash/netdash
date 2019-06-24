@@ -53,3 +53,5 @@ db.sqlite3
 
 # Environments
 /venv/
+
+/apps_dev

@@ -17,4 +17,5 @@ RUN pipenv install --system
 WORKDIR /usr/src/app/src/netdash
 
 ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+# TODO add CMD with gunicorn

@@ -20,6 +20,8 @@ services:
       - 8888:8000
     volumes:
       - .:/usr/src/app:ro
+    entrypoint: ../../apps_dev/dev-entrypoint.sh
+    command: "python manage.py runserver 0.0.0.0:8000"
 
   database:
     image: postgres:10.4-alpine
