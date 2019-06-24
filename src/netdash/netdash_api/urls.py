@@ -31,6 +31,6 @@ def get_url(module_name):
 module_urlpatterns = [ get_url(module_name) for module_name in NETDASH_MODULE_SLUGS if has_api_urls(module_name) ]
 
 urlpatterns = module_urlpatterns + [
-    path('swagger/', swagger_view),
-    path('', schema_view),
+    path('swagger/', swagger_view, name='swagger'),
+    path('', schema_view, name='schema'),
 ]
