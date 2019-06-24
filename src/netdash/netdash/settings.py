@@ -58,8 +58,6 @@ _module_settings_to_retrieve_from_env = utils.flatten([ utils.get_module_setting
 _module_settings_from_env = { s: os.getenv(s) for s in _module_settings_to_retrieve_from_env }
 locals().update(_module_settings_from_env)
 
-NETDASH_MODULE_SLUGS = {m: utils.get_module_slug(m) for m in NETDASH_MODULES}
-
 # Application definition
 
 INSTALLED_APPS = NETDASH_MODULES + [
