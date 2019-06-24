@@ -146,18 +146,22 @@
     font-family: monospace;
     color: #AED136;
     text-shadow: 2px 2px 0px #000000;
-    height: 4.375rem;
+    max-height: 4.375rem;
     text-decoration: none;
     font-size: 2rem;
     font-weight: 800;
     padding: 1.5rem 1rem;
     text-align: center;
     letter-spacing: .05rem;
-    z-index: 1
+    z-index: 1;
 }
 
 .sidebar .sidebar-brand .sidebar-brand-icon i {
-    font-size: 2rem
+    font-size: 2rem;
+}
+
+.sidebar .sidebar-brand .sidebar-brand-icon img {
+    max-height: 2rem;
 }
 
 .sidebar .sidebar-brand .sidebar-brand-text {
