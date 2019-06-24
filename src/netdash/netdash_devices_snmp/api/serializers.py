@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import SnmpDevice
+from netdash_devices_snmp.models import SnmpDevice
 
 
 class SnmpDeviceSerializer(serializers.HyperlinkedModelSerializer):

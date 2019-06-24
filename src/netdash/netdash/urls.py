@@ -16,12 +16,10 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_swagger.views import get_swagger_view
 
-schema_view = get_swagger_view(title='NetDash API')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', include('netdash_ui.urls')),
     path('api/', include('netdash_api.urls')),
-    path('', schema_view),
+    path('admin/', admin.site.urls),
 ]

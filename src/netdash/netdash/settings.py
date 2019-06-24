@@ -12,13 +12,16 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from os import getenv
+import importlib
 
 import dj_database_url
+
+import netdash.utils as utils
 
 
 def csv_to_list(csv, delim=','):
     try:
-        return [x.strip() for x in csv.split(delim)]
+        return [x.strip() for x in csv.split(delim) if x.strip()]
     except Exception:
         return []
 
@@ -48,21 +51,20 @@ CORS_ORIGIN_ALLOW_ALL = str_to_bool(
 
 CORS_ORIGIN_WHITELIST = getenv('NETDASH_CORS_ORIGIN_WHITELIST', [])
 
-NETDASH_DEVICE_MODULE = getenv('NETDASH_DEVICE_MODULE',
-                               'netdash_device_dummy')
 
-# Required if using the netdash_device_netbox_api module for devices
-NETBOX_API_URL = getenv('NETDASH_NETBOX_API_URL', None)
+NETDASH_MODULES = csv_to_list(os.getenv('NETDASH_MODULES'))
+
+_module_settings_to_retrieve_from_env = utils.flatten([ utils.get_module_settings(m) for m in NETDASH_MODULES ])
+_module_settings_from_env = { s: os.getenv(s) for s in _module_settings_to_retrieve_from_env }
+locals().update(_module_settings_from_env)
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = NETDASH_MODULES + [
+    'netdash_api',
+    'netdash_ui',
     'rest_framework',
     'rest_framework_swagger',
-    'netdash_api',
-    'netdash_device_snmp',
-    'netdash_device_dummy',
-    'netdash_device_netbox_api',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

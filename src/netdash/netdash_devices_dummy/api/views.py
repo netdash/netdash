@@ -22,6 +22,8 @@ class DeviceViewSet(viewsets.ViewSet):
     An interface to work with dummy devices
     '''
 
+    basename = 'device'
+
     def list(self, request):
         return Response([
             get_full(i, request) for i, d in enumerate(DATA)

@@ -21,5 +21,6 @@ setup(
         'django-rest-swagger ~= 2.2.0',
         'requests ~= 2.20.0',
         'django-cors-headers ~= 2.5.2',
+        'pyyaml',
     ],
 )

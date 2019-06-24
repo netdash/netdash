@@ -1,5 +1,5 @@
-from netdash_device_snmp.models import SnmpDevice
-from netdash_device_snmp.serializers import SnmpDeviceSerializer
+from netdash_devices_snmp.models import SnmpDevice
+from netdash_devices_snmp.api.serializers import SnmpDeviceSerializer
 
 from rest_framework import viewsets
 
