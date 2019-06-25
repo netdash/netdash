@@ -9,7 +9,6 @@ services:
       - database
       - netbox
     environment:
-      - NETDASH_MODULES=${NETDASH_MODULES}
       - NETBOX_API_URL=${NETBOX_API_URL-http://netbox:8000/api}
       - NETBOX_API_TOKEN=${NETBOX_API_TOKEN-0123456789abcdef0123456789abcdef01234567}
     env_file:
