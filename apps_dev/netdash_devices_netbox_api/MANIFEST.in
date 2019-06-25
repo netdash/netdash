@@ -1,0 +1,2 @@
+recursive-include netdash_devices_netbox_api/static *
+recursive-include netdash_devices_netbox_api/templates *
