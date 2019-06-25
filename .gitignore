@@ -55,4 +55,4 @@ db.sqlite3
 /venv/
 
 /apps_dev/*
-!/apps_dev/netdash_devices_*
+!/apps_dev/example_*
