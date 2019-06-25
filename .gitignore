@@ -54,4 +54,5 @@ db.sqlite3
 # Environments
 /venv/
 
-/apps_dev
+/apps_dev/*
+!/apps_dev/netdash_devices_*
