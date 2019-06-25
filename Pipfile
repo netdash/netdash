@@ -9,6 +9,7 @@ flake8 = "*"
 
 [packages]
 netdash = {path = ".",editable = true}
+whitenoise = "*"
 
 [requires]
 python_version = "3.7"
