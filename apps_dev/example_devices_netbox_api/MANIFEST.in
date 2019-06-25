@@ -1,0 +1,2 @@
+recursive-include example_devices_netbox_api/static *
+recursive-include example_devices_netbox_api/templates *

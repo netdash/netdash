@@ -23,7 +23,7 @@ def get_module_slug(module_name):
         if module.app_name.endswith('-api'):
             return module.app_name.replace('-api', '')
         return module.app_name
-    return module_name.replace('netdash_', '').split('_')[0]
+    return module_name
 
 
 def get_module_slugs():
