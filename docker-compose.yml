@@ -18,7 +18,7 @@ services:
       - 8888:8000
     volumes:
       - .:/usr/src/app
-    entrypoint: ../../apps_dev/dev-entrypoint.sh
+    entrypoint: ../../docker-entrypoint-dev.sh
     command: "python manage.py runserver 0.0.0.0:8000"
 
   database:

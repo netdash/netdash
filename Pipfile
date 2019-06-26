@@ -8,7 +8,7 @@ django-extensions = "*"
 flake8 = "*"
 
 [packages]
-netdash = {path = ".",editable = true}
+netdash = {editable = true,path = "."}
 
 [requires]
 python_version = "3.7"

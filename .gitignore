@@ -56,3 +56,5 @@ db.sqlite3
 
 /apps_dev/*
 !/apps_dev/example_*
+
+/src/netdash/staticfiles/
