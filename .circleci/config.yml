@@ -13,7 +13,7 @@ jobs:
           key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
       - run:
           command: |
-            sudo pip install pipenv
+            sudo pip install pipenv bandit flake8
             pipenv install
       - save_cache:
           key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
@@ -21,6 +21,12 @@ jobs:
             - '.venv'
             - '/usr/local/bin'
             - '/usr/local/lib/python3.7/site-packages'
+      - run:
+          command: |
+            bandit -r src/netdash
+      - run:
+          command: |
+            flake8 src/netdash
       - run:
           command: |
             pipenv run python src/netdash/manage.py test
