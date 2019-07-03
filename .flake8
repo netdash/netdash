@@ -1,0 +1,3 @@
+[flake8]
+# Follow Django style guide adjustment to PEP8 (https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/):
+max-line-length=119
