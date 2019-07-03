@@ -23,5 +23,6 @@ setup(
         'django-cors-headers ~= 2.5.2',
         'pyyaml',
         'whitenoise ~= 4.1.2',
+        'djangosaml2 ~= 0.17.2',
     ],
 )

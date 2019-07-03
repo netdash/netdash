@@ -86,6 +86,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 ROOT_URLCONF = 'netdash.urls'
 
 TEMPLATES = [
@@ -159,3 +163,96 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+_saml2_sp_name = os.getenv('SAML2_SP_NAME', None)
+_saml2_sp_key = os.getenv('SAML2_SP_KEY', None)
+_saml2_sp_cert = os.getenv('SAML2_SP_CERT', None)
+_saml2_idp_metadata = os.getenv('SAML2_IDP_METADATA', None)
+_saml2_entity_id = os.getenv('SAML2_ENTITY_ID', None)
+_saml2_acs_post = os.getenv('SAML2_ACS_POST', None)
+_saml2_ls_redirect = os.getenv('SAML2_LS_REDIRECT', None)
+_saml2_ls_post = os.getenv('SAML2_LS_POST', None)
+_saml2_required_attributes = os.getenv('SAML2_REQUIRED_ATTRIBUTES', '').split(',')
+_saml2_optional_attributes = os.getenv('SAML2_OPTIONAL_ATTRIBUTES', '').split(',')
+
+if not (_saml2_sp_name and _saml2_sp_key and _saml2_sp_cert and _saml2_idp_metadata 
+    and _saml2_entity_id and _saml2_acs_post and _saml2_ls_post and _saml2_ls_redirect):
+    print('SAML2 environment variables not set. Skipping djangosaml2 configuration.')
+else:
+    import saml2
+    import tempfile
+
+    LOGIN_REDIRECT_URL = '/'
+    LOGIN_URL = '/saml/login/'
+    INSTALLED_APPS += ('djangosaml2',)
+    AUTHENTICATION_BACKENDS += ('djangosaml2.backends.Saml2Backend',)
+
+    SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+    BASEDIR = os.path.dirname(os.path.abspath(__file__))
+
+    # Generate temp files for cert, key, and metadata
+    _saml2_sp_cert_file = tempfile.NamedTemporaryFile('w+', buffering=1)
+    _saml2_sp_cert_file.write(_saml2_sp_cert + '\n')
+
+    _saml2_sp_key_file = tempfile.NamedTemporaryFile('w+', buffering=1)
+    _saml2_sp_key_file.write(_saml2_sp_key + '\n')
+
+    _saml2_idp_metadata_file = tempfile.NamedTemporaryFile('w+', buffering=1)
+    _saml2_idp_metadata_file.write(_saml2_idp_metadata + '\n')
+
+    SAML_CONFIG = {
+        'xmlsec_binary': '/usr/bin/xmlsec1',
+        # 'entityid': '%smetadata/' % SAML2_URL_BASE,
+        'entityid': _saml2_entity_id, # e.g. https://yourdomain.cm/saml/metadata,
+
+        # directory with attribute mapping
+        # 'attribute_map_dir': path.join(BASEDIR, 'attribute-maps'),
+        'name': _saml2_sp_name,
+
+        # this block states what services we provide
+        'service': {
+            'sp': {
+                'name': _saml2_sp_name,
+                'name_id_format': ('urn:oasis:names:tc:SAML:2.0:nameid-format:transient'),
+                'authn_requests_signed': 'true',
+                'allow_unsolicited': True,
+                'endpoints': {
+                    # url and binding to the assetion consumer service view
+                    # do not change the binding or service name
+                    'assertion_consumer_service': [
+                        (_saml2_acs_post, saml2.BINDING_HTTP_POST),
+                    ],
+                    # url and binding to the single logout service view
+                    # do not change the binding or service name
+                    'single_logout_service': [
+                        (_saml2_ls_redirect, saml2.BINDING_HTTP_REDIRECT),
+                        (_saml2_ls_post, saml2.BINDING_HTTP_POST),
+                    ],
+                },
+                'required_attributes': _saml2_required_attributes,
+                'optional_attributes': _saml2_optional_attributes,
+            },
+        },
+
+        # where the remote metadata is stored
+        'metadata': {
+            'local': [_saml2_idp_metadata_file.name],
+        },
+
+        # set to 1 to output debugging information
+        'debug': 1 if DEBUG else 0,
+
+        # certificate
+        'key_file': _saml2_sp_key_file.name,
+        'cert_file': _saml2_sp_cert_file.name,
+    }
+
+    SAML_CREATE_UNKNOWN_USER = True
+
+    SAML_ATTRIBUTE_MAPPING = {
+        'uid': ('username', ),
+        'mail': ('email', ),
+        'givenName': ('first_name', ),
+        'sn': ('last_name', ),
+    }
