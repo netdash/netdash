@@ -11,22 +11,14 @@ jobs:
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
       - restore_cache:
           key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-      - run:
-          command: |
-            sudo pip install pipenv bandit flake8
-            pipenv install
+      - run: sudo pip install pipenv bandit flake8
+      - run: pipenv install
       - save_cache:
           key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
             - '.venv'
             - '/usr/local/bin'
             - '/usr/local/lib/python3.7/site-packages'
-      - run:
-          command: |
-            bandit -r src/netdash
-      - run:
-          command: |
-            flake8 src/netdash
-      - run:
-          command: |
-            pipenv run python src/netdash/manage.py test
+      - run: bandit -r src/netdash
+      - run: flake8 src/netdash
+      - run: pipenv run python src/netdash/manage.py test
