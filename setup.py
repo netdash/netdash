@@ -15,11 +15,12 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'Django ~= 2.2',
+        'Django ~= 2.2.3',
         'dj-database-url ~= 0.5.0',
         'djangorestframework ~= 3.9.0',
         'django-rest-swagger ~= 2.2.0',
         'requests ~= 2.20.0',
+
         'django-cors-headers ~= 2.5.2',
         'pyyaml',
         'whitenoise ~= 4.1.2',
