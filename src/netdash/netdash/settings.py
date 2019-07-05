@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from os import getenv
-import importlib
 
 import dj_database_url
 
@@ -54,8 +53,8 @@ CORS_ORIGIN_WHITELIST = getenv('NETDASH_CORS_ORIGIN_WHITELIST', [])
 
 NETDASH_MODULES = csv_to_list(os.getenv('NETDASH_MODULES'))
 
-_module_settings_to_retrieve_from_env = utils.flatten([ utils.get_module_settings(m) for m in NETDASH_MODULES ])
-_module_settings_from_env = { s: os.getenv(s) for s in _module_settings_to_retrieve_from_env }
+_module_settings_to_retrieve_from_env = utils.flatten([utils.get_module_settings(m) for m in NETDASH_MODULES])
+_module_settings_from_env = {s: os.getenv(s) for s in _module_settings_to_retrieve_from_env}
 locals().update(_module_settings_from_env)
 
 # Application definition

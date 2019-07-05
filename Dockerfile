@@ -25,4 +25,4 @@ RUN chmod -R g+rw /usr/src/app
 
 ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
 
-CMD ["gunicorn", "--bind=0.0.0.0:8000", "netdash.wsgi"]
+CMD ["gunicorn", "--bind=0.0.0.0:8000", "--workers=2", "--threads=4", "--access-logfile=-", "--log-file=-", "netdash.wsgi"]
