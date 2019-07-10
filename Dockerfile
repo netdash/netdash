@@ -1,4 +1,4 @@
-FROM python:3.7
+FROM python:3.7-slim
 
 RUN pip install psycopg2-binary
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
