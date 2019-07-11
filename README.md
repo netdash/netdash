@@ -17,6 +17,8 @@ This will spin up a few services:
   - Databases for both
   - The NetDash instance is configured by default to use the NetBox instance as its backend.
 
+To change the default settings for the docker-compose setup, create a file in the project root called `.env`. This file is used by Docker Compose to populate its environment. If values are not defined in this file (or your environment), the `docker-compose.yml` file sets default values that will work out of the box.
+
 ## Development (Manual)
 
 1. Clone this repository.
@@ -31,3 +33,4 @@ This will spin up a few services:
 10. Create an admin user: `python manage.py createsuperuser`
 11. Run the development server: `python manage.py runserver`
 12. Connect to the development server interface: <http://127.0.0.1:8000/>
+

@@ -9,11 +9,11 @@ services:
       - database
       - netbox
     environment:
+      - NETDASH_DEBUG=${NETDASH_DEBUG-1}
+      - NETDASH_SECRET_KEY=${NETDASH_SECRET_KEY-12345}
+      - DATABASE_URL=${DATABASE_URL-postgres://netdash@database/netdash}
       - NETBOX_API_URL=${NETBOX_API_URL-http://netbox:8000/api}
-      - NETBOX_API_TOKEN=${NETBOX_API_TOKEN-0123456789abcdef0123456789abcdef01234567}
-    env_file:
-      - .defaults.env
-      - .user-settings.env
+      - NETBOX_API_TOKEN=${NETBOX_SUPERUSER_API_TOKEN-0123456789abcdef0123456789abcdef01234567}
     ports:
       - 8888:8000
     volumes:
@@ -24,8 +24,8 @@ services:
   database:
     image: postgres:10.4-alpine
     environment:
-      - POSTGRES_USER=netdash
-      - POSTGRES_DB=netdash
+      - POSTGRES_USER=${NETDASH_DB_USER-netdash}
+      - POSTGRES_DB=${NETDASH_DB_NAME-netdash}
     volumes:
       - netdash-postgres-data:/var/lib/postgresql/data
 
@@ -35,23 +35,24 @@ services:
       - netbox-database
     command: "python manage.py runserver 0.0.0.0:8000"
     environment:
-      - DEBUG=True
-      - SECRET_KEY=12345
-      - DB_NAME=netbox
-      - DB_USER=netbox
-      - DB_HOST=netbox-database
-      - SUPERUSER_NAME=admin
-      - SUPERUSER_EMAIL=admin@example.com
-      - SUPERUSER_PASSWORD=admin
-      - SUPERUSER_API_TOKEN=0123456789abcdef0123456789abcdef01234567
+      - DEBUG=${NETBOX_DEBUG-True}
+      - SECRET_KEY=${NETBOX_SECRET_KEY-12345}
+      - DB_NAME=${NETBOX_DB_NAME-netbox}
+      - DB_USER=${NETBOX_DB_USER-netbox}
+      - DB_PASS=${NETBOX_DB_PASS-netbox}
+      - DB_HOST=${NETBOX_DB_HOST-netbox-database}
+      - SUPERUSER_NAME=${NETBOX_SUPERUSER_NAME-admin}
+      - SUPERUSER_EMAIL=${NETBOX_SUPERUSER_EMAIL-admin@example.com}
+      - SUPERUSER_PASSWORD=${NETBOX_SUPERUSER_PASSWORD-admin}
+      - SUPERUSER_API_TOKEN=${NETBOX_SUPERUSER_API_TOKEN-0123456789abcdef0123456789abcdef01234567}
     ports:
       - 8000:8000
 
   netbox-database:
     image: postgres:10.4-alpine
     environment:
-      - POSTGRES_USER=netbox
-      - POSTGRES_DB=netbox
+      - POSTGRES_USER=${NETBOX_DB_USER-netbox}
+      - POSTGRES_DB=${NETBOX_DB_NAME-netbox}
     volumes:
       - netbox-postgres-data:/var/lib/postgresql/data
 
