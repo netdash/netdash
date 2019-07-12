@@ -19,6 +19,7 @@ jobs:
             - '.venv'
             - '/usr/local/bin'
             - '/usr/local/lib/python3.7/site-packages'
-      - run: bandit -r src/netdash
+      - run: bandit -r src/netdash -x src/netdash/netdash/\*example\*.py
       - run: flake8 src/netdash
+      - run: cp src/netdash/netdash/settings_example.py src/netdash/netdash/settings.py
       - run: pipenv run python src/netdash/manage.py test

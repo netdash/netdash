@@ -15,8 +15,6 @@ from os import getenv
 
 import dj_database_url
 
-import netdash.utils as utils
-
 
 def csv_to_list(csv, delim=','):
     try:
@@ -53,9 +51,10 @@ CORS_ORIGIN_WHITELIST = getenv('NETDASH_CORS_ORIGIN_WHITELIST', [])
 
 NETDASH_MODULES = csv_to_list(os.getenv('NETDASH_MODULES'))
 
-_module_settings_to_retrieve_from_env = utils.flatten([utils.get_module_settings(m) for m in NETDASH_MODULES])
-_module_settings_from_env = {s: os.getenv(s) for s in _module_settings_to_retrieve_from_env}
-locals().update(_module_settings_from_env)
+# Add all variables from the environment that start with NETDASH_ to the
+# settings namespace, removing the leading "NETDASH_":
+_prefix = 'NETDASH_APP_'
+locals().update({k[len(_prefix):]: v for k, v in os.environ.items() if k[:len(_prefix)] == _prefix})
 
 # Application definition
 
