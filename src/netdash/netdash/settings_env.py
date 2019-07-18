@@ -85,6 +85,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'netdash.urls'
+LOGIN_URL = getenv('NETDASH_LOGIN_URL', '/admin/login/')
 
 TEMPLATES = [
     {
