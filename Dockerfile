@@ -1,4 +1,7 @@
-FROM python:3.7
+FROM python:3.7-slim
+
+# Add git to allow pip install packages from repositories
+RUN apt-get -y update && apt-get -y install git
 
 RUN pip install psycopg2-binary
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1

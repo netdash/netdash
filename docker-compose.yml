@@ -9,11 +9,7 @@ services:
       - database
       - netbox
     environment:
-      - NETBOX_API_URL=${NETBOX_API_URL-http://netbox:8000/api}
-      - NETBOX_API_TOKEN=${NETBOX_API_TOKEN-0123456789abcdef0123456789abcdef01234567}
-    env_file:
-      - .defaults.env
-      - .user-settings.env
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE-netdash.settings}
     ports:
       - 8888:8000
     volumes:
