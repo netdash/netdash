@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-if settings.SAML_CONFIG:
+if hasattr(settings, 'SAML_CONFIG'):
     from djangosaml2 import views as saml_views
     urlpatterns += (path('saml/', include('djangosaml2.urls')),)
     if settings.DEBUG:

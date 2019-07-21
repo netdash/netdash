@@ -61,6 +61,7 @@ locals().update({k[len(_prefix):]: v for k, v in os.environ.items() if k[:len(_p
 INSTALLED_APPS = NETDASH_MODULES + [
     'netdash_api',
     'netdash_ui',
+    'netdash',
     'rest_framework',
     'rest_framework_swagger',
     'django.contrib.admin',
@@ -90,6 +91,7 @@ AUTHENTICATION_BACKENDS = (
 
 ROOT_URLCONF = 'netdash.urls'
 LOGIN_URL = getenv('NETDASH_LOGIN_URL', '/admin/login/')
+AUTH_USER_MODEL = 'netdash.User'
 
 TEMPLATES = [
     {
@@ -194,6 +196,5 @@ else:
         'mail': ('email',),
         'givenName': ('first_name',),
         'sn': ('last_name',),
-        'isMemberOf': ('process_groups_saml',),
+        'isMemberOf': ('process_groups',),
     }
-    AUTH_USER_MODEL = 'netdash.models.User'
