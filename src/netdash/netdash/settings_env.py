@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-from os import getenv
 
 import dj_database_url
 
@@ -35,18 +34,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = getenv('NETDASH_SECRET_KEY', None)
+SECRET_KEY = os.getenv('NETDASH_SECRET_KEY', None)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str_to_bool(getenv('NETDASH_DEBUG', 'off'))
+DEBUG = str_to_bool(os.getenv('NETDASH_DEBUG', 'off'))
 
-ALLOWED_HOSTS = csv_to_list(getenv('NETDASH_ALLOWED_HOSTS', None))
+ALLOWED_HOSTS = csv_to_list(os.getenv('NETDASH_ALLOWED_HOSTS', None))
 
-CORS_ORIGIN_ALLOW_ALL = str_to_bool(
-    getenv('NETDASH_CORS_ORIGIN_ALLOW_ALL', 'off')
-    )
+CORS_ORIGIN_ALLOW_ALL = str_to_bool(os.getenv('NETDASH_CORS_ORIGIN_ALLOW_ALL', 'off'))
 
-CORS_ORIGIN_WHITELIST = getenv('NETDASH_CORS_ORIGIN_WHITELIST', [])
+CORS_ORIGIN_WHITELIST = os.getenv('NETDASH_CORS_ORIGIN_WHITELIST', [])
 
 
 NETDASH_MODULES = csv_to_list(os.getenv('NETDASH_MODULES'))
@@ -90,7 +87,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 ROOT_URLCONF = 'netdash.urls'
-LOGIN_URL = getenv('NETDASH_LOGIN_URL', '/admin/login/')
+LOGIN_URL = os.getenv('NETDASH_LOGIN_URL', '/admin/login/')
 AUTH_USER_MODEL = 'netdash.User'
 
 TEMPLATES = [
@@ -148,7 +145,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = getenv('NETDASH_TIME_ZONE', 'America/Detroit')
+TIME_ZONE = os.getenv('NETDASH_TIME_ZONE', 'America/Detroit')
 
 USE_I18N = True
 
