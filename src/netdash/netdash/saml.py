@@ -1,11 +1,12 @@
 import saml2
 
 
-def create_saml_config(entity_id, sp_name, acs_post, ls_redirect, ls_post, required_attributes, optional_attributes, sp_cert_file, sp_key_file, idp_metadata_file, debug=False):
+def create_saml_config(entity_id, sp_name, acs_post, ls_redirect, ls_post, required_attributes,
+                       optional_attributes, sp_cert_file, sp_key_file, idp_metadata_file, debug=False):
     return {
         'xmlsec_binary': '/usr/bin/xmlsec1',
         # 'entityid': '%smetadata/' % SAML2_URL_BASE,
-        'entityid': entity_id, # e.g. https://yourdomain.cm/saml/metadata,
+        'entityid': entity_id,  # e.g. https://yourdomain.cm/saml/metadata,
 
         # directory with attribute mapping
         # 'attribute_map_dir': path.join(BASEDIR, 'attribute-maps'),
