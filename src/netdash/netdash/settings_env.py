@@ -182,6 +182,7 @@ if not (_saml2_sp_name and _saml2_sp_key and _saml2_sp_cert and _saml2_idp_metad
 else:
     from .saml import create_saml_config
     import tempfile
+    import json
 
     LOGIN_REDIRECT_URL = '/'
     LOGIN_URL = '/saml/login/'
@@ -203,10 +204,4 @@ else:
                                      _saml2_ls_post, _saml2_required_attributes, _saml2_optional_attributes,
                                      _sp_cert_file, _sp_key_file, _idp_metadata_file, DEBUG)
     SAML_CREATE_UNKNOWN_USER = True
-    SAML_ATTRIBUTE_MAPPING = {
-        'uid': ('username',),
-        'mail': ('email',),
-        'givenName': ('first_name',),
-        'sn': ('last_name',),
-        'isMemberOf': ('process_groups',),
-    }
+    SAML_ATTRIBUTE_MAPPING = json.loads(os.getenv('SAML2_ATTRIBUTE_MAPPING', '{"uid": ["username"]}'))
