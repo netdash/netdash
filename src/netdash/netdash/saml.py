@@ -1,18 +1,7 @@
 import saml2
-import tempfile
 
 
-def create_saml_config(entity_id, sp_name, acs_post, ls_redirect, ls_post, required_attributes, optional_attributes, sp_cert, sp_key, idp_metadata, debug=False):
-    # Generate temp files for cert, key, and metadata
-    sp_cert_file = tempfile.NamedTemporaryFile('w+', buffering=1)
-    sp_cert_file.write(sp_cert + '\n')
-
-    sp_key_file = tempfile.NamedTemporaryFile('w+', buffering=1)
-    sp_key_file.write(sp_key + '\n')
-
-    idp_metadata_file = tempfile.NamedTemporaryFile('w+', buffering=1)
-    idp_metadata_file.write(idp_metadata + '\n')
-    
+def create_saml_config(entity_id, sp_name, acs_post, ls_redirect, ls_post, required_attributes, optional_attributes, sp_cert_file, sp_key_file, idp_metadata_file, debug=False):
     return {
         'xmlsec_binary': '/usr/bin/xmlsec1',
         # 'entityid': '%smetadata/' % SAML2_URL_BASE,

@@ -176,20 +176,32 @@ _saml2_ls_post = os.getenv('SAML2_LS_POST', None)
 _saml2_required_attributes = os.getenv('SAML2_REQUIRED_ATTRIBUTES', '').split(',')
 _saml2_optional_attributes = os.getenv('SAML2_OPTIONAL_ATTRIBUTES', '').split(',')
 
-if not (_saml2_sp_name and _saml2_sp_key and _saml2_sp_cert and _saml2_idp_metadata 
-    and _saml2_entity_id and _saml2_acs_post and _saml2_ls_post and _saml2_ls_redirect):
+if not (_saml2_sp_name and _saml2_sp_key and _saml2_sp_cert and _saml2_idp_metadata
+        and _saml2_entity_id and _saml2_acs_post and _saml2_ls_post and _saml2_ls_redirect):
     print('SAML2 environment variables not set. Skipping djangosaml2 configuration.')
 else:
     from .saml import create_saml_config
+    import tempfile
 
     LOGIN_REDIRECT_URL = '/'
     LOGIN_URL = '/saml/login/'
     INSTALLED_APPS += ('djangosaml2',)
     AUTHENTICATION_BACKENDS += ('djangosaml2.backends.Saml2Backend',)
     SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+    
+    # Generate temp files for cert, key, and metadata
+    _sp_cert_file = tempfile.NamedTemporaryFile('w+', buffering=1)
+    _sp_cert_file.write(_saml2_sp_cert + '\n')
+
+    _sp_key_file = tempfile.NamedTemporaryFile('w+', buffering=1)
+    _sp_key_file.write(_saml2_sp_key + '\n')
+
+    _idp_metadata_file = tempfile.NamedTemporaryFile('w+', buffering=1)
+    _idp_metadata_file.write(_saml2_idp_metadata + '\n')
+    
     SAML_CONFIG = create_saml_config(_saml2_entity_id, _saml2_sp_name, _saml2_acs_post, _saml2_ls_redirect,
                                      _saml2_ls_post, _saml2_required_attributes, _saml2_optional_attributes,
-                                     _saml2_sp_cert, _saml2_sp_key, _saml2_idp_metadata, DEBUG)
+                                     _sp_cert_file, _sp_key_file, _idp_metadata_file, DEBUG)
     SAML_CREATE_UNKNOWN_USER = True
     SAML_ATTRIBUTE_MAPPING = {
         'uid': ('username',),
