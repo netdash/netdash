@@ -16,6 +16,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
 
 
 urlpatterns = [
@@ -23,3 +24,9 @@ urlpatterns = [
     path('api/', include('netdash_api.urls')),
     path('admin/', admin.site.urls),
 ]
+
+if hasattr(settings, 'SAML_CONFIG'):
+    from djangosaml2 import views as saml_views
+    urlpatterns += (path('saml/', include('djangosaml2.urls')),)
+    if settings.DEBUG:
+        urlpatterns += (path('saml/test/', saml_views.echo_attributes, name='saml2_test'),)
