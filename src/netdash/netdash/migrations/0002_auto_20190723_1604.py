@@ -16,8 +16,8 @@ class Migration(migrations.Migration):
             name='username',
             field=models.CharField(error_messages={'unique': 'A user with that username already exists.'},
                                    help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
-                                   max_length=150, unique=True, 
-                                   validators=[django.contrib.auth.validators.UnicodeUsernameValidator()], 
+                                   max_length=150, unique=True,
+                                   validators=[django.contrib.auth.validators.UnicodeUsernameValidator()],
                                    verbose_name='username'),
         ),
     ]
