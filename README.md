@@ -51,3 +51,15 @@ The `netdash.settings_example_compose` module configures the NetDash instance is
 9. Create an admin user: `python3 manage.py createsuperuser`
 10. Run the development server: `python3 manage.py runserver`
 11. Connect to the development server interface: <http://127.0.0.1:8000/>
+
+
+# NetDash Module Conventions
+
+* A module with `urls.py` should declare an `app_name`.
+* A module with `urls.py` will have its URLs placed under `/<app_name>/*`.
+* A module with a url named `index` in its `urls.py` will have a link to `index` generated in the NetDash navbar.
+* A module that generates a permission named `can_view_module` will only generate an `index` link in the NetDash navbar for users who have that permission.
+* A module with `api/urls.py` should declare an `app_name`. If the module also has a `urls.py`, it should reuse the previous `app_name` like so: `<app_name>-api`
+* A module with `api/urls.py` will have its API URLs placed under `/api/<app_name>/*`.
+
+Check under `apps_dev` for examples of the afforementioned conventions.
