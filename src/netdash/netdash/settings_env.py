@@ -90,6 +90,10 @@ ROOT_URLCONF = 'netdash.urls'
 LOGIN_URL = os.getenv('NETDASH_LOGIN_URL', '/admin/login/')
 AUTH_USER_MODEL = 'netdash.User'
 
+_secure_proxy_ssl_header = os.getenv('NETDASH_SECURE_PROXY_SSL_HEADER', None)
+if _secure_proxy_ssl_header:
+    SECURE_PROXY_SSL_HEADER = (_secure_proxy_ssl_header, 'https')
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
