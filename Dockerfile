@@ -1,20 +1,17 @@
 FROM python:3.7-slim
 
 ENV PYTHONUNBUFFERED=1
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 
 # Add git to allow pip install packages from repositories
 RUN apt-get -y update && apt-get -y install git
 
-RUN pip install psycopg2-binary
-ENV PIP_DISABLE_PIP_VERSION_CHECK=1
-
 EXPOSE 8000
-ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 
 RUN apt-get update
 RUN apt-get install -y xmlsec1 libffi-dev libssl-dev
 
-RUN pip3 install psycopg2-binary gunicorn pipenv
+RUN pip install psycopg2-binary gunicorn pipenv djangosaml2~=0.17.2
 
 RUN mkdir /usr/src/app
 
