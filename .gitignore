@@ -1,6 +1,8 @@
 /.env
 /src/netdash/netdash/settings.py
 
+/.vscode
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
