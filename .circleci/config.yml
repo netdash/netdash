@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 aliases:
   - &fix_permissions
@@ -28,6 +28,10 @@ aliases:
         - image: circleci/python:3.7.3
           environment:
             PIPENV_VENV_IN_PROJECT: "true"
+  - &run_on_tags
+    filters:
+      tags:
+        only: /.*/
 
 jobs:
   bandit:
@@ -58,35 +62,40 @@ jobs:
       - *update_dependencies_cache
       - run: cp src/netdash/netdash/settings_example.py src/netdash/netdash/settings.py
       - run: pipenv run python src/netdash/manage.py test
-  # publish:
-  #   environment:
-  #     IMAGE_NAME: src/netdash/netdash/\*example\*.py
-  #   docker:
-  #     - image: circleci/buildpack-deps:stretch
-  #   steps:
-  #     - checkout
-  #     - setup_remote_docker
-  #     - run: docker build -t $IMAGE_NAME:latest .
-  #     - run: |
-  #         echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-  #         docker push $IMAGE_NAME:latest
+  publish-tag:
+    environment:
+      IMAGE_NAME: netdash/netdash
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - run: 
+          name: Abort if no tag
+          command: |
+            if [ -z "$CIRCLE_TAG" ]; then
+              echo Aborting
+              circleci-agent step halt
+            fi
+      - checkout
+      - setup_remote_docker
+      - run: |
+          docker build -t $IMAGE_NAME:$CIRCLE_TAG .
+      - run: |
+          echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+          docker push $IMAGE_NAME:$CIRCLE_TAG
 
 workflows:
-  version: 2
-  commit:
+  workflow:
     jobs:
-      - bandit
-      - flake8
-      - test
-
-#     jobs:
-#       - check:
-#           filters:
-#             tags:
-#               only: /.*/
-#       - publish-tag
-#           requires:
-#             - check
-#           filters:
-#             tags:
-#               only: /.*/
+      - bandit:
+          <<: *run_on_tags
+      - flake8:
+          <<: *run_on_tags
+      - test:
+          <<: *run_on_tags
+      - publish-tag:
+          <<: *run_on_tags
+          requires:
+            - bandit
+            - flake8
+            - test
+          context: docker-hub
