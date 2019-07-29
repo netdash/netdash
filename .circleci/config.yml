@@ -30,7 +30,7 @@ aliases:
             PIPENV_VENV_IN_PROJECT: "true"
 
 jobs:
-  check:
+  bandit:
     <<: *python_job_base
     steps:
       - checkout
@@ -39,7 +39,23 @@ jobs:
       - *install_dependencies
       - *update_dependencies_cache
       - run: bandit -r src/netdash -x src/netdash/netdash/\*example\*.py
+  flake8:
+    <<: *python_job_base
+    steps:
+      - checkout
+      - *fix_permissions
+      - *restore_dependencies_cache
+      - *install_dependencies
+      - *update_dependencies_cache
       - run: flake8 src/netdash
+  test:
+    <<: *python_job_base
+    steps:
+      - checkout
+      - *fix_permissions
+      - *restore_dependencies_cache
+      - *install_dependencies
+      - *update_dependencies_cache
       - run: cp src/netdash/netdash/settings_example.py src/netdash/netdash/settings.py
       - run: pipenv run python src/netdash/manage.py test
   # publish:
@@ -59,7 +75,9 @@ workflows:
   version: 2
   commit:
     jobs:
-      - check
+      - bandit
+      - flake8
+      - test
 
 #     jobs:
 #       - check:
