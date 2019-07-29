@@ -20,5 +20,8 @@ def _can_view(user, app_label):
 @register.inclusion_tag('partials/nav.html', takes_context=True)
 def nav(context):
     as_tuples = get_module_slugs().items()
-    indexes = [(t[0], t[1] + ':index') for t in as_tuples if has_ui_urls(t[0]) and _can_view(context['request'].user, t[0])]
+    indexes = [
+            (t[0], t[1] + ':index') for t in as_tuples
+            if has_ui_urls(t[0]) and _can_view(context['request'].user, t[0])
+        ]
     return {'slugs': indexes, 'login_url': settings.LOGIN_URL, 'user': context['request'].user}
