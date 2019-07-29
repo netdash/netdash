@@ -1,25 +1,101 @@
-version: 2
+version: 2.1
+
+aliases:
+  - &fix_permissions
+      run:
+        name: Fix Permissions
+        command: |
+          sudo chown -R circleci:circleci /usr/local/bin
+          sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
+  - &restore_dependencies_cache
+      restore_cache:
+        key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+  - &install_dependencies
+      run:
+        name: Install Dependencies
+        command: |
+          sudo pip install pipenv bandit flake8
+          pipenv install
+  - &update_dependencies_cache
+      save_cache:
+        key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+        paths:
+          - '.venv'
+          - '/usr/local/bin'
+          - '/usr/local/lib/python3.7/site-packages'
+  - python_job_base: &python_job_base
+      docker:
+        - image: circleci/python:3.7.3
+          environment:
+            PIPENV_VENV_IN_PROJECT: "true"
+  - &run_on_tags
+    filters:
+      tags:
+        only: /.*/
+
 jobs:
-  build:
-    docker:
-      - image: circleci/python:3.7.3
-        environment:
-          PIPENV_VENV_IN_PROJECT: true
+  bandit:
+    <<: *python_job_base
     steps:
       - checkout
-      - run: sudo chown -R circleci:circleci /usr/local/bin
-      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
-      - restore_cache:
-          key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-      - run: sudo pip install pipenv bandit flake8
-      - run: pipenv install
-      - save_cache:
-          key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-          paths:
-            - '.venv'
-            - '/usr/local/bin'
-            - '/usr/local/lib/python3.7/site-packages'
+      - *fix_permissions
+      - *restore_dependencies_cache
+      - *install_dependencies
+      - *update_dependencies_cache
       - run: bandit -r src/netdash -x src/netdash/netdash/\*example\*.py
+  flake8:
+    <<: *python_job_base
+    steps:
+      - checkout
+      - *fix_permissions
+      - *restore_dependencies_cache
+      - *install_dependencies
+      - *update_dependencies_cache
       - run: flake8 src/netdash
+  test:
+    <<: *python_job_base
+    steps:
+      - checkout
+      - *fix_permissions
+      - *restore_dependencies_cache
+      - *install_dependencies
+      - *update_dependencies_cache
       - run: cp src/netdash/netdash/settings_example.py src/netdash/netdash/settings.py
       - run: pipenv run python src/netdash/manage.py test
+  publish-tag:
+    environment:
+      IMAGE_NAME: netdash/netdash
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - run: 
+          name: Abort if no tag
+          command: |
+            if [ -z "$CIRCLE_TAG" ]; then
+              echo Aborting
+              circleci-agent step halt
+            fi
+      - checkout
+      - setup_remote_docker
+      - run: |
+          docker build -t $IMAGE_NAME:$CIRCLE_TAG .
+      - run: |
+          echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+          docker push $IMAGE_NAME:$CIRCLE_TAG
+
+workflows:
+  workflow:
+    jobs:
+      - bandit:
+          <<: *run_on_tags
+      - flake8:
+          <<: *run_on_tags
+      - test:
+          <<: *run_on_tags
+      - publish-tag:
+          <<: *run_on_tags
+          requires:
+            - bandit
+            - flake8
+            - test
+          context: docker-hub
