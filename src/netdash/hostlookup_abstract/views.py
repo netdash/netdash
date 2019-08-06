@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from abc import ABC, abstractmethod
 from datetime import datetime
 
-from django.shortcuts import render
 from django.views.generic.base import TemplateView
 
 from netaddr import EUI
