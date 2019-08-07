@@ -1,8 +1,12 @@
 from importlib import import_module
-from django.conf.urls import url, include
+from django.conf.urls import url, include, re_path
 
 
 class NetdashModule():
+    app_label = ''
+    app_name = ''
+    ui_app_urls: url
+    api_app_urls: url
 
     def _get_app_name(self, app_label):
 
@@ -25,22 +29,24 @@ class NetdashModule():
         return app_label
 
     def _get_ui_urls(self, slug, app_label):
+        app_name = self.app_name
         try:
-            import_module(f'{self.app_label}.urls')
-            return url(r'^' + slug + '/', include(f'{self.app_label}.urls', namespace=slug))
+            import_module(f'{app_label}.urls')
+            return re_path(r'^' + slug + '/', include(f'{app_label}.urls', namespace=slug), name=f'{app_name}')
         except ModuleNotFoundError:
             return []
 
     def _get_api_urls(self, slug, app_label):
+        app_name = self.app_name
         try:
-            import_module(f'{self.app_label}.api.urls')
-            return url(r'^' + slug + '/', include(f'{self.app_label}.api.urls', namespace=slug))
+            import_module(f'{app_label}.api.urls')
+            return re_path(r'^' + slug + '/', include(f'{app_label}.api.urls', namespace=slug), name=f'{app_name}')
         except ModuleNotFoundError:
             return []
 
     def _get_app_urls(self, app_name, app_label):
-        slug = self.app_name
-        return self._get_ui_urls(slug, self.app_label), self._get_api_urls(slug, self.app_label)
+        slug = app_name
+        return self._get_ui_urls(slug, app_label), self._get_api_urls(slug, app_label)
 
     def __init__(self, app_label):
         self.app_label = app_label
