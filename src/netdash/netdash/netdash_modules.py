@@ -32,7 +32,7 @@ class NetdashModule():
         app_name = self.app_name
         try:
             import_module(f'{app_label}.urls')
-            return re_path(r'^' + slug + '/', include(f'{app_label}.urls', namespace=slug), name=f'{app_name}')
+            return re_path(r'^' + slug + '/', include(f'{app_label}.urls', namespace=slug))
         except ModuleNotFoundError:
             return []
 
@@ -40,7 +40,7 @@ class NetdashModule():
         app_name = self.app_name
         try:
             import_module(f'{app_label}.api.urls')
-            return re_path(r'^' + slug + '/', include(f'{app_label}.api.urls', namespace=slug), name=f'{app_name}')
+            return re_path(r'^' + slug + '/', include(f'{app_label}.api.urls', namespace=slug))
         except ModuleNotFoundError:
             return []
 

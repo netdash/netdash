@@ -1,17 +1,16 @@
 from importlib import import_module
 
 from django.urls import path
-from django.conf.urls import include, url
 
 from rest_framework.schemas import get_schema_view
 from rest_framework_swagger.views import get_swagger_view
+from django.conf import settings
 
-from netdash.utils import get_module_slugs
+NETDASH_MODULES = settings.NETDASH_MODULE
+
 
 swagger_view = get_swagger_view(title='NetDash API')
 schema_view = get_schema_view(title='NetDash API')
-
-NETDASH_MODULE_SLUGS = get_module_slugs()
 
 
 def has_api_urls(module_name):
@@ -22,12 +21,7 @@ def has_api_urls(module_name):
         return False
 
 
-def get_url(module_name):
-    slug = NETDASH_MODULE_SLUGS[module_name]
-    return url(r'^' + slug + '/', include(f'{module_name}.api.urls'))
-
-
-module_urlpatterns = [get_url(module_name) for module_name in NETDASH_MODULE_SLUGS if has_api_urls(module_name)]
+module_urlpatterns = [module.api_app_urls for module in NETDASH_MODULES]
 
 urlpatterns = module_urlpatterns + [
     path('swagger/', swagger_view, name='swagger'),
