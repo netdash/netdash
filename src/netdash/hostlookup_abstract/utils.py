@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional, Iterable
+from typing import Optional
 from datetime import datetime
 from ipaddress import IPv4Address, IPv6Address
 

@@ -3,7 +3,6 @@ from typing import Iterable
 from dataclasses import asdict
 
 from rest_framework.response import Response
-from rest_framework.reverse import reverse
 from rest_framework import viewsets
 
 from hostlookup_abstract.utils import HostLookupResult
