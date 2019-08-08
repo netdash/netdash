@@ -2,7 +2,7 @@ from importlib import import_module
 from django.conf.urls import url, include, re_path
 
 
-class NetdashModule():
+class NetdashModule:
     app_label: str
     app_name: str
     ui_app_urls: url
@@ -49,4 +49,6 @@ class NetdashModule():
     def __init__(self, app_label):
         self.app_label = app_label
         self.app_name = self._get_app_name(self.app_label)
+        print("App Label:" + self.app_label)
+        print("App Name:" + self.app_name)
         self.ui_app_urls, self.api_app_urls = self._get_app_urls(self.app_name, self.app_label)
