@@ -3,8 +3,8 @@ from django.conf.urls import url, include, re_path
 
 
 class NetdashModule():
-    app_label = ''
-    app_name = ''
+    app_label: str
+    app_name: str
     ui_app_urls: url
     api_app_urls: url
 
@@ -29,7 +29,6 @@ class NetdashModule():
         return app_label
 
     def _get_ui_urls(self, slug, app_label):
-        app_name = self.app_name
         try:
             import_module(f'{app_label}.urls')
             return re_path(r'^' + slug + '/', include(f'{app_label}.urls', namespace=slug))
@@ -37,7 +36,6 @@ class NetdashModule():
             return []
 
     def _get_api_urls(self, slug, app_label):
-        app_name = self.app_name
         try:
             import_module(f'{app_label}.api.urls')
             return re_path(r'^' + slug + '/', include(f'{app_label}.api.urls', namespace=slug))

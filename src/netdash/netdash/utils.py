@@ -2,6 +2,7 @@ import importlib
 import logging
 
 from django.conf import settings
+from .netdash_modules import NetdashModule
 
 logger = logging.getLogger(__name__)
 
@@ -33,3 +34,7 @@ def get_module_slugs():
 def get_module_settings(module_name):
     module = importlib.import_module(module_name)
     return getattr(module, 'SETTINGS_FROM_ENV', [])
+
+
+def create_netdash_modules(modules):
+    return [NetdashModule(module_name) for module_name in modules]

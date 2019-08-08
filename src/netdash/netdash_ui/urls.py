@@ -6,7 +6,7 @@ from .views import IndexView
 
 from django.conf import settings
 
-NETDASH_MODULES = settings.NETDASH_MODULE
+NETDASH_MODULES = settings.NETDASH_MODULE_OBJECTS
 
 
 def has_ui_urls(module_name):

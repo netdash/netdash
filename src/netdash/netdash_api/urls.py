@@ -6,7 +6,7 @@ from rest_framework.schemas import get_schema_view
 from rest_framework_swagger.views import get_swagger_view
 from django.conf import settings
 
-NETDASH_MODULES = settings.NETDASH_MODULE
+NETDASH_MODULES = settings.NETDASH_MODULE_OBJECTS
 
 
 swagger_view = get_swagger_view(title='NetDash API')
