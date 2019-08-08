@@ -24,4 +24,9 @@ def nav(context):
             (t[0], t[1] + ':index') for t in as_tuples
             if has_ui_urls(t[0]) and _can_view(context['request'].user, t[0])
         ]
-    return {'slugs': indexes, 'login_url': settings.LOGIN_URL, 'user': context['request'].user}
+    nav_context = {
+        'netdash_slugs': indexes,
+        'netdash_login_url': settings.LOGIN_URL,
+    }
+    context.update(nav_context)
+    return context

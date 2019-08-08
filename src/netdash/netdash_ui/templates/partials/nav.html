@@ -9,9 +9,9 @@
     </div>
   </a>
   <hr class="sidebar-divider d-none d-md-block">
-  {% if user.is_authenticated %}
+  {% if request.user.is_authenticated %}
   <div class="sidebar-heading">
-    Logged in: <em>{{ user.username }}</em>
+    Logged in: <em>{{ request.user.username }}</em>
   </div>
   <li class="nav-item">
     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
@@ -28,7 +28,7 @@
   <div class="sidebar-heading">
     Modules
   </div>
-  {% for module_name, slug in slugs %}
+  {% for module_name, slug in netdash_slugs %}
     <li class="nav-item">
       <a class="nav-link" href="{% url slug %}">
         {{ module_name }}
