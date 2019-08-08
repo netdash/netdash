@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from netdash import utils
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -35,6 +36,7 @@ CORS_ORIGIN_WHITELIST = []
 NETDASH_MODULES = [
     # 'example_devices_netbox_api',
 ]
+NETDASH_MODULE_OBJECTS = utils.create_netdash_modules(NETDASH_MODULES)
 
 # Application definition
 
