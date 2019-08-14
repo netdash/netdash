@@ -1,7 +1,7 @@
-from hostlookup_abstract.api.views import BaseHostViewSet
+from hostlookup_abstract.api.views import BaseHostView
 from example_hostlookup_dummy.utils import host_lookup
 
 
-class HostViewSet(BaseHostViewSet):
-    def host_lookup(self, request):
-        return host_lookup()
+class HostView(BaseHostView):
+    def host_lookup(self, request, q=''):
+        return host_lookup(q)

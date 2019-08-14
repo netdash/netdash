@@ -1,8 +1,8 @@
-from django.conf.urls import url
+from django.urls import path
 
 from .views import HostLookupView
 
 app_name = 'hostlookup'
 urlpatterns = [
-    url(r'^$', HostLookupView.as_view(), name='index')
+    path(r'', HostLookupView.as_view(), name='index'),
 ]

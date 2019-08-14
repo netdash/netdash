@@ -9,6 +9,8 @@ flake8 = "*"
 
 [packages]
 netdash = {editable = true,path = "."}
+drf-yasg = "*"
+packaging = "*"
 
 [requires]
 python_version = "3.7"

@@ -10,5 +10,6 @@ from .utils import host_lookup
     name='dispatch'
 )
 class HostLookupView(BaseHostLookupView):
-    def host_lookup(self, **kwargs):
-        return host_lookup()
+    def host_lookup(self):
+        q = self.request.GET.get('q', '')
+        return host_lookup(q)
