@@ -24,5 +24,7 @@ setup(
         'pyyaml',
         'whitenoise ~= 4.1.2',
         'netaddr',
+        'drf-yasg',
+        'packaging',
     ],
 )
