@@ -7,10 +7,10 @@ from django.contrib.auth.decorators import permission_required
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.filters import BaseFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
+from .serializers import HostLookupResponseSerializer
 from hostlookup_abstract.utils import HostLookupResult
 
 
@@ -27,7 +27,7 @@ class BaseHostView(ABC, APIView):
         manual_parameters=[
             openapi.Parameter('q', openapi.IN_QUERY, description='Host lookup query term.', type=openapi.TYPE_STRING),
         ],
-        # responses={status.HTTP_200_OK: HostLookupResponseSerializer}
+        responses={status.HTTP_200_OK: HostLookupResponseSerializer(many=True)},
     )
     def get(self, request):
         q = request.query_params.get('q', '')
