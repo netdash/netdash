@@ -1,0 +1,15 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details or
+// https://aka.ms/vscode-dev-containers/definitions for sample configurations.
+{
+	"name": "NetDash",
+	"dockerComposeFile": [
+		"docker-compose.yml",
+		"docker-compose-vscode.yml"
+	],
+	"service": "app",
+	"workspaceFolder": "/usr/src/app",
+	"extensions": [
+		"donjayamanne.python-extension-pack"
+	],
+	"postCreateCommand": "pipenv install --system -d; cd src/netdash; ../../docker-entrypoint-dev.sh"
+}
