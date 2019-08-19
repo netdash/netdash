@@ -4,5 +4,12 @@
   "python.linting.enabled": true,
   "python.linting.flake8Args": [
     "src/netdash"
+  ],
+  "python.autoComplete.extraPaths": [
+    "./src/netdash",
+    "./apps_dev/example_devices_dummy",
+    "./apps_dev/example_devices_netbox_api",
+    "./apps_dev/example_devices_snmp",
+    "./apps_dev/example_hostlookup_dummy"
   ]
 }
