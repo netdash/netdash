@@ -88,6 +88,7 @@ AUTHENTICATION_BACKENDS = (
 
 ROOT_URLCONF = 'netdash.urls'
 LOGIN_URL = os.getenv('NETDASH_LOGIN_URL', '/admin/login/')
+LOGOUT_URL = '/logout'
 AUTH_USER_MODEL = 'netdash.User'
 
 _secure_proxy_ssl_header = os.getenv('NETDASH_SECURE_PROXY_SSL_HEADER', None)
