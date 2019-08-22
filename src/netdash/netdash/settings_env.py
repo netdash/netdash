@@ -56,11 +56,12 @@ locals().update({k[len(_prefix):]: v for k, v in os.environ.items() if k[:len(_p
 # Application definition
 
 INSTALLED_APPS = NETDASH_MODULES + [
+    'hostlookup_abstract',
     'netdash_api',
     'netdash_ui',
     'netdash',
     'rest_framework',
-    'rest_framework_swagger',
+    'drf_yasg',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -110,6 +111,13 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'netdash_api.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+}
 
 WSGI_APPLICATION = 'netdash.wsgi.application'
 

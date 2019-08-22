@@ -42,7 +42,7 @@ INSTALLED_APPS = NETDASH_MODULES + [
     'netdash_api',
     'netdash_ui',
     'rest_framework',
-    'rest_framework_swagger',
+    'drf_yasg',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -82,6 +82,13 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'netdash_api.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+}
 
 WSGI_APPLICATION = 'netdash.wsgi.application'
 

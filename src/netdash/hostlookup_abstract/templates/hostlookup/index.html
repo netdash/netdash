@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+Host Lookup
+{% endblock title %}
+
+{% block content %}
+  {% block searchbar %}
+    <a name="jump_to_top"></a>
+    <div class="jumbotron">
+      <a class="navbar-brand" href="{% url 'hostlookup:index' %}">
+        <h1 class="display-4">Host Lookup</h1>
+      </a>
+      <p>Enter an IP address.</p>
+      <form class="form-inline" method="get" action='{% url 'hostlookup:index' as search_url %}'>
+        <div class="input-group">
+          <input type="text" class="form-control" name="q" placeholder="Search..." />
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-primary" value="Search">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  {% endblock searchbar %}
+
+  {% block results %}
+  {% endblock results %}
+
+  {% block footer %}
+  <div>
+    <br>
+    <hr>
+    <a href="#jump_to_top">Return to the top</a>
+  </div>
+  {% endblock footer %}
+{% endblock content %}
