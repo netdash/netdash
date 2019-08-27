@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import json
 
 import dj_database_url
 
@@ -28,6 +29,11 @@ def str_to_bool(val):
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+_netdash_logging = os.getenv('NETDASH_LOGGING', None)
+if _netdash_logging:
+    LOGGING = json.loads(_netdash_logging)
 
 
 # Quick-start development settings - unsuitable for production
@@ -184,7 +190,6 @@ if not (_saml2_sp_name and _saml2_sp_key and _saml2_sp_cert and _saml2_idp_metad
 else:
     from .saml import create_saml_config
     import tempfile
-    import json
 
     LOGIN_REDIRECT_URL = '/'
     LOGIN_URL = '/saml/login/'
