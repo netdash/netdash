@@ -23,5 +23,8 @@ setup(
         'django-cors-headers ~= 2.5.2',
         'pyyaml',
         'whitenoise ~= 4.1.2',
+        'netaddr',
+        'drf-yasg',
+        'packaging',
     ],
 )
