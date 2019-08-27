@@ -14,6 +14,8 @@ import os
 
 import dj_database_url
 
+from netdash import utils
+
 
 def csv_to_list(csv, delim=','):
     try:
@@ -69,6 +71,8 @@ INSTALLED_APPS = NETDASH_MODULES + [
     'django.contrib.staticfiles',
     'corsheaders',
 ]
+
+# NETDASH_MODULE_OBJECTS = utils.create_netdash_modules(NETDASH_MODULES)
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

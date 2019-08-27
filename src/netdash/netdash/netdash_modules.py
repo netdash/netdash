@@ -1,54 +1,113 @@
 from importlib import import_module
+from dataclasses import dataclass
+from typing import Optional, List
+from types import ModuleType
+import traceback
+
 from django.conf.urls import url, include, re_path
 
 
-class NetdashModule:
-    app_label: str
-    app_name: str
-    ui_app_urls: url
-    api_app_urls: url
+@dataclass
+class Diagnostic:
+    level: str  # 3.8: Literal["info", "suggestion", "warning", "error"]
+    code: str   # 3.8: Literal["FAILED_IMPORT_UI", "FAILED_IMPORT_API", "FAILED_IMPORT_ALL",
+    #           #              "NO_APP_NAME_UI", "NO_APP_NAME_API", "NO_APP_NAME_ALL"]
+    message: str
+    exception: Optional[Exception]
+    traceback: Optional[str]
 
-    def _get_app_name(self, app_label):
 
+class NetDashModuleError(Exception):
+    def __init__(self, app_label: str, diagnostics: List[Diagnostic]):
+        self.diagnostics = diagnostics
+        self.message = str(diagnostics)
+
+
+class NetDashModule:
+    _app_label: str
+    _ui: ModuleType
+    _api: ModuleType
+    _app_name: str
+    _diagnostics: List[Diagnostic]
+
+    def __init__(self, app_label: str):
+        self._diagnostics = []
+        self._app_label = app_label
+        self._ui = self._get_submodule(f'{app_label}.urls', 'UI')
+        self._api = self._get_submodule(f'{app_label}.api.urls', 'API')
+        if not (self._ui or self._api):
+            self.diagnostics += Diagnostic(
+                'error', 'FAILED_IMPORT_ALL',
+                (
+                    'Failed to import UI and API submodules. '
+                    'At least one of the two must be present in a NetDash module. '
+                    'Check FAILED_IMPORT_API and FAILED_IMPORT_UI diagnostics for more information.'
+                ), None, None
+            )
+            raise NetDashModuleError(app_label, self.diagnostics)
+        derived_app_name = self._derive_app_name(self._ui, 'UI') or self._derive_app_name(self._api, 'API')
+        if not derived_app_name:
+            self.diagnostics += Diagnostic(
+                'warning', 'NO_APP_NAME_ALL',
+                (
+                    f'No app_name was specified in {self.ui.__spec__.name} or {self.api.__spec__.name}. '
+                    f'It will default to the app_label, {self.app_label}. '
+                    f'Check NO_APP_NAME_UI and NO_APP_NAME_API diagnostics for more information.'
+                ), None, None
+            )
+        self._app_name = derived_app_name or self.app_label
+
+    @property
+    def diagnostics(self) -> List[Diagnostic]:
+        return self._diagnostics
+
+    @property
+    def name(self) -> str:
+        return self._app_label
+
+    @property
+    def friendly_name(self) -> str:
+        return self._app_label.replace('_', ' ').title()
+
+    @property
+    def slug(self) -> str:
+        return self._app_name
+
+    @property
+    def api_url(self) -> url:
+        return self._generate_url('.api.urls')
+
+    @property
+    def ui_url(self) -> url:
+        return self._generate_url('.urls')
+
+    def _generate_url(self, subpath: str) -> url:
+        return re_path(r'^' + self.slug + '/', include(self._app_label + subpath, namespace=self.slug))
+
+    def _derive_app_name(self, submodule: ModuleType, submodule_name: str) -> Optional[str]:
         try:
-            module = import_module(f'{app_label}.urls')
-        except ModuleNotFoundError:
-            print(f'Failed to import urls.py for module: {app_label}')
+            raw = submodule.app_name
+        except AttributeError as e:
+            self._diagnostics.append(Diagnostic(
+                'suggestion', f'NO_APP_NAME_{submodule_name}',
+                (
+                    f'app_name should be provided in {submodule.__spec__.name}.'
+                    f"It will provide the slugs for your module's routes."
+                ), e, traceback.format_exc()
+            ))
+            return None
+        return raw.replace('-api', '')
 
-            try:
-                module = import_module(f'{app_label}.api.urls')
-            except ModuleNotFoundError:
-                print(f'Failed to import both urls.py and api/urls.py for module: {app_label}')
-            else:
-                print('api module has been imported')
-
-        if hasattr(module, 'app_name'):
-            if module.app_name.endswith('-api'):
-                return module.app_name.replace('-api', '')
-            return module.app_name
-        return app_label
-
-    def _get_ui_urls(self, slug, app_label):
+    def _get_submodule(self, module_path: str, submodule_name: str) -> Optional[ModuleType]:
         try:
-            import_module(f'{app_label}.urls')
-            return re_path(r'^' + slug + '/', include(f'{app_label}.urls', namespace=slug))
-        except ModuleNotFoundError:
-            return []
-
-    def _get_api_urls(self, slug, app_label):
-        try:
-            import_module(f'{app_label}.api.urls')
-            return re_path(r'^' + slug + '/', include(f'{app_label}.api.urls', namespace=slug))
-        except ModuleNotFoundError:
-            return []
-
-    def _get_app_urls(self, app_name, app_label):
-        slug = app_name
-        return self._get_ui_urls(slug, app_label), self._get_api_urls(slug, app_label)
-
-    def __init__(self, app_label):
-        self.app_label = app_label
-        self.app_name = self._get_app_name(self.app_label)
-        print("App Label:" + self.app_label)
-        print("App Name:" + self.app_name)
-        self.ui_app_urls, self.api_app_urls = self._get_app_urls(self.app_name, self.app_label)
+            return import_module(module_path)
+        except ModuleNotFoundError as ex:
+            self._diagnostics.append(Diagnostic(
+                'info', f'FAILED_IMPORT_{submodule_name}',
+                (
+                    f'Failed to import submodule {submodule_name} at {module_path}. '
+                    f'If this module was intended to include a {submodule_name} within NetDash, '
+                    f'please examine the stack trace to diagnose the error.'
+                ), ex, traceback.format_exc()
+            ))
+            return None
