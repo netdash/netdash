@@ -30,7 +30,7 @@ def has_api_urls(module_name):
 
 def get_url(module_name):
     slug = NETDASH_MODULE_SLUGS[module_name]
-    return url(r'^' + slug + '/', include(f'{module_name}.api.urls'))
+    return url(r'^' + slug + '/', include(f'{module_name}.api.urls', namespace=f'{slug}-api'))
 
 
 module_urlpatterns = [get_url(module_name) for module_name in NETDASH_MODULE_SLUGS if has_api_urls(module_name)]
