@@ -21,7 +21,7 @@ def _can_view(user, app_label):
 def nav(context):
     as_tuples = get_module_slugs().items()
     indexes = [
-            (t[0], t[1] + ':index') for t in as_tuples
+            (t[0].replace('_', ' ').title(), t[1] + ':index') for t in as_tuples
             if has_ui_urls(t[0]) and _can_view(context['request'].user, t[0])
         ]
     nav_context = {
