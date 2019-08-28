@@ -8,4 +8,5 @@ setup(
     version='0.0.0',
     packages=find_packages(),
     description='Example NetDash module',
+    include_package_data=True,
 )
