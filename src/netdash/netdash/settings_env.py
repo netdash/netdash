@@ -72,8 +72,6 @@ INSTALLED_APPS = NETDASH_MODULES + [
     'corsheaders',
 ]
 
-# NETDASH_MODULE_OBJECTS = utils.create_netdash_modules(NETDASH_MODULES)
-
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -92,6 +90,7 @@ AUTHENTICATION_BACKENDS = (
 
 ROOT_URLCONF = 'netdash.urls'
 LOGIN_URL = os.getenv('NETDASH_LOGIN_URL', '/admin/login/')
+LOGOUT_URL = '/logout'
 AUTH_USER_MODEL = 'netdash.User'
 
 _secure_proxy_ssl_header = os.getenv('NETDASH_SECURE_PROXY_SSL_HEADER', None)

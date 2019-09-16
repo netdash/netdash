@@ -2,7 +2,9 @@ from django import template
 from django.conf import settings
 from django.contrib.auth.models import Permission
 
-NETDASH_MODULES = settings.NETDASH_MODULE_OBJECTS
+from netdash import utils
+
+NETDASH_MODULES = utils.create_netdash_modules(settings.NETDASH_MODULES)
 
 register = template.Library()
 
@@ -18,6 +20,6 @@ def _can_view(user, app_label):
 
 @register.inclusion_tag('partials/nav.html', takes_context=True)
 def nav(context):
-    indexes = [(module.app_label, module.app_name + ':index') for module in NETDASH_MODULES
-               if module.ui_app_urls and _can_view(context['request'].user, module.app_label)]
+    indexes = [(module.name, module.slug + ':index') for module in NETDASH_MODULES
+               if module.ui_url and _can_view(context['request'].user, module.name)]
     return {'slugs': indexes, 'login_url': settings.LOGIN_URL, 'user': context['request'].user}

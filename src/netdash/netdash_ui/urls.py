@@ -1,12 +1,13 @@
 from django.urls import path
+from django.conf import settings
 
 from .views import IndexView
 
-from django.conf import settings
+from netdash import utils
 
-NETDASH_MODULES = settings.NETDASH_MODULE_OBJECTS
+NETDASH_MODULES = utils.create_netdash_modules(settings.NETDASH_MODULES)
 
-module_urlpatterns = [module.ui_app_urls for module in NETDASH_MODULES]
+module_urlpatterns = [module.ui_url for module in NETDASH_MODULES if module.ui_url]
 
 urlpatterns = module_urlpatterns + [
     path('', IndexView.as_view(), name='index')
