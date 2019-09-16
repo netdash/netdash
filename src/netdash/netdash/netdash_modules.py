@@ -25,8 +25,8 @@ class NetDashModuleError(Exception):
 
 class NetDashModule:
     _app_label: str
-    _ui: ModuleType
-    _api: ModuleType
+    _ui: Optional[ModuleType]
+    _api: Optional[ModuleType]
     _app_name: str
     _diagnostics: List[Diagnostic]
 
@@ -36,26 +36,26 @@ class NetDashModule:
         self._ui = self._get_submodule(f'{app_label}.urls', 'UI')
         self._api = self._get_submodule(f'{app_label}.api.urls', 'API')
         if not (self._ui or self._api):
-            self.diagnostics += Diagnostic(
+            self.diagnostics.append(Diagnostic(
                 'error', 'FAILED_IMPORT_ALL',
                 (
                     'Failed to import UI and API submodules. '
                     'At least one of the two must be present in a NetDash module. '
                     'Check FAILED_IMPORT_API and FAILED_IMPORT_UI diagnostics for more information.'
                 ), None, None
-            )
+            ))
             raise NetDashModuleError(app_label, self.diagnostics)
         derived_app_name = self._derive_app_name(self._ui, 'UI') or self._derive_app_name(self._api, 'API')
         if not derived_app_name:
-            self.diagnostics += Diagnostic(
+            self.diagnostics.append(Diagnostic(
                 'warning', 'NO_APP_NAME_ALL',
                 (
                     f'No app_name was specified in {self.ui.__spec__.name} or {self.api.__spec__.name}. '
-                    f'It will default to the app_label, {self.app_label}. '
+                    f'It will default to the app_label, {self._app_label}. '
                     f'Check NO_APP_NAME_UI and NO_APP_NAME_API diagnostics for more information.'
                 ), None, None
-            )
-        self._app_name = derived_app_name or self.app_label
+            ))
+        self._app_name = derived_app_name or self._app_label
 
     @property
     def diagnostics(self) -> List[Diagnostic]:
@@ -74,15 +74,16 @@ class NetDashModule:
         return self._app_name
 
     @property
-    def api_url(self) -> url:
-        return self._generate_url('.api.urls')
+    def api_url(self) -> Optional[url]:
+        return None if not self._api else self._generate_url('.api.urls')
 
     @property
-    def ui_url(self) -> url:
-        return self._generate_url('.urls')
+    def ui_url(self) -> Optional[url]:
+        return None if not self._ui else self._generate_url('.urls')
 
     def _generate_url(self, subpath: str) -> url:
-        return re_path(r'^' + self.slug + '/', include(self._app_label + subpath, namespace=self.slug))
+        namespace_suffix = '-api' if 'api' in subpath else ''
+        return re_path(r'^' + self.slug + '/', include(self._app_label + subpath, namespace=self.slug + namespace_suffix))
 
     def _derive_app_name(self, submodule: ModuleType, submodule_name: str) -> Optional[str]:
         try:
@@ -91,7 +92,7 @@ class NetDashModule:
             self._diagnostics.append(Diagnostic(
                 'suggestion', f'NO_APP_NAME_{submodule_name}',
                 (
-                    f'app_name should be provided in {submodule.__spec__.name}.'
+                    f'app_name should be provided in {submodule_name}.'
                     f"It will provide the slugs for your module's routes."
                 ), e, traceback.format_exc()
             ))
