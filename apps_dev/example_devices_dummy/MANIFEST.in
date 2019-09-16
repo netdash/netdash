@@ -1,0 +1,2 @@
+recursive-include example_devices_dummy/static *
+recursive-include example_devices_dummy/templates *

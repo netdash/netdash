@@ -9,32 +9,28 @@
     </div>
   </a>
   <hr class="sidebar-divider d-none d-md-block">
-  {% if user.is_authenticated %}
+  {% if request.user.is_authenticated %}
   <div class="sidebar-heading">
-    Logged in: <em>{{ user.username }}</em>
+    Logged in: <em>{{ request.user.username }}</em>
+    <a href="{% url 'logout' %}">Log Out</a>
   </div>
   <li class="nav-item">
-    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
   </li>
   {% else %}
   <div class="sidebar-heading">
     Unauthenticated
+    <a href="{{ netdash_login_url }}">Log In</a>
   </div>
-  <li class="nav-item">
-    <a class="nav-link" href="{{ login_url }}">Log In</a>
-  </li>
   {% endif %}
   <hr class="sidebar-divider d-none d-md-block">
-  <div class="sidebar-heading">
-    Modules
-  </div>
-  {% for module_name, slug in slugs %}
+  {% for module_name, slug in netdash_slugs %}
     <li class="nav-item">
       <a class="nav-link" href="{% url slug %}">
         {{ module_name }}
       </a>
     </li>
   {% endfor %}
+  {% if request.user.is_staff %}
   <hr class="sidebar-divider d-none d-md-block">
   <div class="sidebar-heading">
     API
@@ -45,12 +41,9 @@
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{% url 'schema' %}">
-      Schema
+    <a class="nav-link" href="{% url 'redoc' %}">
+      ReDoc
     </a>
   </li>
-  <hr class="sidebar-divider d-none d-md-block">
-  <div class="text-center d-none d-md-inline">
-    <button class="rounded-circle border-0" id="sidebarToggle"></button>
-  </div>
+  {% endif %}
 </ul>

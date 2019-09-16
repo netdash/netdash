@@ -1,0 +1,32 @@
+{% extends "hostlookup/index.html" %}
+
+{% block results %}
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>MAC Address</th>
+        <th>IPv4</th>
+        <th>IPv6</th>
+        <th>Last Seen</th>
+        <th>Switch IPv4</th>
+        <th>Switch IPv6</th>
+        <th>Host Port Name</th>
+        <th>Switch Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in results %}
+        <tr>
+          <td>{{ r.mac }}</td>
+          <td>{{ r.ipv4 }}</td>
+          <td>{{ r.ipv6 }}</td>
+          <td>{{ r.last_seen }}</td>
+          <td>{{ r.switch_ipv4 }}</td>
+          <td>{{ r.switch_ipv6 }}</td>
+          <td>{{ r.host_port_name }}</td>
+          <td>{{ r.switch_location }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

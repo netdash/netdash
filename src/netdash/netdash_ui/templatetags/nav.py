@@ -20,6 +20,13 @@ def _can_view(user, app_label):
 
 @register.inclusion_tag('partials/nav.html', takes_context=True)
 def nav(context):
-    indexes = [(module.name, module.slug + ':index') for module in NETDASH_MODULES
-               if module.ui_url and _can_view(context['request'].user, module.name)]
-    return {'slugs': indexes, 'login_url': settings.LOGIN_URL, 'user': context['request'].user}
+    indexes = [
+            (module.friendly_name, module.slug + ':index') for module in NETDASH_MODULES
+            if module.ui_url and _can_view(context['request'].user, module.name)
+        ]
+    nav_context = {
+        'netdash_slugs': indexes,
+        'netdash_login_url': settings.LOGIN_URL,
+    }
+    context.update(nav_context)
+    return context
