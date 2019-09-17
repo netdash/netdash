@@ -45,7 +45,10 @@ class NetDashModule:
                 ), None, None
             ))
             raise NetDashModuleError(app_label, self.diagnostics)
-        derived_app_name = self._derive_app_name(self._ui, 'UI') or self._derive_app_name(self._api, 'API')
+        derived_app_name = (
+            (self._derive_app_name(self._ui, 'UI') if self._ui else None)
+            or (self._derive_app_name(self._api, 'API') if self._api else None)
+        )
         if not derived_app_name:
             self.diagnostics.append(Diagnostic(
                 'warning', 'NO_APP_NAME_ALL',
@@ -92,7 +95,7 @@ class NetDashModule:
             self._diagnostics.append(Diagnostic(
                 'suggestion', f'NO_APP_NAME_{submodule_name}',
                 (
-                    f'app_name should be provided in {submodule_name}.'
+                    f'app_name should be provided in {submodule_name}. '
                     f"It will provide the slugs for your module's routes."
                 ), e, traceback.format_exc()
             ))
