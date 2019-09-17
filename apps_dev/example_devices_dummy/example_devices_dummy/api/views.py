@@ -13,7 +13,7 @@ DATA = [
 def get_full(pk, request):
     return {
         'hostname': DATA[pk],
-        'url': reverse('device-detail', args=[pk + 1], request=request),
+        'url': reverse('devices-api:device-detail', args=[pk + 1], request=request),
     }
 
 

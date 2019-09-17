@@ -1,13 +1,13 @@
-from importlib import import_module
-
 from django.urls import path, re_path
-from django.conf.urls import include, url
+from django.conf import settings
 
 from rest_framework.schemas import get_schema_view
 from drf_yasg.views import get_schema_view as get_yasg_view
 from drf_yasg import openapi
 
-from netdash.utils import get_module_slugs
+from netdash import utils
+
+NETDASH_MODULES = utils.create_netdash_modules(settings.NETDASH_MODULES)
 
 yasg_view = get_yasg_view(
     openapi.Info(
@@ -17,23 +17,7 @@ yasg_view = get_yasg_view(
 )
 schema_view = get_schema_view(title='NetDash API')
 
-NETDASH_MODULE_SLUGS = get_module_slugs()
-
-
-def has_api_urls(module_name):
-    try:
-        import_module(f'{module_name}.api.urls')
-        return True
-    except ModuleNotFoundError:
-        return False
-
-
-def get_url(module_name):
-    slug = NETDASH_MODULE_SLUGS[module_name]
-    return url(r'^' + slug + '/', include(f'{module_name}.api.urls', namespace=f'{slug}-api'))
-
-
-module_urlpatterns = [get_url(module_name) for module_name in NETDASH_MODULE_SLUGS if has_api_urls(module_name)]
+module_urlpatterns = [module.api_url for module in NETDASH_MODULES if module.api_url]
 
 urlpatterns = module_urlpatterns + [
     re_path(r'^schema(?P<format>\.json|\.yaml)$', yasg_view.without_ui(cache_timeout=0), name='schema-json'),
