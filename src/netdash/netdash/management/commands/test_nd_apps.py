@@ -2,7 +2,7 @@ from django.core.management.commands import test
 
 
 class Command(test.Command):
-    help = 'Discover and run tests in the specifiied modules or in the apps_dev directory'
+    help = 'Discover and run tests in the specified modules or in the apps_dev directory'
 
     def run_from_argv(self, argv):
         super(Command, self).run_from_argv(argv)

@@ -57,6 +57,10 @@ db.sqlite3
 # Environments
 /venv/
 
+# Swap Files
+*.swp
+*.swo
+
 /apps_dev/*
 !/apps_dev/example_*
 
