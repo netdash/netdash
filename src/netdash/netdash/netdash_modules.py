@@ -86,7 +86,8 @@ class NetDashModule:
 
     def _generate_url(self, subpath: str) -> url:
         namespace_suffix = '-api' if 'api' in subpath else ''
-        return re_path(r'^' + self.slug + '/', include(self._app_label + subpath, namespace=self.slug + namespace_suffix))
+        return re_path(r'^' + self.slug + '/',
+                       include(self._app_label + subpath, namespace=self.slug + namespace_suffix))
 
     def _derive_app_name(self, submodule: ModuleType, submodule_name: str) -> Optional[str]:
         try:
