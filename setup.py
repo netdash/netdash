@@ -26,5 +26,6 @@ setup(
         'netaddr',
         'drf-yasg',
         'packaging',
+        'django-netfields',
     ],
 )
