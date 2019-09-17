@@ -15,8 +15,6 @@ import json
 
 import dj_database_url
 
-from netdash import utils
-
 
 def csv_to_list(csv, delim=','):
     try:
