@@ -11,7 +11,7 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE-netdash.settings}
     ports:
-      - 8888:8000
+      - 127.0.0.1:8888:8000
     volumes:
       - .:/usr/src/app
     entrypoint: ../../docker-entrypoint-dev.sh
@@ -41,7 +41,7 @@ services:
       - SUPERUSER_PASSWORD=admin
       - SUPERUSER_API_TOKEN=0123456789abcdef0123456789abcdef01234567
     ports:
-      - 8000:8000
+      - 127.0.0.1:8000:8000
 
   netbox-database:
     image: postgres:10.4-alpine
