@@ -10,5 +10,5 @@ NETDASH_MODULES = utils.create_netdash_modules(settings.NETDASH_MODULES)
 module_urlpatterns = [module.ui_url for module in NETDASH_MODULES if module.ui_url]
 
 urlpatterns = module_urlpatterns + [
-    path('', IndexView.as_view(), name='index')
+    path('', IndexView.as_view(), name='home')
 ]

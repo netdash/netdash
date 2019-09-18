@@ -60,6 +60,9 @@ class NetDashModule:
             ))
         self._app_name = derived_app_name or self._app_label
 
+    def __repr__(self) -> str:
+        return f'{self.friendly_name} ({self.slug})'
+
     @property
     def diagnostics(self) -> List[Diagnostic]:
         return self._diagnostics
@@ -83,6 +86,10 @@ class NetDashModule:
     @property
     def ui_url(self) -> Optional[url]:
         return None if not self._ui else self._generate_url('.urls')
+
+    @property
+    def ui_url_name(self) -> str:
+        return self.slug + ':index'
 
     def _generate_url(self, subpath: str) -> url:
         namespace_suffix = '-api' if 'api' in subpath else ''
