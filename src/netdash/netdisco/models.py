@@ -292,7 +292,6 @@ class Hadr(models.Model):
 
 
 class Log(models.Model):
-    id = models.AutoField()
     creation = models.DateTimeField(blank=True, null=True)
     class_field = models.TextField(db_column='class', blank=True, null=True)  # Field renamed because it was a Python reserved word.
     entry = models.TextField(blank=True, null=True)
@@ -478,7 +477,7 @@ class Topology(models.Model):
 
 
 class UserLog(models.Model):
-    entry = models.AutoField()
+    entry = models.AutoField(primary_key=True)
     username = models.CharField(max_length=50, blank=True, null=True)
     userip = models.GenericIPAddressField(blank=True, null=True)
     event = models.TextField(blank=True, null=True)
