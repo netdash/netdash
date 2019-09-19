@@ -25,6 +25,17 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'home' %}">Home</a>
         </li>
+        {% if request.user.is_staff %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">API</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown01">
+            <a class="dropdown-item" href="{% url 'swagger' %}">Swagger</a>
+            <a class="dropdown-item" href="{% url 'redoc' %}">
+              ReDoc
+            </a>
+          </div>
+        </li>
+        {% endif %}
       </ul>
       <div class="my-2 my-lg-0">
         {% if request.user.is_authenticated %}
