@@ -32,7 +32,8 @@
           <em class="text-white">{{ request.user.username }}</em>
           <a href="{% url 'logout' %}" class="text-light small">logout</a>
           {% else %}
-          <a href="{{ netdash_login_url }}" class="text-light small">login</a>
+          <!-- TODO replace with properly derived login url -->  
+          <a href="/admin/login?next={{ request.get_full_path }}" class="text-light small">login</a>
           {% endif %}
       </div>
     </div>
