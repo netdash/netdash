@@ -29,12 +29,12 @@
       </ul>
       <div class="my-2 my-lg-0">
         {% if request.user.is_authenticated %}
-          <em class="text-white">{{ request.user.username }}</em>
-          <a href="{% url 'logout' %}" class="text-light small">logout</a>
-          {% else %}
-          <!-- TODO replace with properly derived login url -->  
-          <a href="/admin/login?next={{ request.get_full_path }}" class="text-light small">login</a>
-          {% endif %}
+        <em class="text-white">{{ request.user.username }}</em>
+        <a href="{% url 'logout' %}" class="text-light small">logout</a>
+        {% else %}
+        <!-- TODO replace with properly derived login url -->
+        <a href="/admin/login?next={{ request.get_full_path }}" class="text-light small">login</a>
+        {% endif %}
       </div>
     </div>
   </nav>
