@@ -1,5 +1,4 @@
 {% load static %}
-{% load nav %}
 <!doctype html>
 <html lang="en">
 
@@ -9,29 +8,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" type="image/png" href="{% static 'images/netdash-icon.png' %}"/>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link href="{% static 'css/sidebar.css' %}" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}" />
   <title>NetDash {% block title %}{% endblock %}</title>
   {% endblock %}
 </head>
 
 <body>
-  <div id="wrapper">
-    {% nav %}
-    <div id="content-wrapper" class="d-flex flex-column">
-      <div class="content">
-        <div class="row justify-content-center">
-          <div class="col-11">
-            {% block content %}{% endblock %}
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/netdash-logo-small.png' %}" height="20" /></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
+        {% if request.user.is_staff %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">API</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown01">
+            <a class="dropdown-item" href="{% url 'swagger' %}">Swagger</a>
+            <a class="dropdown-item" href="{% url 'redoc' %}">
+              ReDoc
+            </a>
           </div>
-        </div>
+        </li>
+        {% endif %}
+      </ul>
+      <div class="my-2 my-lg-0">
+        {% if request.user.is_authenticated %}
+        <em class="text-white">{{ request.user.username }}</em>
+        <a href="{% url 'logout' %}" class="text-light small">logout</a>
+        {% else %}
+        <!-- TODO replace with properly derived login url -->
+        <a href="/admin/login?next={{ request.get_full_path }}" class="text-light small">login</a>
+        {% endif %}
       </div>
     </div>
-  </div>
+  </nav>
+
+  <main role="main" class="container">
+
+    <div class="starter-template">
+      {% block content %}
+      {% endblock %}
+    </div>
+
+  </main><!-- /.container -->
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <script src="{% static 'js/sidebar.js' %}"></script>
   {% block scripts %}{% endblock %}
 </body>
 

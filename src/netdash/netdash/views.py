@@ -7,4 +7,4 @@ from django.urls import reverse
 @login_required
 def logout(request):
     auth_logout(request)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('home'))
