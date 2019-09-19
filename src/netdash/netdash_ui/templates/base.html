@@ -23,6 +23,9 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
       </ul>
       <div class="my-2 my-lg-0">
         {% if request.user.is_authenticated %}
