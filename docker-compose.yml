@@ -7,7 +7,6 @@ services:
     build: .
     depends_on:
       - database
-      - netbox
     environment:
       - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE-netdash.settings}
     ports:
