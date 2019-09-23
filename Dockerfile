@@ -23,6 +23,7 @@ RUN pipenv install --system --deploy
 
 WORKDIR /usr/src/app/src/netdash
 
+# Work around for permission issue on OpenShift
 RUN chmod -R g+rw /usr/src/app
 
 ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
