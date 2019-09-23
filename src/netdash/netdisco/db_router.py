@@ -10,7 +10,7 @@ class DbRouter:
         return None
 
     def db_for_write(self, model, **hints):
-        if model._meta_app_label == 'netdisco':
+        if model._meta.app_label == 'netdisco':
             return 'netdisco'
         return None
 
