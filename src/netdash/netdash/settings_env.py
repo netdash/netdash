@@ -62,7 +62,6 @@ locals().update({k[len(_prefix):]: v for k, v in os.environ.items() if k[:len(_p
 # Application definition
 
 INSTALLED_APPS = NETDASH_MODULES + [
-    'netdisco',
     'hostlookup_abstract',
     'netdash_api',
     'netdash_ui',
