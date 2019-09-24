@@ -1,5 +1,5 @@
 from typing import Iterable, List, Dict
-from ipaddress import IPv4Network, IPv6Network, ip_network
+from ipaddress import IPv4Address, IPv6Address, IPv4Network, IPv6Network, ip_address, ip_network
 
 from django.db import connections
 
@@ -36,15 +36,16 @@ ORDER BY 1, 4
 
 
 def dict_to_hostlookupresult(d: Dict) -> HostLookupResult:
-    ip = ip_network(d['ip'])
+    ip = ip_address(d['ip'])
+    switch_ip = ip_address(d['switch'])
     return HostLookupResult(
         EUI(d['mac']),
-        ip if isinstance(ip, IPv4Network) else None,
-        ip if isinstance(ip, IPv6Network) else None,
+        ip if isinstance(ip, IPv4Address) else None,
+        ip if isinstance(ip, IPv6Address) else None,
         d['time_last'],
         d['name'],
-        d['switch'],
-        d['port'],
+        switch_ip if isinstance(switch_ip, IPv4Address) else None,
+        switch_ip if isinstance(switch_ip, IPv6Address) else None,
         d['location'],
     )
 
