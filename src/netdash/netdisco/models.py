@@ -103,7 +103,8 @@ class DeviceModule(models.Model):
     type = models.TextField(blank=True, null=True)
     parent = models.IntegerField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
-    class_field = models.TextField(db_column='class', blank=True, null=True)  # Field renamed because it was a Python reserved word.
+    # Field renamed because it was a Python reserved word.
+    class_field = models.TextField(db_column='class', blank=True, null=True)
     pos = models.IntegerField(blank=True, null=True)
     hw_ver = models.TextField(blank=True, null=True)
     fw_ver = models.TextField(blank=True, null=True)
@@ -175,7 +176,8 @@ class DevicePortPower(models.Model):
     module = models.IntegerField(blank=True, null=True)
     admin = models.TextField(blank=True, null=True)
     status = models.TextField(blank=True, null=True)
-    class_field = models.TextField(db_column='class', blank=True, null=True)  # Field renamed because it was a Python reserved word.
+    # Field renamed because it was a Python reserved word.
+    class_field = models.TextField(db_column='class', blank=True, null=True)
     power = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -293,7 +295,8 @@ class Hadr(models.Model):
 
 class Log(models.Model):
     creation = models.DateTimeField(blank=True, null=True)
-    class_field = models.TextField(db_column='class', blank=True, null=True)  # Field renamed because it was a Python reserved word.
+    # Field renamed because it was a Python reserved word.
+    class_field = models.TextField(db_column='class', blank=True, null=True)
     entry = models.TextField(blank=True, null=True)
     logfile = models.TextField(blank=True, null=True)
 
