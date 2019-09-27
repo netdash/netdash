@@ -5,7 +5,7 @@ from rest_framework.schemas import get_schema_view
 from drf_yasg.views import get_schema_view as get_yasg_view
 from drf_yasg import openapi
 
-from netdash import utils
+from netdash import utils, views
 
 NETDASH_MODULES = utils.create_netdash_modules(settings.NETDASH_MODULES)
 
@@ -24,4 +24,5 @@ urlpatterns = module_urlpatterns + [
     path('swagger', yasg_view.with_ui('swagger', cache_timeout=0), name='swagger'),
     path('redoc', yasg_view.with_ui('redoc', cache_timeout=0), name='redoc'),
     path('', schema_view, name='schema'),
+    path('account/login', views.login)
 ]
