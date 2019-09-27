@@ -8,6 +8,7 @@ from django.urls import reverse
 def login(request):
     return HttpResponseRedirect(settings.LOGIN_URL + '?next=' + request.GET.get('next', '/'))
 
+
 @login_required
 def logout(request):
     auth_logout(request)
