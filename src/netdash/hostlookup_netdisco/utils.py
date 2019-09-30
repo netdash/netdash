@@ -10,28 +10,28 @@ from hostlookup_abstract.utils import HostLookupResult
 
 SQL = """
 SELECT nip.ip
-    ,n.mac
-    ,nip.time_first
     ,nip.time_last
+    ,n.mac
     ,n.switch
-    ,dp.name
     ,d.location
-    ,dp.port
-FROM node n
-    ,node_ip nip
-    ,device_port dp
+    ,dp.name
+FROM node_ip nip
+    ,node n
     ,device d
-WHERE nip.mac = n.mac
+    ,device_port dp
+WHERE nip.ip <<= %s
+    AND n.mac = nip.mac
     AND n.time_last = (
         SELECT max(time_last)
         FROM node
         WHERE active = 'true'
             AND mac = nip.mac
     )
-    AND n.switch = dp.ip
     AND n.switch = d.ip
-    AND nip.ip <<= %s
-ORDER BY 1, 4
+    AND n.switch = dp.ip
+    AND REGEXP_REPLACE(n.port, '\\.0$', '') = dp.port
+ORDER BY nip.ip
+    ,nip.time_last
 """
 
 
