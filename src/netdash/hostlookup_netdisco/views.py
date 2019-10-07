@@ -6,7 +6,7 @@ from .utils import host_lookup
 
 
 @method_decorator(
-    permission_required("example_hostlookup_dummy.can_view_module", raise_exception=True),
+    permission_required("hostlookup_netdisco.can_view_module", raise_exception=True),
     name='dispatch'
 )
 class HostLookupView(BaseHostLookupView):
