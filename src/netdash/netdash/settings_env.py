@@ -128,12 +128,14 @@ REST_FRAMEWORK = {
 WSGI_APPLICATION = 'netdash.wsgi.application'
 
 
+DATABASE_ROUTERS = csv_to_list(os.getenv('DATABASE_ROUTERS', ''))
+
+
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(default='sqlite:///db.sqlite3')
-}
+_databases_raw = json.loads(os.getenv('DATABASES', '{"default": "sqlite:///db.sqlite3"}'))
+DATABASES = {k: dj_database_url.parse(v) for (k, v) in _databases_raw.items()}
 
 
 # Password validation
