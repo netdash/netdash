@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import permission_required
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import viewsets
@@ -17,6 +19,10 @@ def get_full(pk, request):
     }
 
 
+@method_decorator(
+    permission_required('example_devices_dummy.can_view_module', raise_exception=True,),
+    name='dispatch'
+)
 class DeviceViewSet(viewsets.ViewSet):
     '''
     An interface to work with dummy devices
