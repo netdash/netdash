@@ -1,10 +1,8 @@
-import requests
-
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.views.generic import TemplateView
 
-from example_devices_netbox_api.utils import get_device, get_devices
+from example_devices_netbox_api.utils import get_devices
 
 
 class DeviceList(TemplateView):

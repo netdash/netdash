@@ -41,6 +41,3 @@ class DeviceViewSet(viewsets.ViewSet):
                 'url': reverse(
                     'devices-api:device-detail', args=[device['id']], request=request),
             })
-
-
-

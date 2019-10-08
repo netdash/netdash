@@ -16,4 +16,3 @@ class DeviceViewSet(viewsets.ModelViewSet):
     """
     serializer_class = SnmpDeviceSerializer
     queryset = SnmpDevice.objects.all()
-
