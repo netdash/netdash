@@ -44,11 +44,17 @@ class NetDashModule:
     _app_name: str
     _diagnostics: List[Diagnostic]
 
-    def __init__(self, app_label: str):
+    def __init__(self, app_label_or_appconfig_path: str):
         self._diagnostics = []
-        self._app_config = apps.get_app_config(app_label)
-        self._ui = self._get_submodule(f'{app_label}.urls', 'UI')
-        self._api = self._get_submodule(f'{app_label}.api.urls', 'API')
+        self._app_config = next(
+            a for a in apps.get_app_configs()
+            if (
+                (a.__module__ + '.' + type(a).__name__) == app_label_or_appconfig_path
+                or a.label == app_label_or_appconfig_path
+            )
+        )
+        self._ui = self._get_submodule(f'{self.label}.urls', 'UI')
+        self._api = self._get_submodule(f'{self.label}.api.urls', 'API')
         if not (self._ui or self._api):
             self.diagnostics.append(Diagnostic(
                 'error', 'FAILED_IMPORT_ALL',
@@ -58,7 +64,7 @@ class NetDashModule:
                     'Check FAILED_IMPORT_API and FAILED_IMPORT_UI diagnostics for more information.'
                 ), None, None
             ))
-            raise NetDashModuleError(app_label, self.diagnostics)
+            raise NetDashModuleError(self.label, self.diagnostics)
         derived_app_name = (
             (self._derive_app_name(self._ui, 'UI') if self._ui else None)
             or (self._derive_app_name(self._api, 'API') if self._api else None)
@@ -68,11 +74,11 @@ class NetDashModule:
                 'warning', 'NO_APP_NAME_ALL',
                 (
                     f'No app_name was specified in {self._ui.__spec__.name} or {self._api.__spec__.name}. '
-                    f'It will default to the app_label, {app_label}. '
+                    f'It will default to the app_label, {self.label}. '
                     f'Check NO_APP_NAME_UI and NO_APP_NAME_API diagnostics for more information.'
                 ), None, None
             ))
-        self._app_name = derived_app_name or app_label
+        self._app_name = derived_app_name or self.label
 
     def __repr__(self) -> str:
         return f'{self.friendly_name} ({self.slug})'
