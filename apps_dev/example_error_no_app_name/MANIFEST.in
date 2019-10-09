@@ -1,2 +1,2 @@
-recursive-include example_devices_dummy/static *
-recursive-include example_devices_dummy/templates *
+recursive-include example_error_no_app_name/static *
+recursive-include example_error_no_app_name/templates *
