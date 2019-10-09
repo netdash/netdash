@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
 
-class NetdashDeviceSnmpConfig(AppConfig):
-    name = 'netdash_device_snmp'
+class NetDashModuleConfig(AppConfig):
+    name = 'example_devices_snmp'
+    verbose_name = 'Network Devices (SNMP)'
