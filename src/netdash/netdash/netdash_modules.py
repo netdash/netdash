@@ -17,7 +17,6 @@ class Diagnostic:
     traceback: Optional[str]
 
     def __str__(self):
-        print('in diagnostic str')
         return (
             self.message + ('\n' + str(self.traceback) if self.traceback else '')
         )
@@ -30,7 +29,6 @@ class NetDashModuleError(Exception):
         self.message = str(diagnostics)
 
     def __str__(self):
-        print('in str func')
         return (
             'Encountered an unrecoverable error when loading app ' + self.app_label + ' as a NetDash module.\n\n'
             + '\n'.join([str(d) for d in self.diagnostics])
