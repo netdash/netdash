@@ -30,7 +30,8 @@ class NetDashModuleError(Exception):
 
     def __str__(self):
         return (
-            'Encountered an unrecoverable error when loading app ' + self.app_label + ' as a NetDash module.\n\n'
+            'Encountered an unrecoverable error when loading app ' + self.app_label + ' as a NetDash module.\n'
+            + self.app_label + ' generated the following diagnostics (most recent diagnostic last):\n'
             + '\n'.join([str(d) for d in self.diagnostics])
         )
 
@@ -65,7 +66,7 @@ class NetDashModule:
             self.diagnostics.append(Diagnostic(
                 'warning', 'NO_APP_NAME_ALL',
                 (
-                    f'No app_name was specified in {self.ui.__spec__.name} or {self.api.__spec__.name}. '
+                    f'No app_name was specified in {self._ui.__spec__.name} or {self._api.__spec__.name}. '
                     f'It will default to the app_label, {self._app_label}. '
                     f'Check NO_APP_NAME_UI and NO_APP_NAME_API diagnostics for more information.'
                 ), None, None
@@ -105,17 +106,22 @@ class NetDashModule:
 
     def _generate_url(self, subpath: str) -> url:
         namespace_suffix = '-api' if 'api' in subpath else ''
-        return re_path(r'^' + self.slug + '/',
-                       include(self._app_label + subpath, namespace=self.slug + namespace_suffix))
+        return re_path(
+            r'^' + self.slug + '/',
+            include(
+                (self._app_label + subpath, self._app_name),
+                namespace=self.slug + namespace_suffix
+            )
+        )
 
     def _derive_app_name(self, submodule: ModuleType, submodule_name: str) -> Optional[str]:
         try:
-            raw = submodule.app_name
+            raw = getattr(submodule, 'app_name')
         except AttributeError as e:
             self._diagnostics.append(Diagnostic(
                 'suggestion', f'NO_APP_NAME_{submodule_name}',
                 (
-                    f'app_name should be provided in {submodule_name}. '
+                    f'app_name should be provided in {submodule.__spec__.name}. '
                     f"It will provide the slugs for your module's routes."
                 ), e, traceback.format_exc()
             ))
