@@ -5,6 +5,7 @@ from types import ModuleType
 import traceback
 
 from django.conf.urls import url, include, re_path
+from django.apps import apps, AppConfig
 
 
 @dataclass
@@ -31,13 +32,13 @@ class NetDashModuleError(Exception):
     def __str__(self):
         return (
             'Encountered an unrecoverable error when loading app ' + self.app_label + ' as a NetDash module.\n'
-            + self.app_label + ' generated the following diagnostics (most recent diagnostic last):\n'
+            + self.app_label + ' generated the following diagnostics (most recent diagnostic last):\n\n'
             + '\n'.join([str(d) for d in self.diagnostics])
         )
 
 
 class NetDashModule:
-    _app_label: str
+    _app_config: AppConfig
     _ui: Optional[ModuleType]
     _api: Optional[ModuleType]
     _app_name: str
@@ -45,7 +46,7 @@ class NetDashModule:
 
     def __init__(self, app_label: str):
         self._diagnostics = []
-        self._app_label = app_label
+        self._app_config = apps.get_app_config(app_label)
         self._ui = self._get_submodule(f'{app_label}.urls', 'UI')
         self._api = self._get_submodule(f'{app_label}.api.urls', 'API')
         if not (self._ui or self._api):
@@ -67,11 +68,11 @@ class NetDashModule:
                 'warning', 'NO_APP_NAME_ALL',
                 (
                     f'No app_name was specified in {self._ui.__spec__.name} or {self._api.__spec__.name}. '
-                    f'It will default to the app_label, {self._app_label}. '
+                    f'It will default to the app_label, {app_label}. '
                     f'Check NO_APP_NAME_UI and NO_APP_NAME_API diagnostics for more information.'
                 ), None, None
             ))
-        self._app_name = derived_app_name or self._app_label
+        self._app_name = derived_app_name or app_label
 
     def __repr__(self) -> str:
         return f'{self.friendly_name} ({self.slug})'
@@ -81,12 +82,16 @@ class NetDashModule:
         return self._diagnostics
 
     @property
+    def label(self) -> str:
+        return self._app_config.label
+
+    @property
     def name(self) -> str:
-        return self._app_label
+        return self._app_config.name
 
     @property
     def friendly_name(self) -> str:
-        return self._app_label.replace('_', ' ').title()
+        return self._app_config.verbose_name.replace('_', ' ')
 
     @property
     def slug(self) -> str:
@@ -109,7 +114,7 @@ class NetDashModule:
         return re_path(
             r'^' + self.slug + '/',
             include(
-                (self._app_label + subpath, self._app_name),
+                (self.label + subpath, self._app_name),
                 namespace=self.slug + namespace_suffix
             )
         )
