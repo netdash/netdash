@@ -53,7 +53,13 @@ The `netdash.settings_example_compose` module configures the NetDash instance is
 11. Connect to the development server interface: <http://127.0.0.1:8000/>
 
 
-# NetDash Module Conventions
+# NetDash Modules
+
+A *NetDash Module* is a Django App that follows certain conventions and thereby integrates automatically with NetDash without any additional code changes. These integrations include UI link generation, Swagger API inclusion, routing and permissions.
+
+NetDash Modules can be enabled by adding them to a comma-separated list in `settings.NETDASH_MODULES`. They can be specified as Django app labels or as paths to an AppConfig in [the same way that `settings.INSTALLED_APPS` is configured](https://docs.djangoproject.com/en/2.2/ref/applications/#for-application-users).
+
+## Conventions
 
 * A module with `urls.py` should declare an `app_name`.
 * A module with `urls.py` will have its URLs placed under `/<app_name>/*`.
@@ -62,4 +68,16 @@ The `netdash.settings_example_compose` module configures the NetDash instance is
 * A module with `api/urls.py` should declare an `app_name`. If the module also has a `urls.py`, it should reuse the previous `app_name` like so: `<app_name>-api`
 * A module with `api/urls.py` will have its API URLs placed under `/api/<app_name>/*`.
 
-Check under `apps_dev` for examples of the afforementioned conventions.
+Check under `apps_dev` for examples of these conventions.
+
+## Troubleshooting
+
+If a NetDash Module doesn't properly follow conventions, certain integrations might not work. NetDash includes a `diagnose` command to output information about your NetDash Modules that may assist in refactoring them for inclusion in NetDash.
+
+```
+python src/netdash/manage.py diagnose -v2
+```
+
+Will output diagnostics for all NetDash Modules, including any exception traces (`-v2` flag).
+
+If an unrecoverable error is encountered while parsing NetDash Modules, all diagnostics up until the error will be displayed.
