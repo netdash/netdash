@@ -34,9 +34,9 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = []
 
 NETDASH_MODULES = [
-    # 'example_devices_netbox_api',
+    'example_devices_dummy',
+    'example_hostlookup_dummy',
 ]
-NETDASH_MODULE_OBJECTS = utils.create_netdash_modules(NETDASH_MODULES)
 
 # Application definition
 
