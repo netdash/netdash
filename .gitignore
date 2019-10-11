@@ -1,4 +1,3 @@
-/.env
 /src/netdash/netdash/settings.py
 
 /.vscode
@@ -60,8 +59,5 @@ db.sqlite3
 # Swap Files
 *.swp
 *.swo
-
-/apps_dev/*
-!/apps_dev/example_*
 
 /src/netdash/staticfiles/
