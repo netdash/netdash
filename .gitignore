@@ -1,3 +1,4 @@
+/.env
 /src/netdash/netdash/settings.py
 
 /.vscode
