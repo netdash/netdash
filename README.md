@@ -8,14 +8,33 @@ The NetDash project's goal is to create an interface to allow delegation of spec
 2. Change to the new directory: `cd netdash`
 3. Copy the example settings to use them: `cp src/netdash/netdash/settings_example.py src/netdash/netdash/settings.py`
 4. Install dependencies: `pipenv install` (if you are missing pipenv, use `brew install pipenv` or `pip install --user pipenv`)
-5. Run migrations: `pipenv run python src/netdash/manage.py migrate`
-6. Run the development server: `pipenv run python src/netdash/manage.py runserver`
+5. Activate virtual environment to use the correct Python and installed pip packages in an isolated setting: `pipenv shell`
+5. Run migrations: `python src/netdash/manage.py migrate`
+6. Run the development server: `python src/netdash/manage.py runserver`
 
 # NetDash Modules
 
 A *NetDash Module* is a Django App that follows certain conventions and thereby integrates automatically with NetDash without any additional code changes. These integrations include UI link generation, Swagger API inclusion, routing and permissions.
 
 NetDash Modules can be enabled by adding them to a comma-separated list in `settings.NETDASH_MODULES`. They can be specified as Django app labels or as paths to an AppConfig in [the same way that `settings.INSTALLED_APPS` is configured](https://docs.djangoproject.com/en/2.2/ref/applications/#for-application-users).
+
+Example (`settings.py`):
+```
+NETDASH_MODULES = [
+    'example_devices_dummy',
+    'hostlookup_netdisco',
+    'my_custom_nd_module',
+]
+```
+
+## Creating a NetDash Module
+
+1. Change directory to NetDash apps: `cd src/netdash`
+2. Create a new NetDash Module, substituting `my_custom_nd_module` for your module's name: `python manage.py startapp --template ../../netdash_module_template my_custom_nd_module`
+3. Run its initial migration: `python manage.py migrate`
+4. Exclude your app from NetDash's source control, substituting `my_custom_nd_module` for your module's name: `echo src/netdash/my_custom_nd_module >> ../../.git/info/exclude`
+5. Navigate into your app's directory and initialize a new git repo: `cd my_custom_nd_module; git init`
+6. To try your new module, add your module's name to `NETDASH_MODULES` as shown in the previous section and run the development server.
 
 ## Conventions
 
