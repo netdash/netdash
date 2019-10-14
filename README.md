@@ -6,11 +6,11 @@ The NetDash project's goal is to create an interface to allow delegation of spec
 
 1. Clone this repository.
 2. Change to the new directory: `cd netdash`
-3. Copy the example settings to use them: `cp src/netdash/netdash/settings_example.py src/netdash/netdash/settings.py`
+3. Copy the example settings to use them: `cp netdash/netdash/settings_example.py netdash/netdash/settings.py`
 4. Install dependencies: `pipenv install` (if you are missing pipenv, use `brew install pipenv` or `pip install --user pipenv`)
 5. Activate virtual environment to use the correct Python and installed pip packages in an isolated setting: `pipenv shell`
-5. Run migrations: `python src/netdash/manage.py migrate`
-6. Run the development server: `python src/netdash/manage.py runserver`
+5. Run migrations: `python netdash/manage.py migrate`
+6. Run the development server: `python netdash/manage.py runserver`
 
 # NetDash Modules
 
@@ -29,10 +29,10 @@ NETDASH_MODULES = [
 
 ## Creating a NetDash Module
 
-1. Change directory to NetDash apps: `cd src/netdash`
+1. Change directory to NetDash apps: `cd netdash`
 2. Create a new NetDash Module, substituting `my_custom_nd_module` for your module's name: `python manage.py startapp --template ../../netdash_module_template my_custom_nd_module`
 3. Run its initial migration: `python manage.py migrate`
-4. Exclude your app from NetDash's source control, substituting `my_custom_nd_module` for your module's name: `echo src/netdash/my_custom_nd_module >> ../../.git/info/exclude`
+4. Exclude your app from NetDash's source control, substituting `my_custom_nd_module` for your module's name: `echo netdash/my_custom_nd_module >> ../../.git/info/exclude`
 5. Navigate into your app's directory and initialize a new git repo: `cd my_custom_nd_module; git init`
 6. To try your new module, add your module's name to `NETDASH_MODULES` as shown in the previous section and run the development server.
 
@@ -45,14 +45,14 @@ NETDASH_MODULES = [
 * A module with `api/urls.py` should declare an `app_name`. If the module also has a `urls.py`, it should reuse the previous `app_name` like so: `<app_name>-api`
 * A module with `api/urls.py` will have its API URLs placed under `/api/<app_name>/*`.
 
-Check under `apps_dev` for examples of these conventions.
+Check the apps prefixed with `example_` for examples of these conventions.
 
 ## Troubleshooting
 
 If a NetDash Module doesn't properly follow conventions, certain integrations might not work. NetDash includes a `diagnose` command to output information about your NetDash Modules that may assist in refactoring them for inclusion in NetDash.
 
 ```
-python src/netdash/manage.py diagnose -v2
+python netdash/manage.py diagnose -v2
 ```
 
 Will output diagnostics for all NetDash Modules, including any exception traces (`-v2` flag).

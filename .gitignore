@@ -1,5 +1,5 @@
 /.env
-/src/netdash/netdash/settings.py
+/netdash/netdash/settings.py
 
 /.vscode
 
@@ -61,4 +61,4 @@ db.sqlite3
 *.swp
 *.swo
 
-/src/netdash/staticfiles/
+/netdash/staticfiles/

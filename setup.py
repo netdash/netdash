@@ -2,7 +2,7 @@ from os.path import dirname, join
 from setuptools import setup, find_packages
 
 
-with open(join(dirname(__file__), 'src', 'netdash', 'VERSION')) \
+with open(join(dirname(__file__), 'netdash', 'VERSION')) \
         as version_file:
     _version = version_file.read().strip()
 
@@ -10,8 +10,8 @@ with open(join(dirname(__file__), 'src', 'netdash', 'VERSION')) \
 setup(
     name='netdash',
     version=_version,
-    package_dir={'': 'src'},
-    packages=find_packages('src'),
+    package_dir={'': 'netdash'},
+    packages=find_packages('netdash'),
     include_package_data=True,
     zip_safe=False,
     install_requires=[

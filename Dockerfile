@@ -21,7 +21,7 @@ WORKDIR /usr/src/app
 
 RUN pipenv install --system --deploy
 
-WORKDIR /usr/src/app/src/netdash
+WORKDIR /usr/src/app/netdash
 
 # Work around for permission issue on OpenShift
 RUN chmod -R g+rw /usr/src/app
