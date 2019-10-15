@@ -8,10 +8,9 @@ RUN apt-get -y update && apt-get -y install git
 
 EXPOSE 8000
 
-RUN apt-get update
 RUN apt-get install -y xmlsec1 libffi-dev libssl-dev
 
-RUN pip install psycopg2-binary gunicorn pipenv djangosaml2~=0.17.2
+RUN pip install psycopg2-binary gunicorn djangosaml2~=0.17.2
 
 RUN mkdir /usr/src/app
 
@@ -19,7 +18,7 @@ COPY . /usr/src/app
 
 WORKDIR /usr/src/app
 
-RUN pipenv install --system --deploy
+RUN pip install -r requirements.txt && pip install -r requirements.user.txt
 
 WORKDIR /usr/src/app/netdash
 

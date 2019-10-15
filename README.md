@@ -7,8 +7,7 @@ The NetDash project's goal is to create an interface to allow delegation of spec
 1. Clone this repository.
 2. Change to the new directory: `cd netdash`
 3. Copy the example settings to use them: `cp netdash/netdash/settings_example.py netdash/netdash/settings.py`
-4. Install dependencies: `pipenv install` (if you are missing pipenv, use `brew install pipenv` or `pip install --user pipenv`)
-5. Activate virtual environment to use the correct Python and installed pip packages in an isolated setting: `pipenv shell`
+4. Install dependencies: `pip install requirements.deploy.txt`
 5. Run migrations: `python netdash/manage.py migrate`
 6. Run the development server: `python netdash/manage.py runserver`
 
@@ -35,6 +34,7 @@ NETDASH_MODULES = [
 4. Exclude your app from NetDash's source control, substituting `my_custom_nd_module` for your module's name: `echo netdash/my_custom_nd_module >> ../../.git/info/exclude`
 5. Navigate into your app's directory and initialize a new git repo: `cd my_custom_nd_module; git init`
 6. To try your new module, add your module's name to `NETDASH_MODULES` as shown in the previous section and run the development server.
+7. *(Optional)* If your NetDash Module requires additional packages, add them to `requirements.user.txt` and install them with `pip install -r requirements.user.txt`.
 
 ## Conventions
 

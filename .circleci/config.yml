@@ -14,8 +14,8 @@ aliases:
       run:
         name: Install Dependencies
         command: |
-          sudo pip install pipenv bandit flake8
-          pipenv install
+          sudo pip install bandit flake8
+          pip install -r requirements.deploy.txt
   - &update_dependencies_cache
       save_cache:
         key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
@@ -26,8 +26,6 @@ aliases:
   - python_job_base: &python_job_base
       docker:
         - image: circleci/python:3.7.3
-          environment:
-            PIPENV_VENV_IN_PROJECT: "true"
   - &run_on_tags
     filters:
       tags:
@@ -61,7 +59,7 @@ jobs:
       - *install_dependencies
       - *update_dependencies_cache
       - run: cp netdash/netdash/settings_example.py netdash/netdash/settings.py
-      - run: pipenv run python netdash/manage.py test
+      - run: python netdash/manage.py test
   publish-tag:
     environment:
       IMAGE_NAME: netdash/netdash
