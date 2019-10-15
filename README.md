@@ -48,24 +48,28 @@ A *NetDash Module* is a Django App that follows certain conventions and thereby 
     ]
     ```
     NetDash Modules can be specified as Django app labels or as paths to an AppConfig [the same way that `settings.INSTALLED_APPS` is configured](https://docs.djangoproject.com/en/2.2/ref/applications/#for-application-users).
-4. Run its initial migration: 
-    ```
-    python manage.py migrate
-    ```
-5. Exclude your app from NetDash's source control, substituting `my_custom_nd_module` for your module's name: 
+4. Exclude your app from NetDash's source control, substituting `my_custom_nd_module` for your module's name: 
     ```
     echo netdash/my_custom_nd_module >> ../.git/info/exclude
     ```
-6. Navigate into your app's directory and initialize a new git repo: 
+5. Initialize a git repo in your new NetDash Module's directory: 
     ```
-    cd my_custom_nd_module; git init
+    git init my_custom_nd_module
     ```
-
-7. Restart the development server:
+6. Run its initial migration: 
     ```
-    cd ..; python manage.py runserver
+    python manage.py migrate
     ```
-8. *(Optional)* If your NetDash Module requires additional packages, add them to `requirements.user.txt` and install them with 
+7. Create a superuser:
+    ```
+    python manage.py createsuperuser
+    ```
+8. Restart the development server:
+    ```
+    python manage.py runserver
+    ```
+9. Visit the interface in your browser at [http://localhost:8000]. Click 'login' and use your superuser credentials. Congrats! You can now explore the interface and look at the NetDash Module you created.
+10. *(Optional)* If your NetDash Module requires additional packages, add them to `requirements.user.txt` and install them with 
     ```
     pip install -r requirements.user.txt
     ```
