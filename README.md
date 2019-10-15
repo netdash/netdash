@@ -11,31 +11,26 @@ The NetDash project's goal is to create an interface to allow delegation of spec
 5. Run migrations: `python netdash/manage.py migrate`
 6. Run the development server: `python netdash/manage.py runserver`
 
-# NetDash Modules
+## Creating a NetDash Module
 
 A *NetDash Module* is a Django App that follows certain conventions and thereby integrates automatically with NetDash without any additional code changes. These integrations include UI link generation, Swagger API inclusion, routing and permissions.
-
-NetDash Modules can be enabled by adding them to a comma-separated list in `settings.NETDASH_MODULES`. They can be specified as Django app labels or as paths to an AppConfig in [the same way that `settings.INSTALLED_APPS` is configured](https://docs.djangoproject.com/en/2.2/ref/applications/#for-application-users).
-
-Example (`settings.py`):
-```
-NETDASH_MODULES = [
-    'hostlookup_netdisco',
-    'my_custom_nd_module',
-]
-```
-
-## Creating a NetDash Module
 
 1. Change directory to NetDash apps: `cd netdash`
 2. Create a new NetDash Module, substituting `my_custom_nd_module` for your module's name: `python manage.py startapp --template ../../netdash_module_template my_custom_nd_module`
 3. Run its initial migration: `python manage.py migrate`
 4. Exclude your app from NetDash's source control, substituting `my_custom_nd_module` for your module's name: `echo netdash/my_custom_nd_module >> ../../.git/info/exclude`
 5. Navigate into your app's directory and initialize a new git repo: `cd my_custom_nd_module; git init`
-6. To try your new module, add your module's name to `NETDASH_MODULES` as shown in the previous section and run the development server.
-7. *(Optional)* If your NetDash Module requires additional packages, add them to `requirements.user.txt` and install them with `pip install -r requirements.user.txt`.
+6. To enable your new module, add your module's name to `NETDASH_MODULES` in `settings.py`:
+    ```
+    NETDASH_MODULES = [
+        'my_custom_nd_module',
+    ]
+    ```
+    NetDash Modules can be specified as Django app labels or as paths to an AppConfig [the same way that `settings.INSTALLED_APPS` is configured](https://docs.djangoproject.com/en/2.2/ref/applications/#for-application-users).
+7. Restart the development server.
+8. *(Optional)* If your NetDash Module requires additional packages, add them to `requirements.user.txt` and install them with `pip install -r requirements.user.txt`.
 
-## Conventions
+## Module Conventions
 
 * A module with `urls.py` should declare an `app_name`.
 * A module with `urls.py` will have its URLs placed under `/<app_name>/*`.
