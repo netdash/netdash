@@ -20,7 +20,6 @@ NetDash Modules can be enabled by adding them to a comma-separated list in `sett
 Example (`settings.py`):
 ```
 NETDASH_MODULES = [
-    'example_devices_dummy',
     'hostlookup_netdisco',
     'my_custom_nd_module',
 ]
@@ -45,7 +44,7 @@ NETDASH_MODULES = [
 * A module with `api/urls.py` should declare an `app_name`. If the module also has a `urls.py`, it should reuse the previous `app_name` like so: `<app_name>-api`
 * A module with `api/urls.py` will have its API URLs placed under `/api/<app_name>/*`.
 
-Check the apps prefixed with `example_` for examples of these conventions.
+Check the [example apps](https://github.com/netdash/netdash-examples) examples of these conventions.
 
 ## Troubleshooting
 

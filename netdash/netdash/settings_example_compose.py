@@ -33,7 +33,7 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = []
 
 NETDASH_MODULES = [
-    'example_devices_netbox_api',
+    'hostlookup_netdisco',
 ]
 
 # Application definition
