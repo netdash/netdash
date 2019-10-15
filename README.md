@@ -24,10 +24,16 @@ The NetDash project's goal is to create an interface to allow delegation of spec
     ```
     python netdash/manage.py migrate
     ```
-6. Run the development server: 
+6. Create a superuser:
+    ```
+    python manage.py createsuperuser
+    ```
+7. Run the development server: 
     ```
     python netdash/manage.py runserver
     ```
+
+You can now visit the interface in your browser at http://localhost:8000. Click 'login' and use your superuser credentials.
 
 ## Creating a NetDash Module
 
@@ -60,19 +66,17 @@ A *NetDash Module* is a Django App that follows certain conventions and thereby 
     ```
     python manage.py migrate
     ```
-7. Create a superuser:
-    ```
-    python manage.py createsuperuser
-    ```
-8. Restart the development server:
+7. Restart the development server:
     ```
     python manage.py runserver
     ```
-9. Visit the interface in your browser at [http://localhost:8000]. Click 'login' and use your superuser credentials. Congrats! You can now explore the interface and look at the NetDash Module you created.
-10. *(Optional)* If your NetDash Module requires additional packages, add them to `requirements.user.txt` and install them with 
-    ```
-    pip install -r requirements.user.txt
-    ```
+
+Congrats! You can now explore the interface and look at the NetDash Module you created. If you don't see the module in the interface, make sure you are logged in as your superuser.
+
+If your NetDash Module requires additional packages, add them to `requirements.user.txt` and install them with 
+```
+pip install -r requirements.user.txt
+```
 
 ## Module Conventions
 
@@ -83,7 +87,7 @@ A *NetDash Module* is a Django App that follows certain conventions and thereby 
 * A module with `api/urls.py` should declare an `app_name`. If the module also has a `urls.py`, it should reuse the previous `app_name` like so: `<app_name>-api`
 * A module with `api/urls.py` will have its API URLs placed under `/api/<app_name>/*`.
 
-Check the [example apps](https://github.com/netdash/netdash-examples) examples of these conventions.
+Check the [example apps](https://github.com/netdash/netdash-examples) for examples of these conventions.
 
 ## Troubleshooting
 
