@@ -18,7 +18,7 @@ The NetDash project's goal is to create an interface to allow delegation of spec
     ```
 4. Install dependencies: 
     ```
-    pip install requirements.deploy.txt
+    pip install -r requirements.deploy.txt
     ```
 5. Run migrations: 
     ```
@@ -39,30 +39,31 @@ A *NetDash Module* is a Django App that follows certain conventions and thereby 
     ```
 2. Create a new NetDash Module, substituting `my_custom_nd_module` for your module's name: 
     ```
-    python manage.py startapp --template ../../netdash_module_template my_custom_nd_module
+    python manage.py startapp --template ../netdash_module_template my_custom_nd_module
     ```
-3. Run its initial migration: 
-    ```
-    python manage.py migrate
-    ```
-4. Exclude your app from NetDash's source control, substituting `my_custom_nd_module` for your module's name: 
-    ```
-    echo netdash/my_custom_nd_module >> ../../.git/info/exclude
-    ```
-5. Navigate into your app's directory and initialize a new git repo: 
-    ```
-    cd my_custom_nd_module; git init
-    ```
-6. To enable your new module, add your module's name to `NETDASH_MODULES` in `settings.py`:
+3. To enable your new module, add your module's name to `NETDASH_MODULES` in `netdash/settings.py`:
     ```
     NETDASH_MODULES = [
         'my_custom_nd_module',
     ]
     ```
     NetDash Modules can be specified as Django app labels or as paths to an AppConfig [the same way that `settings.INSTALLED_APPS` is configured](https://docs.djangoproject.com/en/2.2/ref/applications/#for-application-users).
+4. Run its initial migration: 
+    ```
+    python manage.py migrate
+    ```
+5. Exclude your app from NetDash's source control, substituting `my_custom_nd_module` for your module's name: 
+    ```
+    echo netdash/my_custom_nd_module >> ../.git/info/exclude
+    ```
+6. Navigate into your app's directory and initialize a new git repo: 
+    ```
+    cd my_custom_nd_module; git init
+    ```
+
 7. Restart the development server:
     ```
-    python netdash/manage.py runserver
+    cd ..; python manage.py runserver
     ```
 8. *(Optional)* If your NetDash Module requires additional packages, add them to `requirements.user.txt` and install them with 
     ```
