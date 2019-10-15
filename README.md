@@ -4,22 +4,55 @@ The NetDash project's goal is to create an interface to allow delegation of spec
 
 ## Getting Started
 
-1. Clone this repository.
-2. Change to the new directory: `cd netdash`
-3. Copy the example settings to use them: `cp netdash/netdash/settings_example.py netdash/netdash/settings.py`
-4. Install dependencies: `pip install requirements.deploy.txt`
-5. Run migrations: `python netdash/manage.py migrate`
-6. Run the development server: `python netdash/manage.py runserver`
+1. Clone this repository:
+    ```
+    git clone git@github.com:netdash/netdash.git
+    ```
+2. Change to the new directory: 
+    ```
+    cd netdash
+    ```
+3. Copy the example settings to use them: 
+    ```
+    cp netdash/netdash/settings_example.py netdash/netdash/settings.py
+    ```
+4. Install dependencies: 
+    ```
+    pip install requirements.deploy.txt
+    ```
+5. Run migrations: 
+    ```
+    python netdash/manage.py migrate
+    ```
+6. Run the development server: 
+    ```
+    python netdash/manage.py runserver
+    ```
 
 ## Creating a NetDash Module
 
 A *NetDash Module* is a Django App that follows certain conventions and thereby integrates automatically with NetDash without any additional code changes. These integrations include UI link generation, Swagger API inclusion, routing and permissions.
 
-1. Change directory to NetDash apps: `cd netdash`
-2. Create a new NetDash Module, substituting `my_custom_nd_module` for your module's name: `python manage.py startapp --template ../../netdash_module_template my_custom_nd_module`
-3. Run its initial migration: `python manage.py migrate`
-4. Exclude your app from NetDash's source control, substituting `my_custom_nd_module` for your module's name: `echo netdash/my_custom_nd_module >> ../../.git/info/exclude`
-5. Navigate into your app's directory and initialize a new git repo: `cd my_custom_nd_module; git init`
+1. Change directory to NetDash apps: 
+    ```
+    cd netdash
+    ```
+2. Create a new NetDash Module, substituting `my_custom_nd_module` for your module's name: 
+    ```
+    python manage.py startapp --template ../../netdash_module_template my_custom_nd_module
+    ```
+3. Run its initial migration: 
+    ```
+    python manage.py migrate
+    ```
+4. Exclude your app from NetDash's source control, substituting `my_custom_nd_module` for your module's name: 
+    ```
+    echo netdash/my_custom_nd_module >> ../../.git/info/exclude
+    ```
+5. Navigate into your app's directory and initialize a new git repo: 
+    ```
+    cd my_custom_nd_module; git init
+    ```
 6. To enable your new module, add your module's name to `NETDASH_MODULES` in `settings.py`:
     ```
     NETDASH_MODULES = [
@@ -27,8 +60,14 @@ A *NetDash Module* is a Django App that follows certain conventions and thereby 
     ]
     ```
     NetDash Modules can be specified as Django app labels or as paths to an AppConfig [the same way that `settings.INSTALLED_APPS` is configured](https://docs.djangoproject.com/en/2.2/ref/applications/#for-application-users).
-7. Restart the development server.
-8. *(Optional)* If your NetDash Module requires additional packages, add them to `requirements.user.txt` and install them with `pip install -r requirements.user.txt`.
+7. Restart the development server:
+    ```
+    python netdash/manage.py runserver
+    ```
+8. *(Optional)* If your NetDash Module requires additional packages, add them to `requirements.user.txt` and install them with 
+    ```
+    pip install -r requirements.user.txt
+    ```
 
 ## Module Conventions
 
