@@ -1,2 +1,0 @@
-recursive-include example_hostlookup_dummy/static *
-recursive-include example_hostlookup_dummy/templates *

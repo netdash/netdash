@@ -1,0 +1,4 @@
+from django.contrib import admin
+
+# If your NetDash Module isn't using models or otherwise doesn't require
+# an admin panel, you can safely delete this file.

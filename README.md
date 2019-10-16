@@ -1,65 +1,87 @@
 ![NetDash](docs/netdash-logo-small.png)
 
-The NetDash project's goal is to create an interface to allow delegation of specific IT infrastructure management tasks to IT teams outside of a central IT team. 
+The NetDash project's goal is to create an interface to allow delegation of specific IT infrastructure management tasks to IT teams outside of a central IT team.
 
-[![NetDash Architecture](https://docs.google.com/drawings/d/e/2PACX-1vQEr6ikrwHVAFtjBPgm5zIL8UZib4GsF8H3KgNbUxm5o9MhwRb_vgnz_gG_bUHd03ORH6RiCo2OFFCj/pub?h=800)](https://docs.google.com/drawings/d/1A859k49JQTn8-IcRoAqisa9Si5KzwJtGTJynPENe2cU/edit)
+This is implemented with a suite of extensible [Django](https://www.djangoproject.com/) apps and core Django project that
+seamlessly integrate new modules and customizations without requiring code changes.
 
-## Configuration
+## Getting Started
 
-By default NetDash is configured to use the `netdash.settings` module. This module corresponds to the file: "src/netdash/netdash/settings.py" which is ignored in .gitignore, so isn't provided with the source. To configure the settings, copy one of the `*_example_*` files in the "src/netdash/netdash/" directory to the settings.py file. Or set the `DJANGO_SETTINGS_MODULE` environment variable to use one of the provided examples or a custom settings module.
+1. Clone this repository:
+    ```
+    git clone git@github.com:netdash/netdash.git
+    ```
+2. Change to the new directory: 
+    ```
+    cd netdash
+    ```
+3. Copy the example settings to use them: 
+    ```
+    cp netdash/netdash/settings_example.py netdash/netdash/settings.py
+    ```
+4. Install dependencies: 
+    ```
+    pip install -r requirements.deploy.txt
+    ```
+5. Run migrations: 
+    ```
+    python netdash/manage.py migrate
+    ```
+6. Create a superuser:
+    ```
+    python netdash/manage.py createsuperuser
+    ```
+7. Run the development server: 
+    ```
+    python netdash/manage.py runserver
+    ```
 
-For example:
-  - `cp src/netdash/netdash/settings_example.py src/netdash/netdash/settings.py` will copy the example settings to the default location. You can modify after copying.
-  - `export DJANGO_SETTINGS_MODULE=netdash.settings_example_compose` will configure NetDash to use settings suitable for the Docker Compose setup.
-  - `export DJANGO_SETTINGS_MODULE=netdash.settings_env` will configure NetDash to use settings that will pull values from the environment. This is suitable for a Kuberbetes or OpenShift deployment.
+You can now visit the interface in your browser at http://localhost:8000. Click 'login' and use your superuser credentials.
 
-## Development with [Docker Compose](https://docs.docker.com/compose/) (quickstart)
-
-1. Clone this repository.
-2. Change to the new directory: `cd netdash`
-3. `export DJANGO_SETTINGS_MODULE=netdash.settings_env` (or see the Configuration section above).
-4. Start the services: `docker-compose up`
-
-This will spin up a few services:
-  - NetDash instance (served at 127.0.0.1:8888)
-  - NetBox instance (served at 127.0.0.1:8000)
-  - Databases for both
-
-The `netdash.settings_example_compose` module configures the NetDash instance is configured by default to use the NetBox instance as its backend.
-
-
-## Development with [Pipenv](https://pipenv.readthedocs.io/)
-
-1. Clone this repository.
-2. Change to the new directory: `cd netdash`
-3. Create an environment with the development dependencies: `pipenv install -d`
-4. Configure sample settings (see the Configuration section above).
-5. Run the development server: `pipenv run python3 src/netdash/manage.py runserver`
-6. Connect to the development server interface: <http://127.0.0.1:8000/>
-
-
-## Development (Manual)
-
-1. Clone this repository.
-2. Change to the new directory: `cd netdash`
-3. Create a virtualenv: `python3 -m venv venv`
-4. Activate the environment: `source ./venv/bin/activate`
-5. Install the package in editable mode: `pip install -e .`
-6. Configure sample settings (see the Configuration section above).
-7. Change to the project directory: `cd src/netdash`
-8. Run the migrations: `python3 manage.py migrate`
-9. Create an admin user: `python3 manage.py createsuperuser`
-10. Run the development server: `python3 manage.py runserver`
-11. Connect to the development server interface: <http://127.0.0.1:8000/>
-
-
-# NetDash Modules
+## Creating a NetDash Module
 
 A *NetDash Module* is a Django App that follows certain conventions and thereby integrates automatically with NetDash without any additional code changes. These integrations include UI link generation, Swagger API inclusion, routing and permissions.
 
-NetDash Modules can be enabled by adding them to a comma-separated list in `settings.NETDASH_MODULES`. They can be specified as Django app labels or as paths to an AppConfig in [the same way that `settings.INSTALLED_APPS` is configured](https://docs.djangoproject.com/en/2.2/ref/applications/#for-application-users).
+1. Change directory to NetDash apps: 
+    ```
+    cd netdash
+    ```
+2. Create a new NetDash Module, substituting `my_custom_nd_module` for your module's name: 
+    ```
+    python manage.py startapp --template ../netdash_module_template my_custom_nd_module
+    ```
+3. To enable your new module, add your module's name to `NETDASH_MODULES` in `netdash/settings.py`:
+    ```
+    NETDASH_MODULES = [
+        'my_custom_nd_module',
+    ]
+    ```
+    NetDash Modules can be specified as Django app labels or as paths to an AppConfig [the same way that `settings.INSTALLED_APPS` is configured](https://docs.djangoproject.com/en/2.2/ref/applications/#for-application-users).
+4. Exclude your app from NetDash's source control, substituting `my_custom_nd_module` for your module's name: 
+    ```
+    echo netdash/my_custom_nd_module >> ../.git/info/exclude
+    ```
+5. Initialize a git repo in your new NetDash Module's directory: 
+    ```
+    git init my_custom_nd_module
+    ```
+6. Run its initial migration: 
+    ```
+    python manage.py migrate
+    ```
+7. Restart the development server:
+    ```
+    python manage.py runserver
+    ```
 
-## Conventions
+Congrats! You can now explore the interface and look at the NetDash Module you created. If you don't see the module in the interface, make sure you are logged in as your superuser.
+
+If your NetDash Module requires additional packages, add them to `requirements.user.txt` and install them with 
+```
+pip install -r requirements.user.txt
+```
+
+## Module Conventions
 
 * A module with `urls.py` should declare an `app_name`.
 * A module with `urls.py` will have its URLs placed under `/<app_name>/*`.
@@ -68,14 +90,14 @@ NetDash Modules can be enabled by adding them to a comma-separated list in `sett
 * A module with `api/urls.py` should declare an `app_name`. If the module also has a `urls.py`, it should reuse the previous `app_name` like so: `<app_name>-api`
 * A module with `api/urls.py` will have its API URLs placed under `/api/<app_name>/*`.
 
-Check under `apps_dev` for examples of these conventions.
+Check the [example apps](https://github.com/netdash/netdash-examples) for examples of these conventions.
 
 ## Troubleshooting
 
 If a NetDash Module doesn't properly follow conventions, certain integrations might not work. NetDash includes a `diagnose` command to output information about your NetDash Modules that may assist in refactoring them for inclusion in NetDash.
 
 ```
-python src/netdash/manage.py diagnose -v2
+python netdash/manage.py diagnose -v2
 ```
 
 Will output diagnostics for all NetDash Modules, including any exception traces (`-v2` flag).

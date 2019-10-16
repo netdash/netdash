@@ -1,0 +1,25 @@
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import permission_required
+from rest_framework.response import Response
+from rest_framework import viewsets
+
+# Add API views here. Django Rest Framework includes several methods of
+# defining views, including ViewSets. A ViewSet is given here as an example.
+# The @method_decorator can be copied to other ViewSets to ensure that users
+# who don't have permission to see this NetDash Module cannot use its API either.
+
+
+@method_decorator(
+    permission_required('{{ app_name }}.can_view_module', raise_exception=True,),
+    name='dispatch'
+)
+class {{ camel_case_app_name }}ViewSet(viewsets.ViewSet):
+    '''
+    Describe your API here.
+    '''
+
+    def list(self, request):
+        return Response(['zero', 'one', 'two'])
+
+    def retrieve(self, request, pk):
+        return Response(['zero', 'one', 'two'][int(pk)])

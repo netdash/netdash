@@ -1,2 +1,0 @@
-recursive-include example_devices_snmp/static *
-recursive-include example_devices_snmp/templates *

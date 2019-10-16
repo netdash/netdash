@@ -1,2 +1,0 @@
-recursive-include example_error_import/static *
-recursive-include example_error_import/templates *

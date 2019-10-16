@@ -1,0 +1,11 @@
+from django.shortcuts import render
+from django.contrib.auth.decorators import permission_required
+
+# Add views here.
+# The @permission_required line can be copied to make sure those who
+# cannot view the module in NetDash cannot access it directly either.
+
+
+@permission_required("{{ app_name }}.can_view_module", raise_exception=True)
+def index(request):
+    return render(request, "{{ app_name }}/index.html")
