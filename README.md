@@ -29,7 +29,7 @@ seamlessly integrate new modules and customizations without requiring code chang
     ```
 6. Create a superuser:
     ```
-    python manage.py createsuperuser
+    python netdash/manage.py createsuperuser
     ```
 7. Run the development server: 
     ```
