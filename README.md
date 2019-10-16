@@ -1,6 +1,9 @@
 ![NetDash](docs/netdash-logo-small.png)
 
-The NetDash project's goal is to create an interface to allow delegation of specific IT infrastructure management tasks to IT teams outside of a central IT team. 
+The NetDash project's goal is to create an interface to allow delegation of specific IT infrastructure management tasks to IT teams outside of a central IT team.
+
+This is implemented with a suite of extensible [Django](https://www.djangoproject.com/) apps and core Django project that
+seamlessly integrate new modules and customizations without requiring code changes.
 
 ## Getting Started
 
