@@ -10,8 +10,32 @@
     To learn more, clone the <a href="https://github.com/netdash/netdash-examples">NetDash Example modules</a>:
     <pre>cd netdash</pre>
     <pre>git clone git@github.com:netdash/netdash-examples.git</pre>
+    <pre>mv netdash-examples/* .</pre>
     This will place all of the example modules in your Django apps directory.
-    They can then be enabled in NETDASH_MODULES in settings.py:
+    Your directories should look like this:
+    <pre>
+.
+├── docs
+├── netdash
+│   ├── example_devices_dummy
+│   ├── example_devices_netbox_api
+│   ├── example_devices_snmp
+│   ├── example_error_import
+│   ├── example_error_no_app_name
+│   ├── example_hostlookup_dummy
+│   ├── hostlookup_abstract
+│   ├── hostlookup_netdisco
+│   ├── my_custom_nd_module
+│   ├── netdash
+│   ├── netdash-examples
+│   ├── netdash_api
+│   └── netdash_ui
+└── netdash_module_template
+    ├── api
+    ├── migrations
+    └── templates
+    </pre>
+    Example modules can then be enabled in NETDASH_MODULES in settings.py:
     <pre><code>
 NETDASH_MODULES = [
     'example_devices_dummy',
