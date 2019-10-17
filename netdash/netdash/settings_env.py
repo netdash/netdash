@@ -113,6 +113,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'netdash_ui.context_processors.feedback',
             ],
         },
     },
@@ -182,6 +183,10 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+FEEDBACK_EMAIL = os.getenv('NETDASH_FEEDBACK_EMAIL', None)
+
 
 _saml2_entity_id = os.getenv('SAML2_ENTITY_ID', None)
 _saml2_sp_name = os.getenv('SAML2_SP_NAME', None)

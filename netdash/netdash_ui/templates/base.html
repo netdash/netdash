@@ -39,13 +39,24 @@
         </li>
         {% endif %}
       </ul>
-      <div class="my-2 my-lg-0">
+      <div class="navbar-nav ml-auto">
         {% if request.user.is_authenticated %}
-        <em class="text-white">{{ request.user.username }}</em>
-        <a href="{% url 'logout' %}" class="text-light small">logout</a>
+        {% if FEEDBACK_EMAIL %}
+        <li class="nav-item">
+          <a class="nav-link active" target="_blank" href="mailto:{{ FEEDBACK_EMAIL }}">Feedback</a>
+        </li>
+        {% endif %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ request.user.username }}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="userMenu">
+            <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
+          </div>
+        </li>
         {% else %}
         <!-- TODO replace with properly derived login url -->
-        <a href="/admin/login?next={{ request.get_full_path }}" class="text-light small">login</a>
+        <a href="/admin/login?next={{ request.get_full_path }}" class="nav-link">login</a>
         {% endif %}
       </div>
     </div>
