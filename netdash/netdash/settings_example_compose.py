@@ -41,6 +41,7 @@ NETDASH_MODULES = [
 INSTALLED_APPS = NETDASH_MODULES + [
     'netdash_api',
     'netdash_ui',
+    'netdash',
     'rest_framework',
     'drf_yasg',
     'django.contrib.admin',
