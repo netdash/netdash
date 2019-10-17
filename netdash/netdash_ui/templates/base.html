@@ -43,7 +43,7 @@
         {% if request.user.is_authenticated %}
         {% if FEEDBACK_EMAIL %}
         <li class="nav-item">
-          <a class="nav-link active" target="_blank" href="mailto:{{ FEEDBACK_EMAIL }}">Feedback</a>
+          <a class="nav-link active" target="_blank" href="mailto:{{ FEEDBACK_EMAIL }}?subject=NetDash Feedback&body=Let us know what you think! Details and screenshots are helpful and appreciated.%0D%0A%0D%0AURL: {{ request.build_absolute_uri }}%0D%0ATechnical Details: {{ request.headers }}">Feedback</a>
         </li>
         {% endif %}
         <li class="nav-item dropdown">
