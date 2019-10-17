@@ -1,3 +1,12 @@
 body {
   padding-top: 5rem;
 }
+
+#feedback-module p {
+  font-size: initial;
+}
+
+.feedback-close-btn {
+  width: auto;
+  height: auto;
+}
