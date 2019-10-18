@@ -33,12 +33,14 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = []
 
 NETDASH_MODULES = [
-    'hostlookup_netdisco',
+    # 'hostlookup_netdisco',  # Must be configured
+    # 'my_custom_nd_module',
 ]
 
 # Application definition
 
 INSTALLED_APPS = NETDASH_MODULES + [
+    'hostlookup_abstract',
     'netdash_api',
     'netdash_ui',
     'netdash',
