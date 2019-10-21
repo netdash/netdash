@@ -1,4 +1,4 @@
-from typing import Iterable, List, Dict, Union, Optional
+from typing import Iterable, Optional
 from dataclasses import dataclass
 from ipaddress import IPv4Address, IPv6Address, ip_address
 
@@ -14,6 +14,7 @@ class BlueCatHostLookupResult:
     ipv6: Optional[IPv6Address]
     hostnames: str
 
+
 def transform(bca: BlueCatAddress) -> BlueCatHostLookupResult:
     return BlueCatHostLookupResult(
         bca.mac,
@@ -21,6 +22,7 @@ def transform(bca: BlueCatAddress) -> BlueCatHostLookupResult:
         None,
         ', '.join(bca.hostnames)
     )
+
 
 def host_lookup(q='') -> Iterable[BlueCatHostLookupResult]:
     if not q:
