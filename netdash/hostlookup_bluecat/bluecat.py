@@ -13,6 +13,28 @@ def get_connection():
 
 
 @dataclass
+class BlueCatConfiguration:
+    bcid: int
+    name: str
+    description: str
+    sharedNetwork: Optional[int]
+
+
+def lookup_configurations(conn: BAM) -> List[BlueCatConfiguration]:
+    r = conn.do('getEntities', parentId=0, type='Configuration', start=0, count=9999)
+    return [
+        BlueCatConfiguration(
+            bcc['id'],
+            bcc['name'],
+            bcc['properties']['description'],
+            (int(bcc['properties'].get('sharedNetwork', None))
+                if bcc['properties'].get('sharedNetwork', None)
+                else None)
+        ) for bcc in r
+    ]
+
+
+@dataclass
 class BlueCatAddress:
     bcid: int
     name: str
