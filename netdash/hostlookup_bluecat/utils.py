@@ -12,7 +12,7 @@ class BlueCatHostLookupResult:
     mac: EUI
     ipv4: Optional[IPv4Address]
     ipv6: Optional[IPv6Address]
-    hostnames: str
+    hostnames: Iterable[str]
 
 
 def transform(bca: BlueCatAddress) -> BlueCatHostLookupResult:
@@ -20,7 +20,7 @@ def transform(bca: BlueCatAddress) -> BlueCatHostLookupResult:
         bca.mac,
         bca.address,
         None,
-        ', '.join(bca.hostnames)
+        bca.hostnames,
     )
 
 

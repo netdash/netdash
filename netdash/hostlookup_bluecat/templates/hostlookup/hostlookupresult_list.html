@@ -6,6 +6,10 @@
 .datatable {
   font-size: 14px;
 }
+.datatable ul {
+  list-style-type: none;
+  padding: 0;
+}
 </style>
 {% endblock %}
 
@@ -36,7 +40,13 @@ $('.datatable').DataTable({
           <td data-order="{{ r.mac|add:'0'}}"><pre>{{ r.mac }}</pre></td>
           <td data-order="{{ r.ipv4|add:'0' }}"><pre>{{ r.ipv4 }}</pre></td>
           <td data-order="{{ r.ipv6|add:'0' }}"><pre>{{ r.ipv6 }}</pre></td>
-          <td>{{ r.hostnames }}</td>
+          <td>
+              {% for h in r.hostnames %}
+                <ul>
+                  <li>{{ h }}</li>
+                </ul>
+              {% endfor %}
+            </td>
         </tr>
       {% endfor %}
     </tbody>
