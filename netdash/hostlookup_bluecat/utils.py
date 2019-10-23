@@ -24,10 +24,9 @@ def transform(bca: BlueCatAddress) -> BlueCatHostLookupResult:
     )
 
 
-def host_lookup(q='') -> Iterable[BlueCatHostLookupResult]:
+def host_lookup(q: str, bluecat_config: int) -> Iterable[BlueCatHostLookupResult]:
     if not q:
         return []
     with get_connection() as bc:
-        bc_configs = lookup_configurations(bc)
-        bc_network = lookup_cidr(bc, ip_address(q), bc_configs[0].bcid)
+        bc_network = lookup_cidr(bc, ip_address(q), bluecat_config)
     return [transform(bca) for bca in bc_network.bc_addresses]
