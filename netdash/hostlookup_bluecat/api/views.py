@@ -15,8 +15,12 @@ from .serializers import HostLookupResponseSerializer
 class HostView(APIView):
     @swagger_auto_schema(
         manual_parameters=[
-            openapi.Parameter('q', openapi.IN_QUERY, description='Host lookup query term.', type=openapi.TYPE_STRING),
-            openapi.Parameter('bluecat_config', openapi.IN_QUERY, description='ID of BlueCat Configuration.', type=openapi.TYPE_INTEGER),
+            openapi.Parameter('q', openapi.IN_QUERY,
+                              description='Host lookup query term.',
+                              type=openapi.TYPE_STRING),
+            openapi.Parameter('bluecat_config', openapi.IN_QUERY,
+                              description='ID of BlueCat Configuration.',
+                              type=openapi.TYPE_INTEGER),
         ],
         responses={status.HTTP_200_OK: HostLookupResponseSerializer(many=True)},
     )
