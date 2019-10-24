@@ -4,7 +4,7 @@ from ipaddress import IPv4Address, IPv6Address, ip_address
 
 from netaddr import EUI
 
-from hostlookup_bluecat.bluecat import lookup_cidr, lookup_configurations, get_connection, BlueCatAddress
+from hostlookup_bluecat.bluecat import lookup_cidr, get_connection, BlueCatAddress
 
 
 @dataclass

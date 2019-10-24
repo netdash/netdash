@@ -7,7 +7,6 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-from hostlookup_abstract.api.views import BaseHostView
 from hostlookup_bluecat.utils import host_lookup
 
 from .serializers import HostLookupResponseSerializer
