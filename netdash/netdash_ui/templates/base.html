@@ -60,8 +60,7 @@
           </div>
         </li>
         {% else %}
-        <!-- TODO replace with properly derived login url -->
-        <a href="/admin/login?next={{ request.get_full_path }}" class="nav-link">Login</a>
+        <a href="{{ LOGIN_URL }}?next={{ request.get_full_path }}" class="nav-link">Login</a>
         {% endif %}
       </div>
     </div>
