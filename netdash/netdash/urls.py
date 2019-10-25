@@ -18,14 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 
-from .views import logout
+from .views import login, logout
 
 
 urlpatterns = [
     path('', include('netdash_ui.urls')),
     path('api/', include('netdash_api.urls')),
     path('admin/', admin.site.urls),
-    path('logout', logout, name='logout'),
+    path('account/login', login, name='login'),
+    path('account/logout', logout, name='logout'),
 ]
 
 if hasattr(settings, 'SAML_CONFIG'):
