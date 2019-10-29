@@ -12,17 +12,9 @@ Host Lookup
         <h1 class="display-4">Host Lookup</h1>
       </a>
       <p>Enter an IP address.</p>
-      <form class="row form-inline" method="get" action='{% url 'hostlookup:index' as search_url %}'>
-        <div class="col-md-8 input-group">
+      <form class="form-inline" method="get" action='{% url 'hostlookup:index' as search_url %}'>
+        <div class="input-group">
           <input type="text" class="form-control" name="q" placeholder="Search..." />
-          <select name="bluecat_config" class="col-lg-3 custom-select" value="{{ request.GET.bluecat_config }}">
-            {% for bcc in bluecat_configs %}
-            <option value="{{ bcc.bcid }}"
-            {% if request.GET.bluecat_config == bcc.bcid|slugify %}selected="selected"{% endif %}>
-              {{ bcc.name }}
-            </option>
-            {% endfor %}
-          </select>
           <div class="input-group-append">
             <button type="submit" class="btn btn-primary" value="Search">Search</button>
           </div>
