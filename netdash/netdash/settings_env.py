@@ -114,7 +114,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'netdash_ui.context_processors.feedback',
-                'netdash_ui.context_processors.login_url',
             ],
         },
     },

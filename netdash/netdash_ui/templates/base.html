@@ -60,7 +60,7 @@
           </div>
         </li>
         {% else %}
-        <a href="{{ LOGIN_URL }}?next={{ request.get_full_path }}" class="nav-link">Login</a>
+        <a href="{% url 'login' %}?next={{ request.get_full_path }}" class="nav-link">Login</a>
         {% endif %}
       </div>
     </div>
