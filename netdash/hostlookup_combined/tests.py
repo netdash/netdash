@@ -26,6 +26,13 @@ class MergedColumnTestCase(TestCase):
     def test_diff_types_invalid(self):
         self.assertFalse(self.col_diff_types.valid)
 
+    def test_invalid_string(self):
+        self.assertTrue('ena:' in str(self.col_diff_types))
+        self.assertTrue('dio:' in str(self.col_diff_types))
+
+    def test_valid_string(self):
+        self.assertFalse(':' in str(self.col_valid))
+
 
 class MergedRowTestCase(TestCase):
     def setUp(self):

@@ -1,0 +1,43 @@
+{% load merge_tags %}
+{% extends "hostlookup/index.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" integrity="sha256-F+DaKAClQut87heMIC6oThARMuWne8+WzxIDT7jXuPA=" crossorigin="anonymous" />
+<style>
+.datatable {
+  font-size: 14px;
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js" integrity="sha256-t5ZQTZsbQi8NxszC10CseKjJ5QeMw5NINtOXQrESGSU=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js" integrity="sha256-hJ44ymhBmRPJKIaKRf3DSX5uiFEZ9xB/qx8cNbJvIMU=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+$('.datatable').DataTable({
+  order: [[1, "asc"]],
+  pageLength: 25,
+});
+</script>
+{% endblock %}
+
+{% block results %}
+  <table class='table datatable table-striped table-bordered'>
+    <thead>
+      <tr>
+        {% for c in results.columns %}
+        <th>{{ c.1 }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in results.rows %}
+        <tr>
+          {% for c in r.columns %}
+          {{ merged_column c }}
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

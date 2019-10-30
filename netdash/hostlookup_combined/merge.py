@@ -23,7 +23,7 @@ class MergedColumn(Generic[T]):
         return all(v.value == self.values[0].value for v in self.values[1:])
 
     def __str__(self):
-        return self.values[0].value if self.valid else '\n'.join(self.values)
+        return self.values[0].value if self.valid else '\n'.join([str(v) for v in self.values])
 
 
 class MergedRow:
