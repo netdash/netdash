@@ -46,7 +46,7 @@ class MergedTable:
     rows: Dict[K, MergedRow]
 
     @staticmethod
-    def _create_merged_rows(keys: Set[K], indexed_data_sources: Dict[str, Dict[str, Any]]) -> Dict[K, MergedRow]:
+    def _create_merged_rows(keys: Set[K], indexed_data_sources: Dict[str, Row]) -> Dict[K, MergedRow]:
         rows = {}
         for k in keys:
             correlating_rows = {
