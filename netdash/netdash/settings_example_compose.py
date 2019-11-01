@@ -36,9 +36,13 @@ NETDASH_MODULES = [
     'hostlookup_netdisco',
 ]
 
+# These apps will be added after NetDash Modules, but before all included apps.
+# 'Abstract Modules' can be included here.
+EXTRA_APPS = []
+
 # Application definition
 
-INSTALLED_APPS = NETDASH_MODULES + [
+INSTALLED_APPS = NETDASH_MODULES + EXTRA_APPS + [
     'netdash_api',
     'netdash_ui',
     'netdash',
