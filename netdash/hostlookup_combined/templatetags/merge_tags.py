@@ -4,7 +4,7 @@ from django import template
 
 from netaddr import EUI
 
-from ..merge import MergedColumn, SourceValue
+from ..merge import MergedCell, SourceValue
 
 register = template.Library()
 
@@ -19,11 +19,11 @@ def render_source_value(source_value: SourceValue):
     return f'<li>{source_value.source}: {render_value(source_value.value)}</li>'
 
 
-def render_invalid(mc: MergedColumn):
+def render_invalid(mc: MergedCell):
     return f'<ul>{[render_source_value(sv) for sv in mc.values]}</ul>'
 
 
 @register.simple_tag
-def merged_column(mc: MergedColumn):
+def merged_column(mc: MergedCell):
     inner = render_value(mc.values[0]) if mc.valid else render_invalid(mc)
     return f'<td>{inner}</td>'
