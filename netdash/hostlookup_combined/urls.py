@@ -5,5 +5,5 @@ from .views import HostLookupView
 
 app_name = 'hostlookup'
 urlpatterns = [
-    url(r'^$', HostLookupView.as_view(), name=''),
+    url(r'^$', HostLookupView.as_view(), name='index'),
 ]

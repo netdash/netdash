@@ -1,18 +1,25 @@
+from typing import Set
 from ipaddress import IPv4Address, IPv6Address, IPv4Network, IPv6Network
 
 from django import template
+from django.template.defaultfilters import safe
 
 from netaddr import EUI
 
-from ..merge import MergedCell, SourceValue
+from ..merge import MergedCell, MergedRow, MergedTable, SourceValue
 
 register = template.Library()
 
 PRE_TYPES = (IPv4Address, IPv6Address, IPv4Network, IPv6Network, EUI)
+LIST_TYPES = (list, tuple, set)
 
 
 def render_value(value):
-    return f'<pre>{str(value)}</pre>' if isinstance(value, PRE_TYPES) else str(value)
+    if isinstance(value, PRE_TYPES):
+        return f'<pre>{str(value)}</pre>'
+    if isinstance(value, LIST_TYPES):
+        return f'<ul>{"".join([f"<li>{str(v)}</li>" for v in value])}</ul>'
+    return str(value)
 
 
 def render_source_value(source_value: SourceValue):
@@ -24,6 +31,37 @@ def render_invalid(mc: MergedCell):
 
 
 @register.simple_tag
-def merged_column(mc: MergedCell):
-    inner = render_value(mc.values[0]) if mc.valid else render_invalid(mc)
-    return f'<td>{inner}</td>'
+def merged_cell(mc: MergedCell):
+    if mc is None:
+        return safe('<td>None</td>')
+    inner = render_value(mc.values[0].value) if mc.valid else render_invalid(mc)
+    className = 'valid' if mc.valid else 'invalid'
+    return safe(f'<td class="{className}">{inner}</td>')
+
+
+@register.simple_tag
+def merged_row(mr: MergedRow, cols: Set[str], className=''):
+    cells = [merged_cell(mr.cells.get(col)) for col in cols]
+    return safe(f'<tr class="{className}">{"".join(cells)}</tr>')
+
+
+@register.simple_tag
+def merged_table(mt: MergedTable, className=''):
+    headings = [
+        f'<th>{c}</th>'
+        for c in mt.columns
+    ]
+    rows = [
+        merged_row(mr, mt.columns)
+        for mr in mt.rows.values()
+    ]
+    return safe(f'''
+<table class="{className}">
+    <thead>
+        <tr>{"".join(headings)}</tr>
+    </thead>
+    <tbody>
+        {"".join(rows)}
+    </tbody>
+</table>
+''')
