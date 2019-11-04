@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, List, Dict, Any, Set
+from typing import TypeVar, Generic, List, Dict, Any, Set, Tuple
 from dataclasses import dataclass
 
 
@@ -56,14 +56,13 @@ class MergedTable:
             rows[k] = MergedRow(**correlating_rows)
         return rows
 
-    def __init__(self, pk: str, **data_sources: Dict[str, List[Row]]):
-        self.columns = set()
+    def __init__(self, pk: str, columns: List[Tuple[str, str]], **data_sources: Dict[str, List[Row]]):
+        self.columns = columns
         keys = set()
         indexed_data_sources = {}
         for (source, data) in data_sources.items():
             indexed_data_sources[source] = {}
             for row in data:
-                self.columns = self.columns | row.keys()
                 keys.add(row[pk])
                 indexed_data_sources[source][row[pk]] = row
         self.rows = self._create_merged_rows(keys, indexed_data_sources)

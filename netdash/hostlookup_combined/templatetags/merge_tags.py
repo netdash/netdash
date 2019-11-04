@@ -1,4 +1,4 @@
-from typing import Set
+from typing import List, Tuple
 from ipaddress import IPv4Address, IPv6Address, IPv4Network, IPv6Network
 
 from django import template
@@ -40,15 +40,15 @@ def merged_cell(mc: MergedCell):
 
 
 @register.simple_tag
-def merged_row(mr: MergedRow, cols: Set[str], className=''):
-    cells = [merged_cell(mr.cells.get(col)) for col in cols]
+def merged_row(mr: MergedRow, cols: List[Tuple[str, str]], className=''):
+    cells = [merged_cell(mr.cells.get(col[0])) for col in cols]
     return safe(f'<tr class="{className}">{"".join(cells)}</tr>')
 
 
 @register.simple_tag
 def merged_table(mt: MergedTable, className=''):
     headings = [
-        f'<th>{c}</th>'
+        f'<th>{c[1]}</th>'
         for c in mt.columns
     ]
     rows = [
