@@ -64,7 +64,7 @@ def fetch_as_dicts(cursor) -> List[Dict]:
 
 def host_lookup(q='') -> Iterable[HostLookupResult]:
     if not q:
-        return []
+        return None
     ip_network(q, False)
     with connections['netdisco'].cursor() as cursor:
         cursor.execute(SQL, [q])

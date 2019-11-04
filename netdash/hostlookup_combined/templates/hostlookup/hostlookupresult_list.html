@@ -29,5 +29,7 @@ $('.datatable').DataTable({
 {% endblock %}
 
 {% block results %}
+{% if results %}
   {% merged_table results 'table datatable table-striped table-bordered' %}
+{% endif %}
 {% endblock %}

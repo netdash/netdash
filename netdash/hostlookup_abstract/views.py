@@ -1,4 +1,4 @@
-from typing import Iterable
+from typing import Iterable, Optional
 from abc import ABC, abstractmethod
 
 from django.views.generic.base import TemplateView
@@ -10,7 +10,7 @@ class BaseHostLookupView(ABC, TemplateView):
     template_name = "hostlookup/hostlookupresult_list.html"
 
     @abstractmethod
-    def host_lookup(self, **kwargs) -> Iterable[HostLookupResult]:
+    def host_lookup(self, **kwargs) -> Optional[Iterable[HostLookupResult]]:
         return NotImplemented
 
     def get_context_data(self, **kwargs):
