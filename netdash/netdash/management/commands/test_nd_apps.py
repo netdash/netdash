@@ -1,8 +1,9 @@
 from django.core.management.commands import test
+from django.conf import settings
 
 
 class Command(test.Command):
-    help = 'Discover and run tests in the specified modules or in the apps_dev directory'
+    help = 'Discover and run tests in NETDASH_MODULES'
 
     def run_from_argv(self, argv):
         super(Command, self).run_from_argv(argv)
@@ -15,5 +16,5 @@ class Command(test.Command):
         import sys
         sys.stdout.write(os.getcwd())
         if not test_labels:
-            test_labels = ["../../apps_dev/", ]
+            test_labels = settings.NETDASH_MODULES
         super().handle(*test_labels, **options)
