@@ -1,5 +1,7 @@
 from dataclasses import asdict
 
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import permission_required
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -12,6 +14,10 @@ from hostlookup_bluecat.utils import host_lookup
 from .serializers import HostLookupResponseSerializer
 
 
+@method_decorator(
+    permission_required('hostlookup_bluecat.can_view_module', raise_exception=True,),
+    name='dispatch'
+)
 class HostView(APIView):
     @swagger_auto_schema(
         manual_parameters=[
