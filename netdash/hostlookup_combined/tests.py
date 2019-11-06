@@ -175,7 +175,7 @@ class MergedTableTestCase(TestCase):
     def test_inner_join(self):
         merged = MergedTable('id', self.columns, ('a', 'b'), a=self.source_a, b=self.source_b)
         self.assertIs(len(merged.rows.values()), 2)
-    
+
     def test_single_required(self):
         merged = MergedTable('id', self.columns, ('a'), a=self.source_a, b=self.source_b)
         self.assertTrue(merged.rows.get(0))
