@@ -14,15 +14,16 @@ def host_lookup(q: str, bluecat_config: int) -> Dict:
     bc_cidr = bc_network.network
     bc_results = [asdict(bc_transform(bca)) for bca in bc_network.bc_addresses if bca.mac]
     nd_results = [asdict(nd) for nd in nd_host_lookup(str(bc_cidr)) if nd.mac]
+    def int_order(v): return int(v) if v is not None else 0
     columns = [
-        ('mac', 'MAC Address'),
-        ('ipv4', 'IPv4'),
-        ('ipv6', 'IPv6'),
+        ('mac', 'MAC Address', int_order),
+        ('ipv4', 'IPv4', int_order),
+        ('ipv6', 'IPv6', int_order),
         ('last_seen', 'Last Seen'),
-        ('switch_ipv4', 'Switch IPv4'),
-        ('switch_ipv6', 'Switch IPv6'),
+        ('switch_ipv4', 'Switch IPv4', int_order),
+        ('switch_ipv6', 'Switch IPv6', int_order),
         ('host_port_name', 'Host Port Name'),
         ('switch_location', 'Switch Location'),
         ('hostnames', 'Hostnames'),
     ]
-    return MergedTable('mac', columns, bluecat=bc_results, netdisco=nd_results)
+    return MergedTable('ipv4', columns, True, bluecat=bc_results, netdisco=nd_results)

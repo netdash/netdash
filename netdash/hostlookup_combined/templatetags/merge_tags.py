@@ -27,7 +27,7 @@ def render_source_value(source_value: SourceValue):
 
 
 def render_invalid(mc: MergedCell):
-    return f'<ul>{[render_source_value(sv) for sv in mc.values]}</ul>'
+    return f'<ul>{"".join([render_source_value(sv) for sv in mc.values])}</ul>'
 
 
 @register.simple_tag
@@ -36,7 +36,8 @@ def merged_cell(mc: MergedCell):
         return safe('<td>None</td>')
     inner = render_value(mc.values[0].value) if mc.valid else render_invalid(mc)
     className = 'valid' if mc.valid else 'invalid'
-    return safe(f'<td class="{className}">{inner}</td>')
+    order_attr = f' data-order="{mc.sort_order}"' if mc.sort_order is not None else ''
+    return safe(f'<td class="{className}"{order_attr}>{inner}</td>')
 
 
 @register.simple_tag
