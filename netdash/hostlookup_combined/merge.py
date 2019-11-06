@@ -66,9 +66,9 @@ K = TypeVar('K')
 class MergedTable:
     columns: Set[str]
     rows: Dict[K, MergedRow]
-    inner_join: bool
 
-    def _create_merged_rows(self, keys: Set[K], indexed_data_sources: Dict[str, Row]) -> Dict[K, MergedRow]:
+    def _create_merged_rows(self, keys: Set[K], required_sources: Optional[Tuple[str]],
+                            indexed_data_sources: Dict[str, Row]) -> Dict[K, MergedRow]:
         sort_order_funcs = {c[0]: c[2] for c in self.columns if len(c) >= 3}
         rows = {}
         for k in keys:
@@ -77,14 +77,18 @@ class MergedTable:
                 for source in indexed_data_sources.keys()
             }
             if (
-                not self.inner_join or
-                not any(True for v in correlating_rows.values() if v is None)
+                not required_sources or
+                not any(
+                    True for (k, v) in correlating_rows.items()
+                    if k in required_sources and v is None
+                )
             ):
                 rows[k] = MergedRow(sort_order_funcs, **correlating_rows)
         return rows
 
-    def __init__(self, pk: str, columns: Columns, inner_join, **data_sources: Dict[str, List[Row]]):
-        self.inner_join = inner_join
+    def __init__(self, pk: str, columns: Columns,
+                 required_sources: Optional[Tuple[str]],
+                 **data_sources: Dict[str, List[Row]]):
         self.columns = columns
         keys = set()
         indexed_data_sources = {}
@@ -93,4 +97,4 @@ class MergedTable:
             for row in data:
                 keys.add(row[pk])
                 indexed_data_sources[source][row[pk]] = row
-        self.rows = self._create_merged_rows(keys, indexed_data_sources)
+        self.rows = self._create_merged_rows(keys, required_sources, indexed_data_sources)

@@ -43,7 +43,7 @@ class MergedCellTestCase(TestCase):
         self.assertIn('<li>ena: a</li>', rendered)
         self.assertIn('<li>dio: b</li>', rendered)
         self.assertIn('invalid', rendered)
-    
+
     def test_render_valid(self):
         rendered = merged_cell(self.col_valid)
         self.assertFalse('<li>' in rendered)
@@ -56,7 +56,7 @@ class MergedCellTestCase(TestCase):
     def test_render_sort_order_none(self):
         rendered = merged_cell(self.col_valid)
         self.assertFalse('data-order' in rendered)
-    
+
     def test_render_sort_order_invalid(self):
         rendered = merged_cell(self.col_invalid)
         self.assertIn('data-order="0"', rendered)
@@ -164,24 +164,30 @@ class MergedTableTestCase(TestCase):
         ]
 
     def test_status_added(self):
-        merged = MergedTable('id', self.columns, False, a=self.source_a, c=self.source_c)
+        merged = MergedTable('id', self.columns, None, a=self.source_a, c=self.source_c)
         self.assertTrue('status' in merged.rows[0].cells.keys())
         self.assertTrue('status' in merged.rows[1].cells.keys())
 
     def test_outer_join(self):
-        merged = MergedTable('id', self.columns, False, a=self.source_a, b=self.source_b)
+        merged = MergedTable('id', self.columns, None, a=self.source_a, b=self.source_b)
         self.assertIs(len(merged.rows.values()), 5)
 
     def test_inner_join(self):
-        merged = MergedTable('id', self.columns, True, a=self.source_a, b=self.source_b)
+        merged = MergedTable('id', self.columns, ('a', 'b'), a=self.source_a, b=self.source_b)
         self.assertIs(len(merged.rows.values()), 2)
+    
+    def test_single_required(self):
+        merged = MergedTable('id', self.columns, ('a'), a=self.source_a, b=self.source_b)
+        self.assertTrue(merged.rows.get(0))
+        self.assertTrue(merged.rows.get(3))
+        self.assertIs(merged.rows.get(4), None)
 
     def test_column_sort_func(self):
-        merged = MergedTable('id', self.columns, False, a=self.source_a, c=self.source_c)
+        merged = MergedTable('id', self.columns, None, a=self.source_a, c=self.source_c)
         self.assertIs(merged.rows[0].cells['status'].sort_order, 5)
 
     def test_render(self):
-        merged = MergedTable('id', self.columns, False, a=self.source_a, b=self.source_b)
+        merged = MergedTable('id', self.columns, None, a=self.source_a, b=self.source_b)
         rendered = merged_table(merged, 'foo').replace('\n', '').replace('    ', '')
         self.assertIn('<table class="foo">', rendered)
         self.assertIn('<tr><th>ID</th>', rendered)

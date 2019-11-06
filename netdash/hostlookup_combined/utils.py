@@ -26,4 +26,5 @@ def host_lookup(q: str, bluecat_config: int) -> Dict:
         ('switch_location', 'Switch Location'),
         ('hostnames', 'Hostnames'),
     ]
-    return MergedTable('ipv4', columns, True, bluecat=bc_results, netdisco=nd_results)
+    required_sources = ('netdisco',)
+    return MergedTable('ipv4', columns, required_sources, bluecat=bc_results, netdisco=nd_results)
