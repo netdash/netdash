@@ -27,8 +27,8 @@ def lookup_configurations(conn: BAM) -> List[BlueCatConfiguration]:
             bcc['id'],
             bcc['name'],
             bcc['properties']['description'],
-            (int(bcc['properties'].get('sharedNetwork', None))
-                if bcc['properties'].get('sharedNetwork', None)
+            (int(bcc['properties'].get('sharedNetwork'))
+                if bcc['properties'].get('sharedNetwork')
                 else None)
         ) for bcc in r
     ]
@@ -56,11 +56,12 @@ class BlueCatNetwork:
 def lookup_cidr(conn: BAM, ip: Union[IPv4Address, IPv6Address], container_bcid: int) -> BlueCatNetwork:
     entity_type = 'IP4Network' if isinstance(ip, IPv4Address) else 'IP6Network'
     resp = conn.do('getIPRangedByIP', containerId=container_bcid, type=entity_type, address=str(ip))
+    print(resp)
     return BlueCatNetwork(
         resp['id'],
         resp['name'],
         ip_network(resp['properties']['CIDR'], False),
-        ip_address(resp['properties']['gateway']),
+        ip_address(resp['properties'].get('gateway')) if resp['properties'].get('gateway') else None,
         lookup_ips(conn, resp['id'])
     )
 
@@ -73,7 +74,7 @@ def lookup_ips(conn: BAM, network_bcid: int) -> List[BlueCatAddress]:
             ip['name'],
             ip_address(ip['properties']['address']),
             ip['properties']['state'],
-            EUI(ip['properties']['macAddress']) if ip['properties'].get('macAddress', None) else None,
+            EUI(ip['properties']['macAddress']) if ip['properties'].get('macAddress') else None,
             lookup_hostnames(conn, ip['id'])
         ) for ip in resp
         if ip['properties']['state'].upper() in {'STATIC', 'DHCP_RESERVED'}
