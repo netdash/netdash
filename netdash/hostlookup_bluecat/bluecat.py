@@ -56,7 +56,6 @@ class BlueCatNetwork:
 def lookup_cidr(conn: BAM, ip: Union[IPv4Address, IPv6Address], container_bcid: int) -> BlueCatNetwork:
     entity_type = 'IP4Network' if isinstance(ip, IPv4Address) else 'IP6Network'
     resp = conn.do('getIPRangedByIP', containerId=container_bcid, type=entity_type, address=str(ip))
-    print(resp)
     return BlueCatNetwork(
         resp['id'],
         resp['name'],
