@@ -2,6 +2,7 @@ from typing import Iterable, Optional
 from abc import ABC, abstractmethod
 
 from django.views.generic.base import TemplateView
+from django.core.exceptions import ValidationError
 
 from .utils import HostLookupResult
 
@@ -15,6 +16,10 @@ class BaseHostLookupView(ABC, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        results = self.host_lookup(**kwargs)
+        try:
+            results = self.host_lookup(**kwargs)
+        except ValidationError as ve:
+            context['errors'] = ve
+            return context
         context['results'] = results
         return context

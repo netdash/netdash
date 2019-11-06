@@ -31,6 +31,16 @@ Host Lookup
     </div>
   {% endblock searchbar %}
 
+  {% block errors %}
+  {% if errors %}
+  <div class="alert alert-danger" role="alert">
+      {% for e in errors %}
+      <p class="mb-0">{{ e }}</p>
+      {% endfor %}
+  </div>
+  {% endif %}
+  {% endblock errors %}
+
   {% block results %}
   {% endblock results %}
 
