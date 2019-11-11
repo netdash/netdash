@@ -11,7 +11,7 @@ from drf_yasg import openapi
 
 from hostlookup_bluecat.utils import host_lookup
 
-from .serializers import HostLookupResponseSerializer
+from .serializers import BlueCatHostLookupResponseSerializer
 
 
 @method_decorator(
@@ -28,7 +28,7 @@ class HostView(APIView):
                               description='ID of BlueCat Configuration.',
                               type=openapi.TYPE_INTEGER),
         ],
-        responses={status.HTTP_200_OK: HostLookupResponseSerializer(many=True)},
+        responses={status.HTTP_200_OK: BlueCatHostLookupResponseSerializer(many=True)},
     )
     def get(self, request):
         q = request.query_params.get('q', '')

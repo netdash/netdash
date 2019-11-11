@@ -1,11 +1,9 @@
-from rest_framework import routers
+from django.urls import path
 
-from .views import HostlookupCombinedViewSet
+from .views import HostView
 
 app_name = 'hostlookup-api'
 
-router = routers.SimpleRouter()
-
-router.register('', HostlookupCombinedViewSet, basename='hosts')
-
-urlpatterns = router.urls
+urlpatterns = [
+    path('', HostView.as_view(), name='host-lookup'),
+]
