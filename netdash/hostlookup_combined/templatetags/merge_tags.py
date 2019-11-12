@@ -35,19 +35,19 @@ def merged_cell(mc: MergedCell):
     if mc is None:
         return safe('<td>None</td>')
     inner = render_value(mc.values[0].value) if mc.valid else render_invalid(mc)
-    className = 'valid' if mc.valid else 'invalid'
+    class_name = 'valid' if mc.valid else 'invalid'
     order_attr = f' data-order="{mc.sort_order}"' if mc.sort_order is not None else ''
-    return safe(f'<td class="{className}"{order_attr}>{inner}</td>')
+    return safe(f'<td class="{class_name}"{order_attr}>{inner}</td>')
 
 
 @register.simple_tag
-def merged_row(mr: MergedRow, cols: List[Tuple[str, str]], className=''):
+def merged_row(mr: MergedRow, cols: List[Tuple[str, str]], class_name=''):
     cells = [merged_cell(mr.cells.get(col[0])) for col in cols]
-    return safe(f'<tr class="{className}">{"".join(cells)}</tr>')
+    return safe(f'<tr class="{class_name}">{"".join(cells)}</tr>')
 
 
 @register.simple_tag
-def merged_table(mt: MergedTable, className=''):
+def merged_table(mt: MergedTable, class_name=''):
     headings = [
         f'<th>{c[1]}</th>'
         for c in mt.columns
@@ -57,7 +57,7 @@ def merged_table(mt: MergedTable, className=''):
         for mr in mt.rows.values()
     ]
     return safe(f'''
-<table class="{className}">
+<table class="{class_name}">
     <thead>
         <tr>{"".join(headings)}</tr>
     </thead>
