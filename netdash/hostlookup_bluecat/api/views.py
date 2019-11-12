@@ -32,5 +32,5 @@ class HostView(APIView):
     )
     def get(self, request):
         q = request.query_params.get('q', '')
-        bluecat_config = request.query_params.get('bluecat_config', '')
+        bluecat_config = request.query_params.get('bluecat_config', None)
         return Response([asdict(r) for r in host_lookup(q, bluecat_config)])

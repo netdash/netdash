@@ -11,6 +11,8 @@ from .merge import MergedTable
 
 
 def host_lookup(q: str, bluecat_config: int) -> Dict:
+    if bluecat_config is None:
+        raise ValidationError('bluecat_config is required.')
     try:
         ip = ip_address(q)
     except ValueError as ve:
