@@ -40,7 +40,9 @@ class HostView(APIView):
             ip = ip_address(q)
         except ValueError as ve:
             raise ValidationError(ve)
-        bluecat_config = request.query_params.get('bluecat_config', '')
+        bluecat_config = request.query_params.get('bluecat_config', None)
+        if bluecat_config is None:
+            raise ValidationError('bluecat_config is required.')
         with get_connection() as bc:
             bc_network = lookup_cidr(bc, ip, bluecat_config)
         bc_cidr = bc_network.network
