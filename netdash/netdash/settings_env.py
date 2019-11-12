@@ -54,6 +54,10 @@ CORS_ORIGIN_WHITELIST = os.getenv('NETDASH_CORS_ORIGIN_WHITELIST', [])
 
 NETDASH_MODULES = csv_to_list(os.getenv('NETDASH_MODULES'))
 
+# These apps will be added after NetDash Modules, but before all included apps.
+# 'Abstract Modules' can be included here.
+EXTRA_APPS = csv_to_list(os.getenv('NETDASH_EXTRA_APPS'))
+
 # Add all variables from the environment that start with NETDASH_ to the
 # settings namespace, removing the leading "NETDASH_":
 _prefix = 'NETDASH_APP_'
@@ -61,7 +65,7 @@ locals().update({k[len(_prefix):]: v for k, v in os.environ.items() if k[:len(_p
 
 # Application definition
 
-INSTALLED_APPS = NETDASH_MODULES + [
+INSTALLED_APPS = NETDASH_MODULES + EXTRA_APPS + [
     'hostlookup_abstract',
     'netdash_api',
     'netdash_ui',

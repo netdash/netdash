@@ -21,6 +21,6 @@ class HostLookupView(BaseHostLookupView):
     def host_lookup(self):
         q = self.request.GET.get('q', '')
         if not q:
-            return []
+            return None
         bluecat_config = self.request.GET.get('bluecat_config', None)
         return host_lookup(q, bluecat_config)

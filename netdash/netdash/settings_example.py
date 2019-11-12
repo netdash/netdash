@@ -37,9 +37,13 @@ NETDASH_MODULES = [
     # 'my_custom_nd_module',
 ]
 
+# These apps will be added after NetDash Modules, but before all included apps.
+# 'Abstract Modules' can be included here.
+EXTRA_APPS = []
+
 # Application definition
 
-INSTALLED_APPS = NETDASH_MODULES + [
+INSTALLED_APPS = NETDASH_MODULES + EXTRA_APPS + [
     'hostlookup_abstract',
     'netdash_api',
     'netdash_ui',

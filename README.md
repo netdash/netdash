@@ -85,7 +85,7 @@ pip install -r requirements.user.txt
 
 * A module with `urls.py` should declare an `app_name`.
 * A module with `urls.py` will have its URLs placed under `/<app_name>/*`.
-* A module with a url named `index` in its `urls.py` will have a link to `index` generated in the NetDash navbar.
+* A module with `urls.py` should have a url named `index`. A link to `index` will be generated in the NetDash navbar.
 * A module that generates a permission named `can_view_module` will only generate an `index` link in the NetDash navbar for users who have that permission.
 * A module with `api/urls.py` should declare an `app_name`. If the module also has a `urls.py`, it should reuse the previous `app_name` like so: `<app_name>-api`
 * A module with `api/urls.py` will have its API URLs placed under `/api/<app_name>/*`.

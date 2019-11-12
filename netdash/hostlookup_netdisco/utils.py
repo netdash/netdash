@@ -2,6 +2,7 @@ from typing import Iterable, List, Dict
 from ipaddress import IPv4Address, IPv6Address, ip_address, ip_network
 
 from django.db import connections
+from django.core.exceptions import ValidationError
 
 from netaddr import EUI
 
@@ -64,8 +65,11 @@ def fetch_as_dicts(cursor) -> List[Dict]:
 
 def host_lookup(q='') -> Iterable[HostLookupResult]:
     if not q:
-        return []
-    ip_network(q, False)
+        return None
+    try:
+        ip_network(q, False)
+    except ValueError as ve:
+        raise ValidationError(ve)
     with connections['netdisco'].cursor() as cursor:
         cursor.execute(SQL, [q])
         results = distinct_by_ip(fetch_as_dicts(cursor))

@@ -25,30 +25,32 @@ $('.datatable').DataTable({
 {% endblock %}
 
 {% block results %}
-  <table class='table datatable table-striped table-bordered'>
-    <thead>
+{% if results %}
+<table class='table datatable table-striped table-bordered'>
+  <thead>
+    <tr>
+      <th>MAC Address</th>
+      <th>IPv4</th>
+      <th>IPv6</th>
+      <th>Hostnames</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in results %}
       <tr>
-        <th>MAC Address</th>
-        <th>IPv4</th>
-        <th>IPv6</th>
-        <th>Hostnames</th>
+        <td data-order="{{ r.mac|add:'0'}}"><pre>{{ r.mac }}</pre></td>
+        <td data-order="{{ r.ipv4|add:'0' }}"><pre>{{ r.ipv4 }}</pre></td>
+        <td data-order="{{ r.ipv6|add:'0' }}"><pre>{{ r.ipv6 }}</pre></td>
+        <td>
+            {% for h in r.hostnames %}
+              <ul>
+                <li>{{ h }}</li>
+              </ul>
+            {% endfor %}
+          </td>
       </tr>
-    </thead>
-    <tbody>
-      {% for r in results %}
-        <tr>
-          <td data-order="{{ r.mac|add:'0'}}"><pre>{{ r.mac }}</pre></td>
-          <td data-order="{{ r.ipv4|add:'0' }}"><pre>{{ r.ipv4 }}</pre></td>
-          <td data-order="{{ r.ipv6|add:'0' }}"><pre>{{ r.ipv6 }}</pre></td>
-          <td>
-              {% for h in r.hostnames %}
-                <ul>
-                  <li>{{ h }}</li>
-                </ul>
-              {% endfor %}
-            </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
 {% endblock %}

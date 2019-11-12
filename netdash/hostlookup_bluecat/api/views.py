@@ -1,5 +1,7 @@
 from dataclasses import asdict
 
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import permission_required
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -9,9 +11,13 @@ from drf_yasg import openapi
 
 from hostlookup_bluecat.utils import host_lookup
 
-from .serializers import HostLookupResponseSerializer
+from .serializers import BlueCatHostLookupResponseSerializer
 
 
+@method_decorator(
+    permission_required('hostlookup_bluecat.can_view_module', raise_exception=True,),
+    name='dispatch'
+)
 class HostView(APIView):
     @swagger_auto_schema(
         manual_parameters=[
@@ -22,9 +28,9 @@ class HostView(APIView):
                               description='ID of BlueCat Configuration.',
                               type=openapi.TYPE_INTEGER),
         ],
-        responses={status.HTTP_200_OK: HostLookupResponseSerializer(many=True)},
+        responses={status.HTTP_200_OK: BlueCatHostLookupResponseSerializer(many=True)},
     )
     def get(self, request):
         q = request.query_params.get('q', '')
-        bluecat_config = request.query_params.get('bluecat_config', '')
+        bluecat_config = request.query_params.get('bluecat_config', None)
         return Response([asdict(r) for r in host_lookup(q, bluecat_config)])

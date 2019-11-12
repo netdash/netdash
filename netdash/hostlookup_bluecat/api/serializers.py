@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class HostLookupResponseSerializer(serializers.Serializer):
+class BlueCatHostLookupResponseSerializer(serializers.Serializer):
     mac = serializers.CharField(required=False)
     ipv4 = serializers.IPAddressField(required=False)
     ipv6 = serializers.IPAddressField(required=False)
