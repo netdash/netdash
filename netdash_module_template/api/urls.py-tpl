@@ -1,6 +1,7 @@
 from rest_framework import routers
 
 from .views import {{ camel_case_app_name }}ViewSet
+from ..models import can_view_permission_dispatch
 
 # All URLs in urlpatterns wil be added to the NetDash API.
 # Using routers helps provide Django Rest Framework with API metadata.
@@ -9,6 +10,7 @@ app_name = '{{ app_name }}-api'  # Replace app_name with a more friendly slug. S
 
 router = routers.SimpleRouter()
 
-router.register('', {{ camel_case_app_name }}ViewSet, basename='example')
+# See ../models.py for information about can_view_permission_dispatch.
+router.register('', can_view_permission_dispatch({{ camel_case_app_name }}ViewSet), basename='example')
 
 urlpatterns = router.urls

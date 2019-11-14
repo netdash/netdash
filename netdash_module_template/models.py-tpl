@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
 
 
 class ModulePermissions(models.Model):
@@ -8,6 +10,19 @@ class ModulePermissions(models.Model):
         permissions = [
             ('can_view_module', 'Can see link in the NetDash navbar and access module.'),
         ]
+
+
+# Wrap view functions in urls.py with this to make sure those who cannot
+# view the module in NetDash cannot access it directly either.
+# Wrapping in urls.py is recommended over @decorators to preserve reuse
+# and inheritance of views.
+can_view_permission = permission_required("{{ app_name }}.can_view_module", raise_exception=True)
+
+
+# Wrap view classes in urls.py with this to protect all of their views
+# per the above permission.
+can_view_permission_dispatch = method_decorator(can_view_permission, name='dispatch')
+
 
 # If your NetDash Module uses models, you can add them here.
 # Many NetDash Modules do not use models.

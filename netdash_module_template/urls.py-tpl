@@ -1,12 +1,14 @@
 from django.conf.urls import url
 
 from .views import index
+from .models import can_view_permission
 
 # All URLs in urlpatterns will be added to the NetDash UI.
 # Replace app_name to choose a more friendly URL for your app's UI.
 
 app_name = '{{ app_name }}'  # Replace with a more friendly slug.
 urlpatterns = [
-    url(r'^$', index, name='index'),
+    # See models.py for information about can_view_permission.
+    url(r'^$', can_view_permission(index), name='index'),
     # Add routes for your views here...
 ]
