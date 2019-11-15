@@ -2,8 +2,6 @@ from dataclasses import asdict
 from ipaddress import ip_address
 
 from django.core.exceptions import ValidationError
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import permission_required
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -18,10 +16,6 @@ from hostlookup_netdisco.utils import host_lookup as nd_host_lookup
 from .serializers import CombinedHostLookupResponseSerializer
 
 
-@method_decorator(
-    permission_required('hostlookup_combined.can_view_module', raise_exception=True,),
-    name='dispatch'
-)
 class HostView(APIView):
     @swagger_auto_schema(
         manual_parameters=[
