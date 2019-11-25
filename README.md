@@ -5,7 +5,21 @@ The NetDash project's goal is to create an interface to allow delegation of spec
 This is implemented with a suite of extensible [Django](https://www.djangoproject.com/) apps and core Django project that
 seamlessly integrate new modules and customizations without requiring code changes.
 
+With NetDash, you can:
+* **Use** the included NetDash Modules out of the box, which are either agnostic to external integrations or generic enough work for most people who have a particular third-party system.
+* **Extend** the included NetDash Modules with features and logic meet the needs of your own deployment.
+* **Add** completely new NetDash Modules to meet needs that NetDash's included modules do not address.
+
+## Included Modules
+
+* Host Lookup: Look up device and port information by IP address.
+    * `hostlookup-netdisco`: NetDisco backend implementation.
+    * `hostlookup-bluecat`: BlueCat backend implementation.
+    * `hostlookup-combined`: Combines netdisco and bluecat backends into a single module. Can be easily extended to combine different or additional backends.
+
 ## Getting Started
+
+Before you get started, completing the [Django Tutorial](https://docs.djangoproject.com/en/2.2/intro/tutorial01/) is recommended to establish a footing in Django apps, development, and project structure.
 
 1. Clone this repository:
     ```
@@ -89,6 +103,8 @@ pip install -r requirements.user.txt
 * A module that generates a permission named `can_view_module` will only generate an `index` link in the NetDash navbar for users who have that permission.
 * A module with `api/urls.py` should declare an `app_name`. If the module also has a `urls.py`, it should reuse the previous `app_name` like so: `<app_name>-api`
 * A module with `api/urls.py` will have its API URLs placed under `/api/<app_name>/*`.
+* Modules should include a `README.md` in their root that describes settings, package dependencies, and required integrations.
+* Required permissions of module views should be set in `urls.py` rather than `views.py`. This allows for the extension of views without inheriting their required permissions.
 
 Check the [example apps](https://github.com/netdash/netdash-examples) for examples of these conventions.
 
@@ -103,3 +119,7 @@ python netdash/manage.py diagnose -v2
 Will output diagnostics for all NetDash Modules, including any exception traces (`-v2` flag).
 
 If an unrecoverable error is encountered while parsing NetDash Modules, all diagnostics up until the error will be displayed.
+
+## Deployment
+
+NetDash can be deployed as a WSGI service or with Kubernetes. See [Deployment Strategies](deployment.md) for more information.
