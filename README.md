@@ -10,6 +10,13 @@ With NetDash, you can:
 * **Extend** the included NetDash Modules with features and logic meet the needs of your own deployment.
 * **Add** completely new NetDash Modules to meet needs that NetDash's included modules do not address.
 
+## Included Modules
+
+* Host Lookup: Look up device and port information by IP address.
+    * `hostlookup-netdisco`: NetDisco backend implementation.
+    * `hostlookup-bluecat`: BlueCat backend implementation.
+    * `hostlookup-combined`: Combines netdisco and bluecat backends into a single module. Can be easily extended to combine different or additional backends.
+
 ## Getting Started
 
 Before you get started, completing the [Django Tutorial](https://docs.djangoproject.com/en/2.2/intro/tutorial01/) is recommended to establish a footing in Django apps, development, and project structure.
