@@ -117,7 +117,6 @@ class HostlookupBlueCatTests(TestCase):
     def test_renders_form(self, views_get_connection, utils_get_connection):
         response = self._get_index_view()
         response.render()
-        self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<form')
         self.assertContains(response, '<button type="submit"')
         self.assertContains(
@@ -134,7 +133,6 @@ class HostlookupBlueCatTests(TestCase):
     def test_renders_form_selections(self, views_get_connection, utils_get_connection):
         response = self._get_index_view(q='10.10.10.10', bluecat_config='1')
         response.render()
-        self.assertEqual(response.status_code, 200)
         self.assertContains(
             response,
             '<select name="bluecat_config" class="col-lg-3 custom-select" value="1">'
@@ -147,7 +145,6 @@ class HostlookupBlueCatTests(TestCase):
     def test_renders_results(self, views_get_connection, utils_get_connection):
         response = self._get_index_view(q='10.10.10.10', bluecat_config='1')
         response.render()
-        self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<table')
         self.assertContains(response, '<th>IPv4</th>')
         self.assertContains(response, '141.100.0.0')
