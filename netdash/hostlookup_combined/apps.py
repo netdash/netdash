@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class HostlookupCombinedConfig(AppConfig):
+class HostLookupCombinedConfig(AppConfig):
     name = 'hostlookup_combined'
     verbose_name = 'Host Lookup (Combined)'

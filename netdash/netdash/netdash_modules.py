@@ -101,7 +101,7 @@ class NetDashModule:
 
     @property
     def slug(self) -> str:
-        return self._app_name
+        return getattr(self._app_config, 'slug') or self._app_name
 
     @property
     def api_url(self) -> Optional[url]:
