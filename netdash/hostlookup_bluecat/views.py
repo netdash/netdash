@@ -4,6 +4,8 @@ from .bluecat import lookup_configurations, get_connection
 
 
 class HostLookupView(BaseHostLookupView):
+    template_name = "hostlookup_bluecat/hostlookupresult_list.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         with get_connection() as bc:

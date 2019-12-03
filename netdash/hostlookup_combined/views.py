@@ -3,6 +3,8 @@ from .utils import host_lookup
 
 
 class HostLookupView(BlueCatHostLookupView):
+    template_name = "hostlookup_combined/hostlookupresult_list.html"
+
     def host_lookup(self):
         q = self.request.GET.get('q', '')
         if not q:
