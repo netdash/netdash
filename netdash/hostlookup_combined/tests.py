@@ -124,12 +124,9 @@ class HostlookupCombinedTests(TestCase):
 
     def setUp(self):
         u = User.objects.create_user('networker', password='qwerty')  # nosec
-        p = Permission.objects.get_by_natural_key('can_view_module', 'hostlookup_combined', 'modulepermissions')
-        # print('permission:', p)
         u.user_permissions.add(
-            p
+            Permission.objects.get_by_natural_key('can_view_module', 'hostlookup_combined', 'modulepermissions')
         )
-        # print('user permissions:', u.user_permissions.all())
 
     def _login(self):
         self.client.login(username='networker', password='qwerty')  # nosec
