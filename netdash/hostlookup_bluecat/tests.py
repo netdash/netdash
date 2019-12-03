@@ -95,7 +95,7 @@ def mock_lookup_configurations(conn: BAM) -> List[BlueCatConfiguration]:
 class HostlookupBlueCatTests(TestCase):
 
     def setUp(self):
-        u = User.objects.create_user('networker', password='qwerty')
+        u = User.objects.create_user('networker', password='qwerty')  # nosec
         u.user_permissions.add(
             Permission.objects.get_by_natural_key('can_view_module', 'hostlookup_bluecat', 'modulepermissions')
         )

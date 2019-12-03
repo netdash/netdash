@@ -123,7 +123,7 @@ def mock_fetch_as_dicts(cursor) -> List[Dict]:
 class HostlookupCombinedTests(TestCase):
 
     def setUp(self):
-        u = User.objects.create_user('networker', password='qwerty')
+        u = User.objects.create_user('networker', password='qwerty')  # nosec
         p = Permission.objects.get_by_natural_key('can_view_module', 'hostlookup_combined', 'modulepermissions')
         # print('permission:', p)
         u.user_permissions.add(

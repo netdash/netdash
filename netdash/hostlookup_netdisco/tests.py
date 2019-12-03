@@ -38,7 +38,7 @@ def mock_fetch_as_dicts(cursor) -> List[Dict]:
 class HostlookupNetDiscoTests(TestCase):
 
     def setUp(self):
-        u = User.objects.create_user('networker', password='qwerty')
+        u = User.objects.create_user('networker', password='qwerty')  # nosec
         u.user_permissions.add(
             Permission.objects.get_by_natural_key('can_view_module', 'hostlookup_netdisco', 'modulepermissions')
         )
