@@ -101,7 +101,7 @@ class HostlookupBlueCatTests(TestCase):
         )
 
     def _login(self):
-        self.client.login(username='networker', password='qwerty')
+        self.client.login(username='networker', password='qwerty')  # nosec
 
     def _get_index(self):
         return self.client.get(reverse('hostlookup_bluecat:index'))
