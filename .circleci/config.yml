@@ -14,8 +14,8 @@ aliases:
       run:
         name: Install Dependencies
         command: |
-          sudo pip install bandit flake8
-          pip install -r requirements.deploy.txt
+          sudo pip install --progress-bar off bandit flake8
+          pip install -r --progress-bar off requirements.deploy.txt
   - &update_dependencies_cache
       save_cache:
         key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
