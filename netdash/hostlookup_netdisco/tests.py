@@ -47,7 +47,7 @@ class HostlookupNetDiscoTests(TestCase):
         self.client.login(username='networker', password='qwerty')  # nosec
 
     def _get_index(self):
-        return self.client.get(reverse('hostlookup_bluecat:index'))
+        return self.client.get(reverse('hostlookup_netdisco:index'))
 
     def _get_index_view(self, **kwargs):
         f = RequestFactory()
