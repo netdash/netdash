@@ -54,6 +54,16 @@ Before you get started, completing the [Django Tutorial](https://docs.djangoproj
 
 You can now visit the interface in your browser at http://localhost:8000. Click 'login' and use your superuser credentials.
 
+## NetDash Modules
+
+A *NetDash Module* is a Django App that follows certain conventions and thereby integrates automatically with NetDash without any additional code changes. These integrations include UI link generation, Swagger API inclusion, routing and permissions.
+
+### [Creating a NetDash Module](docs/netdash_modules/creating.md)
+
+### [Module Conventions](docs/netdash_modules/conventions.md)
+
+### [Troubleshooting Modules](docs/netdash_modules/troubleshooting.md)
+
 ## Deployment
 
-NetDash can be deployed as a WSGI service or with Kubernetes. See [Deployment Strategies](deployment.md) for more information.
+NetDash can be deployed as a WSGI service or with Kubernetes. See [Deployment Strategies](docs/deployment.md) for more information.
