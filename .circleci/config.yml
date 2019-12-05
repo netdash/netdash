@@ -14,8 +14,8 @@ aliases:
       run:
         name: Install Dependencies
         command: |
-          sudo pip install bandit flake8
-          pip install -r requirements.deploy.txt
+          pip install --progress-bar off -r requirements.deploy.txt
+          sudo pip install --progress-bar off bandit flake8
   - &update_dependencies_cache
       save_cache:
         key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
@@ -58,8 +58,11 @@ jobs:
       - *restore_dependencies_cache
       - *install_dependencies
       - *update_dependencies_cache
-      - run: cp netdash/netdash/settings_example.py netdash/netdash/settings.py
-      - run: python netdash/manage.py test
+      - run:
+          name: Run unit tests
+          command: |
+            cd netdash
+            python manage.py test --settings=netdash.settings_tests
   publish-tag:
     environment:
       IMAGE_NAME: netdash/netdash

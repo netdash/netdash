@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
 
-class NetdashHostLookupNetdiscoConfig(AppConfig):
-    name = 'netdash_hostlookup_netdisco'
+class HostLookupNetDiscoConfig(AppConfig):
+    name = 'hostlookup_netdisco'
+    verbose_name = 'Host Lookup (NetDisco)'
