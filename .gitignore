@@ -61,4 +61,6 @@ db.sqlite3
 *.swp
 *.swo
 
+.mypy_cache*
+
 /netdash/staticfiles/
