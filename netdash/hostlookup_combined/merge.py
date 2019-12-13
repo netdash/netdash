@@ -52,7 +52,8 @@ class MergedRow:
                 self.cells[column] = MergedCell([SourceValue(source, val)], sort_order_funcs.get(column))
 
 
-Row = Dict[str, Any]
+K = TypeVar('K')
+Row = Dict[K, Any]
 Columns = List[
     Tuple[
         str,  # Key name
@@ -60,14 +61,13 @@ Columns = List[
         Optional[SortOrderFunc]
     ]
 ]
-K = TypeVar('K')
 
 
-class MergedTable:
-    columns: Set[str]
+class MergedTable(Generic[K]):
+    columns: Columns
     rows: Dict[K, MergedRow]
 
-    def _create_merged_rows(self, keys: Set[K], required_sources: Optional[Tuple[str]],
+    def _create_merged_rows(self, keys: Set[K], required_sources: Optional[Tuple[str, ...]],
                             indexed_data_sources: Dict[str, Row]) -> Dict[K, MergedRow]:
         sort_order_funcs = {c[0]: c[2] for c in self.columns if len(c) >= 3}
         rows = {}
@@ -87,11 +87,11 @@ class MergedTable:
         return rows
 
     def __init__(self, pk: str, columns: Columns,
-                 required_sources: Optional[Tuple[str]],
-                 **data_sources: Dict[str, List[Row]]):
+                 required_sources: Optional[Tuple[str, ...]],
+                 **data_sources: List[Row]):
         self.columns = columns
         keys = set()
-        indexed_data_sources = {}
+        indexed_data_sources: Dict[str, Row] = {}
         for (source, data) in data_sources.items():
             indexed_data_sources[source] = {}
             for row in data:

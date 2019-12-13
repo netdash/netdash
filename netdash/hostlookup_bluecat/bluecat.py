@@ -49,7 +49,7 @@ class BlueCatNetwork:
     bcid: int
     name: str
     network: Union[IPv4Network, IPv6Network]
-    gateway: Union[IPv4Address, IPv6Address]
+    gateway: Optional[Union[IPv4Address, IPv6Address]]
     bc_addresses: List[BlueCatAddress]
 
 
