@@ -1,4 +1,4 @@
-from typing import Iterable, List, Dict, Iterable, Optional
+from typing import Iterable, List, Dict, Optional
 from ipaddress import IPv4Address, IPv6Address, ip_address, ip_network
 
 from django.db import connections
