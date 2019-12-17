@@ -37,7 +37,7 @@ Before you get started, completing the [Django Tutorial](https://docs.djangoproj
     ```
 4. Install dependencies: 
     ```
-    pip install -r requirements.deploy.txt
+    pip install -r requirements.txt -r requirements.dev.txt
     ```
 5. Run migrations: 
     ```

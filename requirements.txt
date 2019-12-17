@@ -10,3 +10,4 @@ netaddr
 drf-yasg
 packaging
 bluecat_bam @ git+https://gitlab.umich.edu/its-public/bluecat_bam.git#egg=bluecat_bam-0.2.6
+django-oauth-toolkit

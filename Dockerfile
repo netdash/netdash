@@ -10,7 +10,7 @@ EXPOSE 8000
 
 RUN apt-get install -y xmlsec1 libffi-dev libssl-dev
 
-RUN pip install psycopg2-binary gunicorn djangosaml2~=0.17.2
+RUN pip install psycopg2-binary~=2.8.3 gunicorn~=19.9.0 djangosaml2~=0.17.2
 
 RUN mkdir /usr/src/app
 

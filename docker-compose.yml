@@ -8,7 +8,7 @@ services:
     depends_on:
       - database
     environment:
-      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE-netdash.settings}
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE-netdash.settings_example}
     ports:
       - 127.0.0.1:8888:8000
     volumes:
@@ -24,33 +24,5 @@ services:
     volumes:
       - netdash-postgres-data:/var/lib/postgresql/data
 
-  netbox:
-    image: netboxcommunity/netbox:${NETBOX_VERSION-latest}
-    depends_on:
-      - netbox-database
-    command: "python manage.py runserver 0.0.0.0:8000"
-    environment:
-      - DEBUG=True
-      - SECRET_KEY=12345
-      - DB_NAME=netbox
-      - DB_USER=netbox
-      - DB_HOST=netbox-database
-      - SUPERUSER_NAME=admin
-      - SUPERUSER_EMAIL=admin@example.com
-      - SUPERUSER_PASSWORD=admin
-      - SUPERUSER_API_TOKEN=0123456789abcdef0123456789abcdef01234567
-    ports:
-      - 127.0.0.1:8000:8000
-
-  netbox-database:
-    image: postgres:10.4-alpine
-    environment:
-      - POSTGRES_USER=netbox
-      - POSTGRES_DB=netbox
-    volumes:
-      - netbox-postgres-data:/var/lib/postgresql/data
-
 volumes:
   netdash-postgres-data:
-  netbox-postgres-data:
-  migrator-home-dir:

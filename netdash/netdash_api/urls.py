@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from django.conf import settings
 
 from rest_framework.schemas import get_schema_view
@@ -24,5 +24,8 @@ urlpatterns = module_urlpatterns + [
     path('swagger', yasg_view.with_ui('swagger', cache_timeout=0), name='swagger'),
     path('redoc', yasg_view.with_ui('redoc', cache_timeout=0), name='redoc'),
     path('', schema_view, name='schema'),
-    path('account/login', views.login)
+    path('account/login', views.login),
+    # TODO: Separate UI views from API?
+    # TODO: Wrap API views with drf-yasg for metadata?
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]

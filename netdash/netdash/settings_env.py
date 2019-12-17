@@ -79,13 +79,18 @@ INSTALLED_APPS = NETDASH_MODULES + EXTRA_APPS + [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'oauth2_provider',
 ]
+
+if DEBUG:
+    INSTALLED_APPS += ('django_extensions',)
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -94,6 +99,7 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = (
+    'oauth2_provider.backends.OAuth2Backend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -124,6 +130,9 @@ TEMPLATES = [
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    ),
     'DEFAULT_RENDERER_CLASSES': (
         'netdash_api.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
