@@ -1,6 +1,6 @@
 # Creating a NetDash Module
 
-These steps will turn your local NetDash repository into a development environment for a new NetDash Module. Follow the [Getting Started](docs/index.md) steps if you haven't already.
+These steps will turn your local NetDash repository into a development environment for a new NetDash Module. Follow the [Getting Started](/docs/index.md) steps if you haven't already.
 
 1. Change directory to NetDash apps: 
     ```

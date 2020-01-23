@@ -1,4 +1,4 @@
-Django ~= 2.2.8
+Django ~= 2.2.9
 dj-database-url ~= 0.5.0
 djangorestframework ~= 3.9.0
 django-rest-swagger ~= 2.2.0
