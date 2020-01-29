@@ -57,6 +57,7 @@ INSTALLED_APPS = NETDASH_MODULES + EXTRA_APPS + [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'oauth2_provider',
 ]
 
 MIDDLEWARE = [
@@ -153,3 +154,8 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+OAUTH2_PROVIDER_APPLICATION_MODEL = 'netdash.Application'
+OAUTH2_PROVIDER = {
+    'SCOPES_BACKEND_CLASS': 'netdash.scopes.PermissionsScopes',
+}
