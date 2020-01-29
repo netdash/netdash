@@ -200,6 +200,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 FEEDBACK_EMAIL = os.getenv('NETDASH_FEEDBACK_EMAIL', None)
 
+OAUTH2_PROVIDER_APPLICATION_MODEL = 'netdash.Application'
+OAUTH2_PROVIDER = {
+    'SCOPES_BACKEND_CLASS': 'netdash.scopes.PermissionsScopes',
+}
+
 
 _saml2_entity_id = os.getenv('SAML2_ENTITY_ID', None)
 _saml2_sp_name = os.getenv('SAML2_SP_NAME', None)

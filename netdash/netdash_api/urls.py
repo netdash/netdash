@@ -4,6 +4,7 @@ from django.conf import settings
 from rest_framework.schemas import get_schema_view
 from drf_yasg.views import get_schema_view as get_yasg_view
 from drf_yasg import openapi
+from oauth2_provider.views.base import TokenView, RevokeTokenView
 
 from netdash import utils, views
 
@@ -25,7 +26,7 @@ urlpatterns = module_urlpatterns + [
     path('redoc', yasg_view.with_ui('redoc', cache_timeout=0), name='redoc'),
     path('', schema_view, name='schema'),
     path('account/login', views.login),
-    # TODO: Separate UI views from API?
     # TODO: Wrap API views with drf-yasg for metadata?
-    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    re_path(r'^o/token/$', TokenView.as_view(), name="token"),
+    re_path(r'^o/revoke_token/$', RevokeTokenView.as_view(), name="revoke-token"),
 ]
