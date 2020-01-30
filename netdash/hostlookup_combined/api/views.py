@@ -13,10 +13,14 @@ from hostlookup_bluecat.bluecat import lookup_cidr, get_connection
 from hostlookup_bluecat.utils import host_lookup as bc_host_lookup
 from hostlookup_netdisco.utils import host_lookup as nd_host_lookup
 
+from .permissions import HasScopeOrPermission
 from .serializers import CombinedHostLookupResponseSerializer
 
 
 class HostView(APIView):
+    permission_classes = [HasScopeOrPermission]
+    required_scopes = ['hostlookup_combined.can_view_module']
+
     @swagger_auto_schema(
         manual_parameters=[
             openapi.Parameter('q', openapi.IN_QUERY,

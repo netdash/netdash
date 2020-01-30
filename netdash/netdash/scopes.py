@@ -13,7 +13,7 @@ class PermissionsScopes(BaseScopes):
         """
         Derives available scopes from all permissions in application.groups.all().
         """
-        if not request:
+        if not application:
             return []
         grouped_permissions = [g.permissions.all() for g in application.groups.all()]
         flattened_permissions = [p for permissions in grouped_permissions for p in permissions]
