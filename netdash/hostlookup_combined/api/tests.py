@@ -1,11 +1,14 @@
 from unittest.mock import patch
 import urllib
 import json
+from datetime import datetime, timedelta
 
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import Permission
-from django.test.client import RequestFactory
+
+from rest_framework.test import APIRequestFactory, force_authenticate
+from oauth2_provider.models import AccessToken
 
 from hostlookup_combined.api.views import HostView
 from netdash.models import User
@@ -26,17 +29,18 @@ class HostlookupCombinedAPITests(TestCase):
         u.user_permissions.add(
             Permission.objects.get_by_natural_key('can_view_module', 'hostlookup_combined', 'modulepermissions')
         )
-
-    def _login(self):
-        self.client.login(username='networker', password='qwerty')  # nosec
+        User.objects.create_user('no_permissions', password='qwerty')  # nosec
 
     def _get_index(self):
         return self.client.get(reverse('hostlookup_combined-api:host-lookup'))
 
-    def _get_index_view(self, **kwargs):
-        f = RequestFactory()
+    def _get_base_request(self, **kwargs):
+        f = APIRequestFactory()
         params = urllib.parse.urlencode(kwargs)
-        r = f.get(f'{reverse("hostlookup_combined-api:host-lookup")}?{str(params)}')
+        return f.get(f'{reverse("hostlookup_combined-api:host-lookup")}?{str(params)}')
+
+    def _get_index_view(self, **kwargs):
+        r = self._get_base_request(**kwargs)
         r.user = User.objects.get_by_natural_key('networker')
         return HostView.as_view()(r)
 
@@ -58,6 +62,30 @@ class HostlookupCombinedAPITests(TestCase):
         self.assertEqual(data['netdisco'][1]['ipv4'], '141.100.0.1')
         self.assertEqual(data['netdisco'][1]['last_seen'], '2019-12-01T00:00:00')
 
-    def test_view_permission_required(self, views_get_connection, utils_get_connection, connections):
+    def test_view_denies_anonymous(self, views_get_connection, utils_get_connection, connections):
         response = self._get_index()
         self.assertEqual(response.status_code, 403)
+
+    def test_view_denies_permissionless(self, views_get_connection, utils_get_connection, connections):
+        self.client.login(username='no_permissions', password='qwerty')  # nosec
+        response = self._get_index()
+        self.assertEqual(response.status_code, 403)
+
+    def test_view_denies_token_without_scopes(self, views_get_connection, utils_get_connection, connections):
+        r = self._get_base_request(q='10.10.10.10', bluecat_config='1')
+        no_scopes = AccessToken(
+            expires=datetime.now().astimezone() + timedelta(days=365),
+        )
+        force_authenticate(r, token=no_scopes)
+        response = HostView.as_view()(r)
+        self.assertEqual(response.status_code, 403)
+
+    def test_view_accepts_token_with_scopes(self, views_get_connection, utils_get_connection, connections):
+        r = self._get_base_request(q='10.10.10.10', bluecat_config='1')
+        scopes = AccessToken(
+            expires=datetime.now().astimezone() + timedelta(days=365),
+            scope='hostlookup_combined.can_view_module',
+        )
+        force_authenticate(r, token=scopes)
+        response = HostView.as_view()(r)
+        self.assertEqual(response.status_code, 200)
