@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser, Group
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
+PUBLIC_GROUP = 'Public'
+
 
 class User(AbstractUser):
     def process_groups(self, group_names):
@@ -21,9 +23,9 @@ class User(AbstractUser):
 def post_save_user_signal_handler(sender, instance, created, **kwargs):
     if created:
         try:
-            group = Group.objects.get(name='Public')
+            group = Group.objects.get(name=PUBLIC_GROUP)
         except Group.DoesNotExist:
-            group, created = Group.objects.get_or_create(name='Public')
+            group, created = Group.objects.get_or_create(name=PUBLIC_GROUP)
 
         instance.groups.add(group)
         instance.save()
