@@ -9,10 +9,14 @@ from drf_yasg import openapi
 
 from hostlookup_bluecat.utils import host_lookup
 
+from .permissions import HasScopeOrPermission
 from .serializers import BlueCatHostLookupResponseSerializer
 
 
 class HostView(APIView):
+    permission_classes = [HasScopeOrPermission]
+    required_scopes = ['hostlookup_bluecat.can_view_module']
+
     @swagger_auto_schema(
         manual_parameters=[
             openapi.Parameter('q', openapi.IN_QUERY,

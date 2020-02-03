@@ -1,6 +1,8 @@
 from rest_framework.response import Response
 from rest_framework import viewsets
 
+from .permissions import HasScopeOrPermission
+
 # Add API views here. Django Rest Framework includes several methods of
 # defining views, including ViewSets. A ViewSet is given here as an example.
 
@@ -9,6 +11,8 @@ class {{ camel_case_app_name }}ViewSet(viewsets.ViewSet):
     '''
     Describe your API here.
     '''
+    permission_classes = [HasScopeOrPermission]
+    required_scopes = ['{{ app_name }}.can_view_module']
 
     def list(self, request):
         return Response(['zero', 'one', 'two'])
