@@ -67,3 +67,7 @@ A *NetDash Module* is a Django App that follows certain conventions and thereby 
 ## Deployment
 
 NetDash can be deployed as a WSGI service or with Kubernetes. See [Deployment Strategies](docs/deployment.md) for more information.
+
+## OAuth2
+
+NetDash supports two-legged OAuth2 for API usage out of the box. See [OAuth2](docs/oauth2.md) for more information.
