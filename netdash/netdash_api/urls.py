@@ -22,7 +22,11 @@ schema_view = get_schema_view(title='NetDash API')
 module_urlpatterns = [module.api_url for module in NETDASH_MODULES if module.api_url]
 
 urlpatterns = module_urlpatterns + [
-    re_path(r'^schema(?P<format>\.json|\.yaml)$', staff_member_required(yasg_view.without_ui(cache_timeout=0)), name='schema-json'),
+    re_path(
+        r'^schema(?P<format>\.json|\.yaml)$',
+        staff_member_required(yasg_view.without_ui(cache_timeout=0)),
+        name='schema-json'
+    ),
     path('swagger', staff_member_required(yasg_view.with_ui('swagger', cache_timeout=0)), name='swagger'),
     path('redoc', staff_member_required(yasg_view.with_ui('redoc', cache_timeout=0)), name='redoc'),
     path('', staff_member_required(schema_view), name='schema'),

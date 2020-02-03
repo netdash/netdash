@@ -8,9 +8,15 @@ from netdash.models import Application
 
 class PermissionsScopesTests(TestCase):
     def setUp(self):
-        permission_a = Permission.objects.get_by_natural_key('can_view_module', 'hostlookup_netdisco', 'modulepermissions')
-        permission_b = Permission.objects.get_by_natural_key('can_view_module', 'hostlookup_bluecat', 'modulepermissions')
-        permission_c = Permission.objects.get_by_natural_key('can_view_module', 'hostlookup_combined', 'modulepermissions')
+        permission_a = Permission.objects.get_by_natural_key(
+            'can_view_module', 'hostlookup_netdisco', 'modulepermissions'
+        )
+        permission_b = Permission.objects.get_by_natural_key(
+            'can_view_module', 'hostlookup_bluecat', 'modulepermissions'
+        )
+        permission_c = Permission.objects.get_by_natural_key(
+            'can_view_module', 'hostlookup_combined', 'modulepermissions'
+        )
         group_a = Group.objects.create(
             name='a'
         )
