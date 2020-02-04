@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser, Group
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
-PUBLIC_GROUP = 'Public'
+DEFAULT_GROUP = 'Default'
 
 
 class User(AbstractUser):
@@ -22,7 +22,7 @@ class User(AbstractUser):
 @receiver(post_save, sender=User)
 def post_save_user_signal_handler(sender, instance, created, **kwargs):
     if created:
-        group, created = Group.objects.get_or_create(name=PUBLIC_GROUP)
+        group, created = Group.objects.get_or_create(name=DEFAULT_GROUP)
 
         instance.groups.add(group)
         instance.save()
