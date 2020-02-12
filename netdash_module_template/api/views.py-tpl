@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import viewsets
 
-from .permissions import HasScopeOrPermission
+from netdash_api.permissions import HasScopeOrPermission
 
 # Add API views here. Django Rest Framework includes several methods of
 # defining views, including ViewSets. A ViewSet is given here as an example.

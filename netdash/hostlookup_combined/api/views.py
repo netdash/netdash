@@ -9,11 +9,12 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
+from netdash_api.permissions import HasScopeOrPermission
+
 from hostlookup_bluecat.bluecat import lookup_cidr, get_connection
 from hostlookup_bluecat.utils import host_lookup as bc_host_lookup
 from hostlookup_netdisco.utils import host_lookup as nd_host_lookup
 
-from .permissions import HasScopeOrPermission
 from .serializers import CombinedHostLookupResponseSerializer
 
 

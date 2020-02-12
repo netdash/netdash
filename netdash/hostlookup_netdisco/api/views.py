@@ -1,7 +1,7 @@
+from netdash_api.permissions import HasScopeOrPermission
+
 from hostlookup_abstract.api.views import BaseHostView
 from hostlookup_netdisco.utils import host_lookup
-
-from .permissions import HasScopeOrPermission
 
 
 class HostView(BaseHostView):
