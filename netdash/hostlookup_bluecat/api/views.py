@@ -7,12 +7,17 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
+from netdash_api.permissions import HasScopeOrPermission
+
 from hostlookup_bluecat.utils import host_lookup
 
 from .serializers import BlueCatHostLookupResponseSerializer
 
 
 class HostView(APIView):
+    permission_classes = [HasScopeOrPermission]
+    required_scopes = ['hostlookup_bluecat.can_view_module']
+
     @swagger_auto_schema(
         manual_parameters=[
             openapi.Parameter('q', openapi.IN_QUERY,

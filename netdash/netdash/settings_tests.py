@@ -75,6 +75,7 @@ INSTALLED_APPS = NETDASH_MODULES + EXTRA_APPS + [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'oauth2_provider',
 ]
 
 MIDDLEWARE = [
