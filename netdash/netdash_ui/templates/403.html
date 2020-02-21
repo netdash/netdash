@@ -4,6 +4,6 @@
 <h1>403 - Forbidden</h1>
 <p>Sorry, you don't have permission to access to this resource.</p>
 {% if not user.is_authenticated %}
-<p>Have you tried logging in?</p>
+<p>Have you tried <a href="{% url 'login' %}">logging in?</p>
 {% endif %}
 {% endblock %}
