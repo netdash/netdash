@@ -22,7 +22,6 @@ class User(AbstractUser):
 @receiver(post_save, sender=User)
 def post_save_user_signal_handler(sender, instance, created, **kwargs):
     if created:
-        group, created = Group.objects.get_or_create(name=DEFAULT_GROUP)
-
+        group, group_created = Group.objects.get_or_create(name=DEFAULT_GROUP)
         instance.groups.add(group)
         instance.save()
