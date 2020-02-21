@@ -59,8 +59,8 @@
             <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
           </div>
         </li>
-        {% else %}
-        <a href="{% url 'login' %}?next={{ request.get_full_path }}" class="nav-link">Login</a>
+        {# {% else %} #}
+        {# <a href="{% url 'login' %}?next={{ request.get_full_path }}" class="nav-link">Login</a> #}
         {% endif %}
       </div>
     </div>
