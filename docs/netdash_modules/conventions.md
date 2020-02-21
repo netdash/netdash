@@ -10,3 +10,7 @@
 * Required permissions of module views should be set in `urls.py` rather than `views.py`. This allows for the extension of views without inheriting their required permissions.
 
 Check the [example apps](https://github.com/netdash/netdash-examples) for examples of these conventions.
+
+## Default Group
+Every user created is added to a group named: `Default`. This group gives NetDash the the capability to allow certain modules to be accessed by any user in the server.
+* To make a NetDash module available to the default group, the module's `can_view_module` permission must be given to the `Default` group through the admin website.
