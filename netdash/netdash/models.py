@@ -1,7 +1,11 @@
 from django.db import models
-
 from django.contrib.auth.models import AbstractUser, Group
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+
 from oauth2_provider.models import AbstractApplication
+
+DEFAULT_GROUP = 'Default'
 
 
 class User(AbstractUser):
@@ -16,6 +20,14 @@ class User(AbstractUser):
     def _remove_revoked_group_memberships(self, group_names):
         revoked_groups = self.groups.exclude(name__in=group_names)
         self.groups.remove(*revoked_groups)
+
+
+@receiver(post_save, sender=User)
+def post_save_user_signal_handler(sender, instance, created, **kwargs):
+    if created:
+        group, group_created = Group.objects.get_or_create(name=DEFAULT_GROUP)
+        instance.groups.add(group)
+        instance.save()
 
 
 class Application(AbstractApplication):
