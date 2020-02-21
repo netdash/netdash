@@ -4,7 +4,8 @@ from typing import Optional, List
 from types import ModuleType
 import traceback
 
-from django.conf.urls import url, include, re_path
+from django.conf.urls import include, re_path
+from django.urls.resolvers import URLResolver
 from django.apps import apps, AppConfig
 
 
@@ -104,18 +105,18 @@ class NetDashModule:
         return getattr(self._app_config, 'slug', None) or self._app_name
 
     @property
-    def api_url(self) -> Optional[url]:
+    def api_url(self) -> Optional[URLResolver]:
         return None if not self._api else self._generate_url('.api.urls')
 
     @property
-    def ui_url(self) -> Optional[url]:
+    def ui_url(self) -> Optional[URLResolver]:
         return None if not self._ui else self._generate_url('.urls')
 
     @property
     def ui_url_name(self) -> str:
         return self.slug + ':index'
 
-    def _generate_url(self, subpath: str) -> url:
+    def _generate_url(self, subpath: str) -> URLResolver:
         namespace_suffix = '-api' if 'api' in subpath else ''
         return re_path(
             r'^' + self.slug + '/',

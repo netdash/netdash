@@ -1,6 +1,9 @@
+from django.db import models
 from django.contrib.auth.models import AbstractUser, Group
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+
+from oauth2_provider.models import AbstractApplication
 
 DEFAULT_GROUP = 'Default'
 
@@ -25,3 +28,14 @@ def post_save_user_signal_handler(sender, instance, created, **kwargs):
         group, group_created = Group.objects.get_or_create(name=DEFAULT_GROUP)
         instance.groups.add(group)
         instance.save()
+
+
+class Application(AbstractApplication):
+    groups = models.ManyToManyField(
+        Group,
+        blank=True,
+        help_text=(
+            "The groups this application belongs to. An application's tokens can be "
+            "granted scopes for any permissions available to them via their groups."
+        ),
+    )

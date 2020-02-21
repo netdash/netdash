@@ -12,14 +12,14 @@ class ModulePermissions(models.Model):
         ]
 
 
-# Wrap view functions in urls.py with this to make sure those who cannot
+# Wrap UI view functions in urls.py with this to make sure those who cannot
 # view the module in NetDash cannot access it directly either.
 # Wrapping in urls.py is recommended over @decorators to preserve reuse
 # and inheritance of views.
 can_view_permission = permission_required("{{ app_name }}.can_view_module", raise_exception=True)
 
 
-# Wrap view classes in urls.py with this to protect all of their views
+# Wrap UI view classes in urls.py with this to protect all of their views
 # per the above permission.
 can_view_permission_dispatch = method_decorator(can_view_permission, name='dispatch')
 

@@ -20,8 +20,8 @@ class BlueCatHostLookupResult:
 def transform(bca: BlueCatAddress) -> BlueCatHostLookupResult:
     return BlueCatHostLookupResult(
         bca.mac,
-        bca.address,
-        None,
+        bca.address if isinstance(bca.address, IPv4Address) else None,
+        bca.address if isinstance(bca.address, IPv6Address) else None,
         bca.hostnames,
     )
 

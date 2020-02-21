@@ -1,4 +1,4 @@
-from typing import Iterable, List, Dict
+from typing import Iterable, List, Dict, Optional
 from ipaddress import IPv4Address, IPv6Address, ip_address, ip_network
 
 from django.db import connections
@@ -51,7 +51,7 @@ def dict_to_hostlookupresult(d: Dict) -> HostLookupResult:
     )
 
 
-def distinct_by_ip(dicts) -> List[Dict]:
+def distinct_by_ip(dicts: Iterable[Dict]) -> Iterable[Dict]:
     return {d['ip']: d for d in dicts}.values()
 
 
@@ -63,7 +63,7 @@ def fetch_as_dicts(cursor) -> List[Dict]:
     ]
 
 
-def host_lookup(q='') -> Iterable[HostLookupResult]:
+def host_lookup(q='') -> Optional[Iterable[HostLookupResult]]:
     if not q:
         return None
     try:
