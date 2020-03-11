@@ -2,6 +2,14 @@
 
 {% block content %}
 <ul class="list-group">
+{% if not request.user.is_authenticated %}
+<div class="alert alert-info" role="alert">
+  <h2>Welcome to NetDash!</h2>
+  <hr>
+  <p>Please login to view modules on this website</p>
+  <a href="{% url 'login' %}?next={{ request.get_full_path }}" class="btn btn-dark">Login</a>
+</div>
+{% else %}
 {% for module in netdash_modules %}
 <li class="list-group-item">
   <a href="{% url module.ui_url_name %}">
@@ -14,4 +22,5 @@
 </div>
 
 {% endfor %}
+{% endif %}
 {% endblock %}
